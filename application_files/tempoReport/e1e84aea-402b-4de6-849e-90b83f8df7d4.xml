@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tempoReportHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <tempoReport name="Application Builder: Application Detailed View" a:uuid="e1e84aea-402b-4de6-849e-90b83f8df7d4">
+        <a:description>This Report will display details of an Application</a:description>
+        <a:uiExpr>=#&quot;dac0079e-ede5-45b5-ab37-b84f3c53e7b5&quot;()</a:uiExpr>
+        <a:urlStub>Eup9sg</a:urlStub>
+    </tempoReport>
+    <roleMap>
+        <role name="report_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dca4-d1d4-8000-9277-010000010000_908</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+</tempoReportHaul>

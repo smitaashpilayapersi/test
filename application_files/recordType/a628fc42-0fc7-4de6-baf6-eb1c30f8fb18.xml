@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <recordType name="Application" a:uuid="a628fc42-0fc7-4de6-baf6-eb1c30f8fb18">
+        <a:pluralName>Applications</a:pluralName>
+        <a:description>List of all Applications created using Application Builder</a:description>
+        <a:urlStub>XIR8Jg</a:urlStub>
+        <a:source xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:DataStoreEntity" a:uuid="36da36af-43ab-4ec6-8dc7-6a061875d4bc@_a-0000dc7c-e2e3-8000-927a-010000010000_199928"/>
+        <a:listViewTemplateExpr>=#&quot;SYSTEM_SYSRULES_listViewItem&quot;(&#xD;
+  title: rf!Name,&#xD;
+  details: &quot;Created By: &quot;&amp;#&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;(rf!CreaterUserId),&#xD;
+  timestamp: rf!CreationDate&#xD;
+)</a:listViewTemplateExpr>
+        <a:detailViewCfg>
+            <a:nameExpr>=&quot;Summary&quot;</a:nameExpr>
+            <a:uiExpr> load(&#xD;
+  local!selectedInstanceId:0,&#xD;
+  local!selectedAppInstanceId:0,&#xD;
+  local!actionButton_txt:&quot;&quot;,&#xD;
+  #&quot;5171757c-90af-4619-b57f-92bea18a3b5f&quot;(&#xD;
+  intAppId:rp!id,&#xD;
+  txtApplicationName:rf!Name,&#xD;
+  grpId: rf!ViewerGroup,&#xD;
+  txtAppDescription:rf!Description,&#xD;
+  dtCreationDate:rf!CreationDate,&#xD;
+  txtCreatedBy:#&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;(rf!CreaterUserId),&#xD;
+  intSelectedFormInstanceId:local!selectedInstanceId,&#xD;
+  selectedAppInstanceId: local!selectedAppInstanceId,&#xD;
+  actionButton_txt:local!actionButton_txt&#xD;
+  )&#xD;
+  )</a:uiExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:urlStub>summary</a:urlStub>
+            <a:headerExpr></a:headerExpr>
+            <a:relatedActionCfg>c1e22047-fb45-4e51-b6b8-3339a6acc72b</a:relatedActionCfg>
+            <a:relatedActionCfg>65d1f1e1-210b-4956-8049-500858439b01</a:relatedActionCfg>
+        </a:detailViewCfg>
+        <a:defaultFilter>
+            <a:field>ViewerGroup</a:field>
+            <a:operator>in</a:operator>
+            <a:valueExpression>#&quot;7d7bb01e-f3c6-4047-ae36-985c31fd4ed9&quot;()</a:valueExpression>
+        </a:defaultFilter>
+        <a:defaultSortInfo>
+            <field>CreationDate</field>
+            <ascending>false</ascending>
+        </a:defaultSortInfo>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0002dc7e-b18b-8000-927a-010000010000"/>
+            <a:contextExpr>{intAppId:rp!id}</a:contextExpr>
+            <a:visibilityExpr>=if(
+  or(
+    isusermemberofgroup(loggedInUser(), togroup(rf!ViewerGroup)), 
+    isusermemberofgroup(loggedInUser(), #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199955&quot;)
+  ),
+  true(), 
+  false()
+)</a:visibilityExpr>
+            <a:refId>c1e22047-fb45-4e51-b6b8-3339a6acc72b</a:refId>
+        </a:relatedActionCfg>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="000bdc81-0288-8000-927a-010000010000"/>
+            <a:contextExpr>{intAppId:rp!id}</a:contextExpr>
+            <a:visibilityExpr>=if(
+  or(
+    rf!CreaterUserId = tostring(loggedInUser()),
+    isusermemberofgroup(loggedInUser(), #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199955&quot;)
+  ), 
+  true(), 
+  false()
+)</a:visibilityExpr>
+            <a:refId>65d1f1e1-210b-4956-8049-500858439b01</a:refId>
+        </a:relatedActionCfg>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0004dcb7-4435-8000-927a-010000010000"/>
+            <a:contextExpr>{
+  intAppId: rp!id,
+  txtApplicationName: rf!Name
+}</a:contextExpr>
+            <a:visibilityExpr>=if(
+  or(
+    rf!CreaterUserId = tostring(loggedInUser()),
+    isusermemberofgroup(loggedInUser(), #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199955&quot;)
+  ), 
+  true(), 
+  false()
+)</a:visibilityExpr>
+            <a:refId>8e3314f8-0c1d-4665-b93f-436fc7de1478</a:refId>
+        </a:relatedActionCfg>
+        <a:isSystem>false</a:isSystem>
+        <a:dataSrcExpr></a:dataSrcExpr>
+        <a:facetsListExpr></a:facetsListExpr>
+        <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:security>16383</a:security>
+    </recordType>
+    <roleMap>
+        <role name="record_type_administrator">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dc7c-dac5-8000-9277-010000010000_832</groupUuid>
+            </groups>
+        </role>
+        <role name="record_type_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dc7c-dac5-8000-9277-010000010000_831</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+</recordTypeHaul>

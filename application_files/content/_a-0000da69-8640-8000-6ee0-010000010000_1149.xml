@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_getResponseTypeSingleValue</name>
+        <uuid>_a-0000da69-8640-8000-6ee0-010000010000_1149</uuid>
+        <description>components with single value as response</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1491</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= {
+  #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1140&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1141&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1142&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1143&quot;,
+  #&quot;_a-0000daa9-76cf-8000-927a-010000010000_57789&quot;,
+  #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;,
+  #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71703&quot;
+}</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

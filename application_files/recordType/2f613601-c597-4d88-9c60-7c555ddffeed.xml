@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <recordType name="Application Instance" a:uuid="2f613601-c597-4d88-9c60-7c555ddffeed">
+        <a:pluralName>Application Instances</a:pluralName>
+        <a:description>All Instances of application</a:description>
+        <a:urlStub>3ZNnyQ</a:urlStub>
+        <a:source xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:DataStoreEntity" a:uuid="ee9a03b1-0668-4e53-a5e4-3f8da5c3d620@_a-0000dc7c-e2e3-8000-927a-010000010000_199928"/>
+        <a:listViewTemplateExpr>=#&quot;SYSTEM_SYSRULES_listViewItem&quot;(&#xD;
+  title: rf!Name,&#xD;
+  details: &quot;Application: &quot; &amp; #&quot;eb532e3d-1bb7-419f-a4bc-ddd032b21b59&quot;(rf!AppId, &quot;Name&quot;),&#xD;
+  timestamp: rf!CreationDate&#xD;
+)</a:listViewTemplateExpr>
+        <a:detailViewCfg>
+            <a:nameExpr>=&quot;Summary&quot;</a:nameExpr>
+            <a:uiExpr>#&quot;be16ccaf-75d0-4ac6-93b4-012a1c8571e3&quot;(
+  intAppInsId:rp!id,
+  intAppId:rf!AppId
+)</a:uiExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:urlStub>summary</a:urlStub>
+            <a:headerExpr></a:headerExpr>
+        </a:detailViewCfg>
+        <a:defaultFilter>
+            <a:field>AppId</a:field>
+            <a:operator>in</a:operator>
+            <a:valueExpression>{tointeger(index(&#xD;
+#&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+    entity: #&quot;_a-0000dc89-4db7-8000-927a-010000010000_201624&quot;, &#xD;
+    query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+      selection :#&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+          field: &quot;Id&quot;&#xD;
+        )&#xD;
+      ),&#xD;
+      filter: #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+        field: &quot;ViewerGroup&quot;,&#xD;
+        operator: &quot;in&quot;,&#xD;
+        value: #&quot;7d7bb01e-f3c6-4047-ae36-985c31fd4ed9&quot;()&#xD;
+      ),&#xD;
+      pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(&#xD;
+        startIndex: 1,&#xD;
+        batchSize: -1&#xD;
+      )&#xD;
+    )&#xD;
+  ).data, &quot;Id&quot;, &quot;&quot;))}</a:valueExpression>
+        </a:defaultFilter>
+        <a:defaultSortInfo>
+            <field>CreationDate</field>
+            <ascending>false</ascending>
+        </a:defaultSortInfo>
+        <a:isSystem>false</a:isSystem>
+        <a:dataSrcExpr></a:dataSrcExpr>
+        <a:facetsListExpr></a:facetsListExpr>
+        <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:security>16383</a:security>
+    </recordType>
+    <roleMap>
+        <role name="record_type_administrator">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dc7c-dac5-8000-9277-010000010000_832</groupUuid>
+            </groups>
+        </role>
+        <role name="record_type_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dc7c-dac5-8000-9277-010000010000_831</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+</recordTypeHaul>

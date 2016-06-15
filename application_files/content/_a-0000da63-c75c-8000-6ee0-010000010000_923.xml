@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_UTIL_sortArray</name>
+        <uuid>_a-0000da63-c75c-8000-6ee0-010000010000_923</uuid>
+        <description>sort an array in alphabetical order</description>
+        <parentUuid>_a-0000da76-7afb-8000-6ee0-010000010000_1389</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: - 1,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;Name&quot;,
+      ascending: if(
+        fn!isnull(
+          ri!asendingFlag
+        ),
+        true,
+        ri!asendingFlag
+      )
+    )
+  ),
+  local!tempArray: fn!apply(
+    #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_922&quot;(inputElement:_),
+    ri!inputArray
+  ),
+  local!datasubset: fn!todatasubset(
+    local!tempArray,
+    local!pagingInfo
+  ),
+  fn!index(
+    local!datasubset,
+    &quot;data&quot;,
+    &quot;Name&quot;,
+    {}
+  )
+)</definition>
+        <namedTypedValue>
+            <name>inputArray</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>asendingFlag</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

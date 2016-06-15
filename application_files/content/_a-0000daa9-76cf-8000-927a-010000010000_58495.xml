@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_UTIL_configurePrimaryButton</name>
+        <uuid>_a-0000daa9-76cf-8000-927a-010000010000_58495</uuid>
+        <description>rule that would return a primary button widget if conditions are met. </description>
+        <parentUuid>_a-0000da76-7afb-8000-6ee0-010000010000_1389</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= if(
+  ri!configuredButtonComponent.columnIndex = &quot;2&quot;,
+  #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+    label: ri!configuredButtonComponent.label,
+    style: fn!index(
+      ri!configuredButtonComponent,
+      &quot;labelPositon&quot;,
+      &quot;NORMAL&quot;
+    )
+  ),
+  {}
+)</definition>
+        <namedTypedValue>
+            <name>configuredButtonComponent</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

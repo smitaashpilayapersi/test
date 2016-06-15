@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_Form_Gird_RowLayout</name>
+        <uuid>a7484958-ec56-4278-9fe6-a8a78ba03e7a</uuid>
+        <description>Rule to create row layout for form grid</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>  with(
+    local!cdtFormVersionComponent:ri!cdtFormVersionComponent,
+    local!cdtForms:ri!cdtForms,
+  #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  contents:{
+    #&quot;SYSTEM_SYSRULES_linkField&quot;(
+      links:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+        label:ri!cdtFormVersionComponent[ri!intIndex].name,
+      value:ri!intIndex,
+      saveInto:{
+        ri!FormIndex,
+        a!save(                                         
+          ri!txtButton,
+          &quot;&quot;
+        )
+      
+      
+      }
+      )
+    ),
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      value:ri!cdtFormVersionComponent[ri!intIndex].description,
+      readOnly:true()
+    ),
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      value:ri!cdtForms[ri!intIndex].LastModifiedDate,
+      readOnly:true()
+    ),
+    if(ri!intIndex=1,
+     #&quot;SYSTEM_SYSRULES_textField&quot;(
+       readOnly: true()
+     ),
+     #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
+      choiceLabels: {&quot;&quot;},
+      choiceValues: {true()},
+      align : &quot;CENTER&quot;, 
+      value: ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm,
+      saveInto: ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm
+    ) 
+    ),
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images:if(ri!intIndex=1,{},#&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon:&quot;MOVE_UP&quot;
+        ),
+        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value:ri!intIndex,
+          saveInto:{
+            a!save(ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm, if(ri!intIndex=2, null, ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm) ),
+            a!save(ri!cdtFormVersionComponent,updatearray(ri!cdtFormVersionComponent,{ri!intIndex-1,ri!intIndex},{local!cdtFormVersionComponent[ri!intIndex],local!cdtFormVersionComponent[ri!intIndex-1]})),
+            a!save(ri!cdtForms,updatearray(ri!cdtForms,{ri!intIndex-1,ri!intIndex},{local!cdtForms[ri!intIndex],local!cdtForms[ri!intIndex-1]}))
+          
+          }
+        )
+        )),
+        size:&quot;ICON&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images:if(ri!intIndex=count(ri!cdtForms),{},
+      #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon:&quot;MOVE_DOWN&quot;
+        ),
+        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value:ri!intIndex,
+          saveInto:{
+            a!save(ri!cdtFormVersionComponent,updatearray(ri!cdtFormVersionComponent,{ri!intIndex,ri!intIndex+1},{local!cdtFormVersionComponent[ri!intIndex+1],local!cdtFormVersionComponent[ri!intIndex]})),
+            a!save(ri!cdtForms,updatearray(ri!cdtForms,{ri!intIndex,ri!intIndex+1},{local!cdtForms[ri!intIndex+1],local!cdtForms[ri!intIndex]}))
+          }
+        )
+        )),
+        size:&quot;ICON&quot;
+    ),
+  
+      #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images:#&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon:&quot;REMOVE&quot;
+        ),
+        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value:ri!intIndex,
+          saveInto:{
+            a!save(
+              ri!cdtFormVersionComponent,remove(
+                ri!cdtFormVersionComponent,save!value
+              )
+            ),
+            a!save(
+              ri!cdtForms,remove(
+                ri!cdtForms,save!value
+              )
+            ),
+            /*a!save(*/
+            /*  ri!FormIndex,*/
+            /*    ri!FormIndex-1*/
+            /*),*/
+            a!save(
+              ri!intFormCount,
+              ri!intFormCount-1
+            )
+          }
+        )
+      ),
+      size:&quot;ICON&quot;
+    )
+  }
+)
+)
+</definition>
+        <namedTypedValue>
+            <name>cdtFormVersionComponent</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtForms</name>
+            <type>
+                <name>AB_FormsDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>FormIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtButton</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intFormCount</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtFormVersionComponent</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtForms</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>FormIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtButton</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intFormCount</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

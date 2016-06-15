@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_Global_trimParagraphFieldValue</name>
+        <uuid>3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70</uuid>
+        <description>This is used to trim new line characters in a paragraph field</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>trim(joinarray(&#xD;
+  apply(&#xD;
+    fn!substitute(&#xD;
+      _,&#xD;
+      char(&#xD;
+        10&#xD;
+      ),&#xD;
+      &quot;&quot;&#xD;
+    ),&#xD;
+    split(&#xD;
+      trim(ri!txtParagraphFieldValue),&#xD;
+      char(&#xD;
+        10&#xD;
+      )&#xD;
+    )&#xD;
+  ),&#xD;
+  char(&#xD;
+    10&#xD;
+  )&#xD;
+))</definition>
+        <namedTypedValue>
+            <name>txtParagraphFieldValue</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

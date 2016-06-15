@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_getAllChildComponents</name>
+        <uuid>_a-0000da63-c75c-8000-6ee0-010000010000_926</uuid>
+        <description>return all child components for a given component - uses recursive</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1491</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  /* get list of direct child of a given component */local!childList: fn!filter(
+    #&quot;_a-0000da65-7f87-8000-6ee0-010000010000_1003&quot;(
+      compIdToSearchFor: ri!componentId,
+      component_cdt: _
+    ),
+    fn!index(
+      ri!formData_cdt,
+      &quot;componentList&quot;,
+      {}
+    )
+  ),
+  /* call this rule recursively until all children are returned */if(
+    ri!includeGrandChildren,
+    fn!append(
+      local!childList,
+      fn!apply(
+        #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_926&quot;(
+          componentId: _,
+          formData_cdt: ri!formData_cdt,
+          includeGrandChildren: ri!includeGrandChildren
+        ),
+        fn!index(
+          local!childList,
+          &quot;id&quot;,
+          {}
+        )
+      )
+    ),
+    local!childList
+  )
+)</definition>
+        <namedTypedValue>
+            <name>componentId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>includeGrandChildren</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

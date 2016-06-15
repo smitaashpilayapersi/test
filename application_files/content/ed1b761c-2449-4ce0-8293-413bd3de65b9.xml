@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getAllParentComponents</name>
+        <uuid>ed1b761c-2449-4ce0-8293-413bd3de65b9</uuid>
+        <description>Return a list of potential parents for a given component and parent index</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!component_cdt: ri!formData_cdt.componentList[ri!componentIndex],
+  /* returns all child and all the way to the last grand child */
+  local!allChildCompList: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_926&quot;(
+    componentId: local!component_cdt.id,
+    formData_cdt: ri!formData_cdt,
+    includeGrandChildren: true()
+  ),
+  /*A section component cannot act as a parent component*/
+  local!sectionComponentIdList:fn!index(
+    ri!formData_cdt.componentList.id,
+    wherecontains(
+      #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+      ri!formData_cdt.componentList.responseType
+    ),
+    {}
+  ),
+  /* If component is section, then its child cannot be parent  */
+  local!sectionChildComponents:if(
+    ri!formData_cdt.componentList[ri!componentIndex].responseType=#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+    index(
+      ri!formData_cdt.componentList.Id, 
+      wherecontains(ri!formData_cdt.componentList[ri!componentIndex].Id, 
+      ri!formData_cdt.componentList.sectionComponentId
+      ),
+      {}
+    ),
+    {}
+  ),
+  
+  /* when a parent component is not yet selected, the parent component id value will be empty */local!currentParentIdList: fn!reject(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+      inputObj: _
+    ),
+    fn!index(
+      local!component_cdt,
+      &quot;parentList&quot;,
+      &quot;parentComponentId&quot;,
+      {}
+    )
+  ),
+  local!compIdListThatCanNotBeParent: fn!append(
+    /* the current component itself can not be a parent to itself */{
+      local!component_cdt.id
+    },
+    /* components already children of the current component are not eligible to be a parent */fn!index(
+      local!allChildCompList,
+      &quot;id&quot;,
+      {}
+    ),
+    /* component(s) already selected as other parent should not be selected again  */local!currentParentIdList,
+    /*A section component cannot act as a parent component*/local!sectionComponentIdList,
+    local!sectionChildComponents
+   
+  ),
+  local!parentComponentIdList: fn!reject(
+    fn!contains(
+      local!compIdListThatCanNotBeParent,
+      _
+    ),
+    fn!index(
+      ri!formData_cdt,
+      &quot;componentList&quot;,
+      &quot;id&quot;,
+      {}
+    )
+  ),
+  local!parentComponentList: if(
+    or(
+      fn!isnull(
+        local!parentComponentIdList
+      ),
+      length(
+        local!parentComponentIdList
+      ) = 0
+    ),
+    {},
+    fn!index(
+      ri!formData_cdt.componentList,
+      fn!wherecontains(
+        local!parentComponentIdList,
+        ri!formData_cdt.componentList.id
+      ),
+      {}
+    )
+  ),
+  local!parentComponentList
+  /*a!textField(*/
+  /*  instructions: local!parentComponentList*/
+  /*  )*/
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

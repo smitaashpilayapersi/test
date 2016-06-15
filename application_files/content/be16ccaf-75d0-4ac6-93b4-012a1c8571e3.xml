@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_AppIns_SummaryDashboard</name>
+        <uuid>be16ccaf-75d0-4ac6-93b4-012a1c8571e3</uuid>
+        <description>Summary dashboard for Application Instances record</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(&#xD;
+  local!cdtFormVersionCmpnt:'type!{urn:com:psi:types:AB}AB_FrmVersionAndCmpntDesign'(),&#xD;
+  local!intSelectedFormInstanceId:0,&#xD;
+  local!actionButton_txt:&quot;&quot;,&#xD;
+  with(&#xD;
+    if(or(local!intSelectedFormInstanceId=0,local!actionButton_txt=&quot;Back&quot;),&#xD;
+    {&#xD;
+      &#xD;
+  #&quot;fca909cb-f928-486e-8b84-25ab080bab39&quot;(&#xD;
+    intAppinsId:ri!intAppInsId,&#xD;
+    selectedFormInstanceId:local!intSelectedFormInstanceId,&#xD;
+    actionButton_txt:local!actionButton_txt,&#xD;
+    cdtFormVersionCmpnt:local!cdtFormVersionCmpnt&#xD;
+  ),&#xD;
+  #&quot;SYSTEM_SYSRULES_linkField&quot;(&#xD;
+    label:&quot;Link to main application&quot;,&#xD;
+    links:{&#xD;
+      #&quot;SYSTEM_SYSRULES_recordLink&quot;(&#xD;
+      label:&quot;Click here to view the application&quot;,&#xD;
+      recordType:#&quot;_a-0000dc91-0813-8000-927a-010000010000_201894&quot;,&#xD;
+      identifier:ri!intAppId&#xD;
+    )}&#xD;
+  )&#xD;
+  },&#xD;
+  #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200157&quot;(&#xD;
+    formData_cdt: local!cdtFormVersionCmpnt,&#xD;
+    readOnly: null,&#xD;
+    isDashboardView: true(),&#xD;
+    isTaskView: false(),&#xD;
+    actionButton_txt: local!actionButton_txt&#xD;
+  ))&#xD;
+  )&#xD;
+  )</definition>
+        <namedTypedValue>
+            <name>intAppInsId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dtCreationDate</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intAppInsId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intAppId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>dtCreationDate</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

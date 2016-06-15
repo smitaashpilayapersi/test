@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_configureComponentResponseOptionSection</name>
+        <uuid>_a-0000da67-9c1b-8000-6ee0-010000010000_1051</uuid>
+        <description>returns UI to setup multiple options available for a component</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= load(
+  local!files: {},
+  local!selectedUsers,
+  local!selectedDocuments: {},
+  if(
+    fn!contains(
+      #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+      ri!formData_cdt.componentList[ri!componentIndex].responseType
+    ),
+    if(
+      fn!exact(
+        ri!formData_cdt.componentList[ri!componentIndex].responseType,
+        #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;
+      ),
+      #&quot;SYSTEM_SYSRULES_pickerFieldUsers&quot;(
+        label: &quot;Set Default User&quot;,
+        labelPosition: &quot;ABOVE&quot;,
+        value: local!selectedUsers,
+        maxSelections: 1,
+        saveInto: {
+          local!selectedUsers,
+          a!save(
+            ri!formData_cdt.componentList[ri!componentIndex].valueList,
+            {
+              #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                valueTxt: save!value
+              )
+            }
+          )
+        }
+      ),
+      if(
+        fn!exact(
+          ri!formData_cdt.componentList[ri!componentIndex].responseType,
+          #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(
+          label: &quot;Select Documents&quot;,
+          labelPosition: &quot;ABOVE&quot;,
+          value: local!selectedDocuments,
+          saveInto: {
+            local!selectedDocuments,
+            a!save(
+              ri!formData_cdt.componentList[ri!componentIndex].valueList,
+              {
+                #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                  valueTxt: save!value
+                )
+              }
+            )
+          }
+        ),
+        {
+          #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+            label: &quot;Options&quot;,
+            instructions: &quot;will be sorted alphabetically when presented to end user&quot;,
+            headerCells: {
+              #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+                label: &quot;Label&quot;
+              ),
+              #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+                label: &quot;&quot;
+              )
+            },
+            columnConfigs: {
+              #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+                width: &quot;DISTRIBUTE&quot;
+              ),
+              #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+                width: &quot;NARROW&quot;
+              )
+            },
+            rows: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+              function: #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1053&quot;(
+                isImage: fn!false(),
+                formData_cdt: ri!formData_cdt,
+                componentData_cdt: ri!formData_cdt.componentList[ri!componentIndex],
+                optionIndex: _
+              ),
+              array: if(
+                or(
+                  isnull(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  ),
+                  count(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  ) = 0
+                ),
+                {},
+                1 + enumerate(
+                  count(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  )
+                )
+              )
+            )
+          ),
+          #&quot;SYSTEM_SYSRULES_linkField&quot;(
+            labelPosition: &quot;COLLAPSED&quot;,
+            links: {
+              #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                label: &quot;+ Add Option&quot;,
+                value: #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1034&quot;(
+                  optionTxt: null
+                ),
+                saveInto: {
+                  a!save(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList,
+                    append(
+                      ri!formData_cdt.componentList[ri!componentIndex].optionList,
+                      save!value
+                    )
+                  )
+                }
+              )
+            }
+          )
+        }
+      )
+    ),
+    if(
+      exact(
+        ri!formData_cdt.componentList[ri!componentIndex].responseType,
+        &quot;Image&quot;
+      ),
+      {
+        if(
+          #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+            ri!formData_cdt.componentList[ri!componentIndex].optionList
+          ),
+          {},
+          #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+            label: &quot;Options&quot;,
+            instructions: &quot;will be sorted alphabetically when presented to end user&quot;,
+            headerCells: {
+              #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+                label: &quot;Label&quot;
+              ),
+              #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+                label: &quot;&quot;
+              )
+            },
+            columnConfigs: {
+              #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+                width: &quot;DISTRIBUTE&quot;
+              ),
+              #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+                width: &quot;NARROW&quot;
+              )
+            },
+            rows: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+              function: #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1053&quot;(
+                isImage: fn!true(),
+                formData_cdt: ri!formData_cdt,
+                componentData_cdt: ri!formData_cdt.componentList[ri!componentIndex],
+                optionIndex: _
+              ),
+              array: if(
+                or(
+                  isnull(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  ),
+                  count(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  ) = 0
+                ),
+                {},
+                1 + enumerate(
+                  count(
+                    ri!formData_cdt.componentList[ri!componentIndex].optionList
+                  )
+                )
+              )
+            )
+          )
+        ),
+        #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+          function: #&quot;_a-0000dab4-4160-8000-927a-010000010000_58581&quot;(
+            label: &quot;Upload Images&quot;,
+            files: local!files,
+            target: #&quot;_a-0000dab4-4160-8000-927a-010000010000_58577&quot;,
+            index: _
+          ),
+          array: 1 + fn!enumerate(
+            1 + length(
+              local!files
+            )
+          )
+        ),
+        #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+          primaryButtons: {
+            #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+              label: &quot;Upload Images&quot;,
+              style: &quot;PRIMARY&quot;,
+              value: &quot;Upload&quot;,
+              saveInto: {
+                ri!actionButton_txt,
+                a!save(
+                  ri!fileUploadDocList,
+                  local!files
+                ),
+                a!save(
+                  ri!componentIndex,
+                  ri!componentIndex
+                )
+              }
+            )
+          },
+          secondaryButtons: {}
+        )
+      },
+      {}
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fileUploadDocList</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

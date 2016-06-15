@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_updateComponentParentList</name>
+        <uuid>66d7cde1-f158-4270-8b08-6130b8ded222</uuid>
+        <description>This rule is used to update parentList of every component whenever a component is deleted</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(or(isnull(ri!cdtFrmComponent.parentList),count(ri!cdtFrmComponent.parentList)=0),
+ri!cdtFrmComponent,
+if(
+  contains(ri!cdtFrmComponent.parentList.parentComponentId,ri!txtDeletedComponentId),
+  #&quot;1a620917-5ab7-4078-8954-73d22006f0d1&quot;(
+    cdtFrmCmpnts :ri!cdtFrmComponent,
+    updatedParentList :remove(ri!cdtFrmComponent.parentList,wherecontains(ri!txtDeletedComponentId,ri!cdtFrmComponent.parentList.parentComponentId))
+    ),
+  ri!cdtFrmComponent
+))</definition>
+        <namedTypedValue>
+            <name>cdtFrmComponent</name>
+            <type>
+                <name>AB_FrmCmpntsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtDeletedComponentId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

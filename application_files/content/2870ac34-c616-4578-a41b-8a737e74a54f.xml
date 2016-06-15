@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateFrmCmpntCDTForNewVersion</name>
+        <uuid>2870ac34-c616-4578-a41b-8a737e74a54f</uuid>
+        <description>This rule will create AB_FrmCmpntDesign CDT for new form version</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition> with(&#xD;
+   local!optionTxt: index(ri!cdtFrmCmpnts.optionList, &quot;optionTxt&quot;, {}),&#xD;
+   local!valueTxt: index(ri!cdtFrmCmpnts.valueList, &quot;valueTxt&quot;, {}),&#xD;
+   local!parentCmpntIds: index(ri!cdtFrmCmpnts.parentList, &quot;parentComponentId&quot;, {}),&#xD;
+   local!parentAnyValue: index(ri!cdtFrmCmpnts.parentList, &quot;matchAnyValueFlag&quot;, {}),&#xD;
+   local!parentValue: index(ri!cdtFrmCmpnts.parentList, &quot;valueTxt&quot;, {}),&#xD;
+ {&#xD;
+ Pk_Id : 0,&#xD;
+ Id : ri!cdtFrmCmpnts.Id,&#xD;
+ FrmVersionId: ri!cdtFrmCmpnts.FrmVersionId,&#xD;
+ name: ri!cdtFrmCmpnts.name,&#xD;
+ label: ri!cdtFrmCmpnts.label,&#xD;
+ description: ri!cdtFrmCmpnts.description,&#xD;
+ instruction: ri!cdtFrmCmpnts.instruction,&#xD;
+ parentCondition: ri!cdtFrmCmpnts.parentCondition,&#xD;
+ responseType: ri!cdtFrmCmpnts.responseType,&#xD;
+ defaultValue: ri!cdtFrmCmpnts.defaultValue,&#xD;
+ labelPositon: ri!cdtFrmCmpnts.labelPositon,&#xD;
+ buttonValue: ri!cdtFrmCmpnts.buttonValue,&#xD;
+ isRequired: ri!cdtFrmCmpnts.isRequired,&#xD;
+ isReadOnly: ri!cdtFrmCmpnts.isReadOnly,&#xD;
+ isInActive: ri!cdtFrmCmpnts.isInActive,&#xD;
+ isValueResetFlag: ri!cdtFrmCmpnts.isValueResetFlag	,&#xD;
+ columnIndex: ri!cdtFrmCmpnts.columnIndex,&#xD;
+ seqIndex: ri!cdtFrmCmpnts.seqIndex	,&#xD;
+ sectionComponentId: ri!cdtFrmCmpnts.sectionComponentId	,&#xD;
+ gridComponentId: ri!cdtFrmCmpnts.gridComponentId,&#xD;
+ optionList:  apply(#&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1034&quot;(_), local!optionTxt),&#xD;
+ valueList: apply(#&quot;805fcf08-4e38-4eb0-ac6d-5d5b2e21f1fe&quot;(_), local!valueTxt),&#xD;
+ parentList: apply(#&quot;34f823e1-eba2-476f-b2b8-5e6d5f48358b&quot;(_,_,_), merge(local!parentCmpntIds, local!parentAnyValue, local!parentValue))&#xD;
+}&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>cdtFrmCmpnts</name>
+            <type>
+                <name>AB_FrmCmpntsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

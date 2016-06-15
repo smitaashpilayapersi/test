@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_configureComponentHeaderSection</name>
+        <uuid>fe74cf47-4610-4593-b54a-b2cc04034da5</uuid>
+        <description>UI to setup Header data for component</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!sectionName: ri!formData_cdt.componentList[ri!componentIndex].name,
+  with(
+    #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+      label: &quot;Configure Component &quot; &amp; #&quot;_a-0000da6b-fe77-8000-6ee0-010000010000_1185&quot;(
+        component_cdt: ri!formData_cdt.componentList[ri!componentIndex]
+      ),
+      secondColumnContents: {
+        if(
+          ri!isDashboardView = fn!true(),
+          {},
+          {}
+          /*a!buttonLayout(*/
+          /*  primaryButtons: {*/
+          /*    a!buttonWidgetSubmit(*/
+          /*      label: &quot;Copy Component&quot;,*/
+          /*      style: &quot;PRIMARY&quot;,*/
+          /*      value: cons!PFS__SUBMIT_ACTION_COPY_COMPONENT,*/
+          /*      saveInto: {*/
+          /*        ri!actionButton_txt,*/
+          /*        a!save(*/
+          /*          ri!componentIndex,*/
+          /*          ri!componentIndex*/
+          /*        )*/
+          /*      }*/
+          /*    )*/
+          /*  },*/
+          /*  secondaryButtons: {}*/
+          /*)*/
+        ),
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          label: &quot;Component Label&quot;,
+          instructions: &quot;This label is visible to end user. Leave it blank if you dont want the component name to be displayed.&quot;,
+          required: if(
+            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
+            fn!true(),
+            fn!false()
+          ),
+          value: ri!formData_cdt.componentList[ri!componentIndex].label,
+          saveInto: {
+            a!save(ri!formData_cdt.componentList[ri!componentIndex].label,trim(save!value))
+          }
+        ),
+        
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          label: &quot;Instruction&quot;,
+          instructions: &quot;Provide some verbiage for end user to understand how this component is used&quot;,
+          required: false,
+          value: ri!formData_cdt.componentList[ri!componentIndex].instruction,
+          saveInto: {
+            a!save(ri!formData_cdt.componentList[ri!componentIndex].instruction,trim(save!value))
+          }
+        )
+        
+      },
+      firstColumnContents: {
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          label: &quot;Component Name&quot;,
+          required: true,
+          instructions: &quot;For internal use - will not be displayed to end user. This name will be displayed in component list&quot;,
+          value: ri!formData_cdt.componentList[ri!componentIndex].name,
+          saveInto: {
+            a!save(ri!formData_cdt.componentList[ri!componentIndex].name,trim(save!value))
+            /*if(*/
+            /*  ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_SECTION,*/
+            /*  a!save(*/
+            /*    ri!formData_cdt.componentList.sectionComponentId,*/
+            /*    updatearray(*/
+            /*      ri!formData_cdt.componentList.sectionComponentId,*/
+            /*      wherecontains(*/
+            /*        local!sectionName,*/
+            /*        ri!formData_cdt.componentList.sectionComponentId*/
+            /*      ),*/
+            /*      repeat(count(wherecontains(*/
+            /*        local!sectionName,*/
+            /*        ri!formData_cdt.componentList.sectionComponentId*/
+            /*      )),save!value)*/
+            /*    )*/
+            /*  ),*/
+            /*  {}*/
+            /*)*/
+          },
+          validations: {
+            if(
+              length(
+                fn!wherecontains(
+                  ri!formData_cdt.componentList[ri!componentIndex].name,
+                  ri!formData_cdt.componentList.name
+                )
+              ) &lt;= 1,
+              {},
+              &quot;Duplicate Name&quot;
+            )
+          }
+        ),
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+          label: &quot;Component Description&quot;,
+          instructions: &quot;For internal use - will not be displayed to end user&quot;,
+          required: false,
+          value: ri!formData_cdt.componentList[ri!componentIndex].description,
+          saveInto: {
+            a!save(ri!formData_cdt.componentList[ri!componentIndex].description, #&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(save!value))
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDashboardView</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isDashboardView</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

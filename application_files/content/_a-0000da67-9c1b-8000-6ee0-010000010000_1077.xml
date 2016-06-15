@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_UTIL_generateRandomGUIDChar</name>
+        <uuid>_a-0000da67-9c1b-8000-6ee0-010000010000_1077</uuid>
+        <description>return a new random single char to be used in GUID.  input argument is ignored and used only to use with fn!apply() function</description>
+        <parentUuid>_a-0000da76-7afb-8000-6ee0-010000010000_1389</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!alphaNumeric: &quot;aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789&quot;,
+  local!minIdx: 1,
+  local!maxIdx: len(
+    local!alphaNumeric
+  ),
+  local!rangeForIdx: local!maxIdx - local!minIdx,
+  local!idx: local!minIdx + tointeger(
+    random() * local!rangeForIdx
+  ),
+  fn!charat(
+    local!alphaNumeric,
+    local!idx
+  )
+)</definition>
+        <namedTypedValue>
+            <name>counter</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

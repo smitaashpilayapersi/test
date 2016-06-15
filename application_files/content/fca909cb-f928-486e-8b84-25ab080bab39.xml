@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_FormGridForAppInstance</name>
+        <uuid>fca909cb-f928-486e-8b84-25ab080bab39</uuid>
+        <description>Grid Layout displaying forms for an application instance</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!formPagingInfo:#&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex:1,
+    batchSize:6
+  ),
+  with(
+  
+  local!cdtFromInstanceAndComponentData:#&quot;7dcd66a9-d157-4a0e-89d6-d840e025d780&quot;(ri!intappInsId),
+  local!arrFormVersionIds:index(local!cdtFromInstanceAndComponentData,&quot;FrmVersionId&quot;,null),
+  local!cdtFormVersions:apply(#&quot;5dc552f1-27fb-4429-8b3d-502e15907376&quot;(_),arrFormVersionIds),
+  local!txtFormNames:local!cdtFormVersions.Label,
+  local!assigneeGroup:index(local!cdtFromInstanceAndComponentData, &quot;AssigneeGroup&quot;, null),
+  local!assigneeUser:index(local!cdtFromInstanceAndComponentData, &quot;AssigneeUser&quot;, null),
+  {
+  #&quot;SYSTEM_SYSRULES_gridField&quot;(
+          
+          totalCount: count(cdtFromInstanceAndComponentData),
+          columns: {
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                label: &quot;Name&quot;,
+                /*field: &quot;Name&quot;,*/
+                data:local!txtFormNames,
+                links:if(
+                  or(count(local!cdtFromInstanceAndComponentData)=0,isnull(local!cdtFromInstanceAndComponentData)),
+                  null,
+                  apply(
+                    #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(value:_,saveInto:{
+                      a!save(ri!cdtFormVersionCmpnt,#&quot;69b157a4-bee4-4f93-a3df-c4eb9c5aec0e&quot;(save!value)),
+                      a!save(ri!selectedFormInstanceId,save!value),a!save(ri!actionButton_txt,&quot;&quot;)}),index(local!cdtFromInstanceAndComponentData, &quot;Id&quot;, null)))
+            ),
+             #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Assignee User&quot;,
+              field: &quot;AssigneeUser&quot;,
+              data:apply(#&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;(_),local!assigneeUser)
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Assignee Group&quot;,
+              field: &quot;AssigneeGroup&quot;,
+              data:apply(#&quot;b5b54af3-7bf4-4c20-ae3d-ca1485af3720&quot;(_),local!assigneeGroup)
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label:&quot;Assigned Date&quot;,
+              fiedl:&quot;AssignedDate&quot;,
+              data:index(local!cdtFromInstanceAndComponentData, &quot;AssignedDate&quot;, null)
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label:&quot;Completed Date&quot;,
+              fiedl:&quot;CompletedDate&quot;,
+              data:index(local!cdtFromInstanceAndComponentData, &quot;CompletedDate&quot;, null)
+            ),
+            #&quot;SYSTEM_SYSRULES_gridImageColumn&quot;(
+              label: &quot;Status&quot;,
+              field: &quot;Status&quot;,
+              data: if(or(count(local!cdtFromInstanceAndComponentData)=0,isnull(local!cdtFromInstanceAndComponentData)),{},apply(#&quot;3163877e-9b46-4a08-8746-6b2210751ee6&quot;(_),index(local!cdtFromInstanceAndComponentData, &quot;Status&quot;, null))),
+              size:&quot;ICON&quot;
+            )
+          },
+          value: local!formPagingInfo,
+          saveInto: local!formPagingInfo
+          /*emptyGridMessage:&quot;No Instance for &quot;&amp;index(local!datasubset.data.Name,wherecontains(local!SelectedFormId,tointeger(index(local!datasubset.data, &quot;Id&quot;, {}))) , null)&amp;&quot; has been created.&quot;*/
+        )
+  }
+  /*local!cdtFormVersionAndComponentDesign:if(isnull(local!arrFormVersionIds),null,apply(rule!AB_getFrmVersionCmpntUsingId(intVersionId:_),{local!arrFormVersionIds})),*/
+  /*local!cdtFormVersionAndComponentDesign*/
+))</definition>
+        <namedTypedValue>
+            <name>intAppinsId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedFormInstanceId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>actionButton_txt</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFormVersionCmpnt</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intAppinsId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selectedFormInstanceId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>actionButton_txt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:psi:types:AB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AB_FrmVersionAndCmpntDesign"/>
+                    <a:nameRef>cdtFormVersionCmpnt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

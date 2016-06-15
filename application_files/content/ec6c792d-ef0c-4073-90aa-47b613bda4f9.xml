@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_configureComponentLabelPositon</name>
+        <uuid>ec6c792d-ef0c-4073-90aa-47b613bda4f9</uuid>
+        <description>UI field to configure label positon for the component.</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(&#xD;
+  if(&#xD;
+    ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,&#xD;
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(&#xD;
+      label: &quot;Choose Button Style&quot;,&#xD;
+      choiceLabels: {&#xD;
+        &quot;NORMAL&quot;,&#xD;
+        &quot;PRIMARY&quot;,&#xD;
+        &quot;DESTRUCTIVE&quot;&#xD;
+      },&#xD;
+      placeholderLabel: &quot;None&quot;,&#xD;
+      choiceValues: {&#xD;
+        &quot;NORMAL&quot;,&#xD;
+        &quot;PRIMARY&quot;,&#xD;
+        &quot;DESTRUCTIVE&quot;&#xD;
+      },&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].labelPositon,&#xD;
+      saveInto: {&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].labelPositon&#xD;
+      },&#xD;
+      required: fn!false()&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(&#xD;
+      label: &quot;Label Position&quot;,&#xD;
+      choiceLabels: {&#xD;
+        &quot;Above&quot;,&#xD;
+        &quot;Adjacent&quot;,&#xD;
+        &quot;Collapsed&quot;&#xD;
+      },&#xD;
+      placeholderLabel: &quot;None&quot;,&#xD;
+      choiceValues: {&#xD;
+        &quot;ABOVE&quot;,&#xD;
+        &quot;ADJACENT&quot;,&#xD;
+        &quot;COLLAPSED&quot;&#xD;
+      },&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].labelPositon,&#xD;
+      saveInto: {&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].labelPositon&#xD;
+      },&#xD;
+      required: fn!false()&#xD;
+    )&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

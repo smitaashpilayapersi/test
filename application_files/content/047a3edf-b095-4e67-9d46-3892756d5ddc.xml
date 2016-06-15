@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_UpdateAppCDTWithTotalInstances</name>
+        <uuid>047a3edf-b095-4e67-9d46-3892756d5ddc</uuid>
+        <description>This rule will update AppDesign CDT and a new column &quot;TotalInstances&quot;. This columns value is replaced with total instances of that application</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{&#xD;
+  Id: ri!cdtAppDesign.Id,&#xD;
+  Name: ri!cdtAppDesign.Name,&#xD;
+  CreaterUserId: #&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;( ri!cdtAppDesign.CreaterUserId),&#xD;
+  CreationDate: ri!cdtAppDesign.CreationDate,&#xD;
+  TotalInstances: displayvalue(ri!cdtAppDesign.Id, ri!cdtAppInstance.AppId, ri!cdtAppInstance.Id, 0)&#xD;
+}</definition>
+        <namedTypedValue>
+            <name>cdtAppDesign</name>
+            <type>
+                <name>AB_AppDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtAppInstance</name>
+            <type>
+                <name>AB_AppInstances?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

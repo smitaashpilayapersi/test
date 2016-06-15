@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_simulateForm</name>
+        <uuid>_a-0000dc7e-d5cf-8000-927a-010000010000_200157</uuid>
+        <description>simulate From that is configured</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!ShowPreviousForm: false(),
+  with(
+    local!preserveformData_cdt: ri!formData_cdt,
+    local!save_btn: #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+      label: &quot;Save&quot;,
+      value: &quot;Save&quot;,
+      style: &quot;NORMAL&quot;,
+      saveInto: {
+        ri!actionButton_txt
+      },
+      skipValidation: true()
+    ),
+    local!configureFormBtn: if(
+      ri!isDashboardView,
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+        label: &quot;Back&quot;,
+        style: &quot;NORMAL&quot;,
+        value: &quot;Back&quot;,
+        saveInto: {
+          a!save(
+            ri!actionButton_txt,
+            save!value
+          )
+        }
+      ),
+      if(
+        ri!isTaskView,
+        #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+          label: &quot;Submit&quot;,
+          style: &quot;PRIMARY&quot;,
+          value: &quot;Submit&quot;,
+          saveInto: {
+            a!save(
+              ri!actionButton_txt,
+              save!value
+            ),
+            a!save(
+              ri!formData_cdt,
+              local!preserveformData_cdt
+            )
+          },
+          skipValidation: false
+        ),
+        #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+          label: &quot;Configure&quot;,
+          style: &quot;NORMAL&quot;,
+          value: &quot;Configure&quot;,
+          saveInto: {
+            a!save(
+              ri!actionButton_txt,
+              save!value
+            ),
+            a!save(
+              ri!formData_cdt,
+              local!preserveformData_cdt
+            )
+          },
+          skipValidation: true
+        )
+      )
+    ),
+    local!exitBtn: if(
+      ri!isDashboardView,
+      {},
+      if(
+        ri!isTaskView,
+        #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+          label: &quot;Exit&quot;,
+          value: &quot;Exit&quot;,
+          style: &quot;DESTRUCTIVE&quot;,
+          skipValidation: true,
+          confirmMessage: &quot;All data will be lost, do you really want to exit?&quot;,
+          saveInto: ri!actionButton_txt
+        ),
+        {}
+        /*a!buttonWidget(*/
+        /*  label: &quot;Exit&quot;,*/
+        /*  value: &quot;Exit&quot;,*/
+        /*  style: &quot;DESTRUCTIVE&quot;,*/
+          /*skipValidation: trueconfirmMessage: &quot;All data will be lost, do you really want to exit?&quot;,*/
+          /*saveInto: ri!actionButton_txt*/
+          
+        /*)*/
+      )
+    ),
+
+    local!FormLevelComponentList: #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(
+
+      index(
+        ri!formData_cdt.componentList,
+        wherecontains(
+          {
+            &quot;&quot;,
+            null
+          },
+          ri!formData_cdt.componentList.sectionComponentId
+        ),
+        null
+      )
+    ),
+    local!FormLevelComponentIndexList: if(
+      or(
+        fn!isnull(
+          local!FormLevelComponentList
+        ),
+        length(
+          local!FormLevelComponentList
+        ) = 0,
+        fn!isnull(
+          ri!formData_cdt.componentList
+        ),
+        length(
+          ri!formData_cdt.componentList
+        ) = 0
+      ),
+      {},
+      tointeger(
+        apply(
+          fn!wherecontains(
+            _,
+            ri!formData_cdt.componentList.id
+          ),
+          local!FormLevelComponentList.id
+        )
+      )
+    ),
+    local!sectionComponentList: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+      function: #&quot;27036a83-35ee-400c-82be-cbe65360e10f&quot;(
+        componentIndex: _,
+        formData_cdt: ri!formData_cdt,
+        readOnly: ri!readOnly
+      ),
+      array: if(
+        or(
+          fn!isnull(
+            local!FormLevelComponentIndexList
+          ),
+          length(
+            local!FormLevelComponentIndexList
+          ) = 0
+        ),
+        {},
+        local!FormLevelComponentIndexList
+      )
+    ),
+
+    #&quot;SYSTEM_SYSRULES_formLayout&quot;(
+      label: ri!formData_cdt.label,
+      instructions: ri!formData_cdt.instruction,
+      firstColumnContents: {
+        if(
+          isnull(
+            ri!cdtPreviousFormVersionCmpnt
+          ),
+          {},
+          #&quot;SYSTEM_SYSRULES_linkField&quot;(
+            labelPosition: &quot;COLLAPSED&quot;,
+            links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+              label: if(
+                local!ShowPreviousForm = false(),
+                &quot;Show &quot; &amp; ri!cdtPreviousFormVersionCmpnt.Label,
+                &quot;Hide &quot; &amp; ri!cdtPreviousFormVersionCmpnt.Label
+              ),
+              value: if(
+                local!ShowPreviousForm = false(),
+                true(),
+                false()
+              ),
+              saveInto: local!ShowPreviousForm
+            )
+          )
+        ),
+        if(
+          local!ShowPreviousForm,
+          #&quot;_a-0000dc95-f9ff-8000-927a-010000010000_202937&quot;(
+            formData_cdt: ri!cdtPreviousFormVersionCmpnt,
+            readOnly: true()
+          ),
+          {}
+        ),
+        local!sectionComponentList
+      },
+      buttons: #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+        primaryButtons: {
+          local!configureFormBtn/*,
+          if(
+            isnull(
+              local!configuredButtonListAtFormLevel
+            ),
+            {},
+            apply(
+              rule!PFS_UTIL_configurePrimaryButton(
+                configuredButtonComponent: _
+              ),
+              local!configuredButtonListAtFormLevel
+            )
+          )*/
+        },
+        secondaryButtons: {
+          {
+            local!exitBtn/*,
+            if(
+              isnull(
+                local!configuredButtonListAtFormLevel
+              ),
+              {},
+              apply(
+                rule!PFS_UTIL_configureSecondaryButton(
+                  configuredButtonComponent: _
+                ),
+                local!configuredButtonListAtFormLevel
+              )
+            )*/
+          }
+        }
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fileUploadDocList</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>actionButton_txt</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>saveUploadedFile</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDashboardView</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isTaskView</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtPreviousFormVersionCmpnt</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">=#&quot;f8f8316c-afa2-4957-a732-c0cb2670844b&quot;(30)</a:value>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fileUploadDocList</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>actionButton_txt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>saveUploadedFile</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isDashboardView</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isTaskView</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">=#&quot;69b157a4-bee4-4f93-a3df-c4eb9c5aec0e&quot;(44)</a:value>
+                    <a:nameRef>cdtPreviousFormVersionCmpnt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_returnGridComponent</name>
+        <uuid>_a-0000dadb-9318-8000-927a-010000010000_82520</uuid>
+        <description>return editable grid component</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(&#xD;
+  local!shouldDisplayComponent: if(&#xD;
+    ri!componentIndex = 0,&#xD;
+    False,&#xD;
+    #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1160&quot;(&#xD;
+      formData_cdt: ri!formData_cdt,&#xD;
+      componentIndex: ri!componentIndex&#xD;
+    )&#xD;
+  ),&#xD;
+  local!componentLabel: if(&#xD;
+    local!shouldDisplayComponent,&#xD;
+    #&quot;_a-0000da6b-fe77-8000-6ee0-010000010000_1185&quot;(&#xD;
+      component_cdt: ri!formData_cdt.componentList[ri!componentIndex]&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!instructions: fn!index(&#xD;
+    ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+    &quot;instruction&quot;,&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!componentListForGrid: if(&#xD;
+    fn!and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;&#xD;
+    ),&#xD;
+    fn!filter(&#xD;
+      #&quot;_a-0000dad3-098b-8000-927a-010000010000_71860&quot;(&#xD;
+        component_cdt: _,&#xD;
+        gridComponentId: ri!formData_cdt.componentList[ri!componentIndex].id&#xD;
+      ),&#xD;
+      ri!formData_cdt.componentList&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!sortedGridComponentList: if(&#xD;
+    fn!and(&#xD;
+      fn!length(&#xD;
+        local!componentListForGrid&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent&#xD;
+    ),&#xD;
+    #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(&#xD;
+      componentList: local!componentListForGrid&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!gridComponentIndexList: if(&#xD;
+    fn!and(&#xD;
+      fn!length(&#xD;
+        local!sortedGridComponentList&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent&#xD;
+    ),&#xD;
+    fn!wherecontains(&#xD;
+      local!sortedGridComponentList.id,&#xD;
+      ri!formData_cdt.componentList.id&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!editableGridResponse: if(&#xD;
+    and(&#xD;
+      fn!length(&#xD;
+        local!sortedGridComponentList&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent,&#xD;
+      ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_gridLayout&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      instructions: local!instructions,&#xD;
+      headerCells: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(&#xD;
+        function: #&quot;_a-0000dad3-098b-8000-927a-010000010000_71853&quot;(&#xD;
+          label: _&#xD;
+        ),&#xD;
+        array: local!sortedGridComponentList.label&#xD;
+      ),&#xD;
+      rows: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(&#xD;
+        function: #&quot;_a-0000dad3-098b-8000-927a-010000010000_76395&quot;(&#xD;
+          rowIndex: _,&#xD;
+          gridComponentIndexList: local!gridComponentIndexList,&#xD;
+          formData_cdt: ri!formData_cdt&#xD;
+        ),&#xD;
+        array: 1 + enumerate(&#xD;
+          1&#xD;
+        )&#xD;
+      )&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  if(&#xD;
+    or(&#xD;
+      isnull(&#xD;
+        local!editableGridResponse&#xD;
+      ),&#xD;
+      length(&#xD;
+        local!editableGridResponse&#xD;
+      ) = 0&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+      readOnly: true&#xD;
+    ),&#xD;
+    local!editableGridResponse&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

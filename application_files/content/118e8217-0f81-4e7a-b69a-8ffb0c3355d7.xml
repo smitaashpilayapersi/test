@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateAssigneeTaskCDT</name>
+        <uuid>118e8217-0f81-4e7a-b69a-8ffb0c3355d7</uuid>
+        <description>This rule will create assignee cdt. It will have information: User name, total tasks assigned, tasks completed</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  AssigneeUser: #&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;(ri!cdtAssigneeTask.AssigneeUser),
+  TotalTasks: ri!cdtAssigneeTask.Id,
+  CompletedTasks: displayvalue(ri!cdtAssigneeTask.AssigneeUser, ri!cdtCompletedTasks.AssigneeUser, ri!cdtCompletedTasks.Id, 0)
+}</definition>
+        <namedTypedValue>
+            <name>cdtAssigneeTask</name>
+            <type>
+                <name>AB_FrmInstances</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtCompletedTasks</name>
+            <type>
+                <name>AB_FrmInstances?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

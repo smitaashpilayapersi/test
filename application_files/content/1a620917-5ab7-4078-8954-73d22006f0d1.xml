@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateNewCmpntCdtForUpdatedParentList</name>
+        <uuid>1a620917-5ab7-4078-8954-73d22006f0d1</uuid>
+        <description>rule to create a new cmpnt cdt for updated parent list</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>&#xD;
+ {&#xD;
+ Pk_Id : ri!cdtFrmCmpnts.Pk_Id,&#xD;
+ Id : ri!cdtFrmCmpnts.Id,&#xD;
+ FrmVersionId: ri!cdtFrmCmpnts.FrmVersionId,&#xD;
+ name: ri!cdtFrmCmpnts.name,&#xD;
+ label: ri!cdtFrmCmpnts.label,&#xD;
+ description: ri!cdtFrmCmpnts.description,&#xD;
+ instruction: ri!cdtFrmCmpnts.instruction,&#xD;
+ parentCondition: ri!cdtFrmCmpnts.parentCondition,&#xD;
+ responseType: ri!cdtFrmCmpnts.responseType,&#xD;
+ defaultValue: ri!cdtFrmCmpnts.defaultValue,&#xD;
+ labelPositon: ri!cdtFrmCmpnts.labelPositon,&#xD;
+ buttonValue: ri!cdtFrmCmpnts.buttonValue,&#xD;
+ isRequired: ri!cdtFrmCmpnts.isRequired,&#xD;
+ isReadOnly: ri!cdtFrmCmpnts.isReadOnly,&#xD;
+ isInActive: ri!cdtFrmCmpnts.isInActive,&#xD;
+ isValueResetFlag: ri!cdtFrmCmpnts.isValueResetFlag	,&#xD;
+ columnIndex: ri!cdtFrmCmpnts.columnIndex,&#xD;
+ seqIndex: ri!cdtFrmCmpnts.seqIndex	,&#xD;
+ sectionComponentId: ri!cdtFrmCmpnts.sectionComponentId	,&#xD;
+ gridComponentId: ri!cdtFrmCmpnts.gridComponentId,&#xD;
+ optionList:  ri!cdtFrmCmpnts.optionList,&#xD;
+ valueList: ri!cdtFrmCmpnts.valueList,&#xD;
+ parentList: ri!updatedParentList&#xD;
+}&#xD;
+</definition>
+        <namedTypedValue>
+            <name>cdtFrmCmpnts</name>
+            <type>
+                <name>AB_FrmCmpntsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>updatedParentList</name>
+            <type>
+                <name>AB_CmpntParent?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

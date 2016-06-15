@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_CreateNewInstance</name>
+        <uuid>f2c36849-7738-47d7-9bd2-fb5303c07c32</uuid>
+        <description>This form will create new instance and assign it to an assignee</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= load(
+  /*local!FormsData: rule!AB_getFormAndVersionUsingAppId( ri!AppId),
+  local!FormName: index(local!FormsData, &quot;Name&quot;, null),
+  local!FormDescription:  index(local!FormsData, &quot;Description&quot;, null),
+  ri!arrusrFormAssignee: append(ri!arrusrFormAssignee, repeat(count(local!FormName), null)),
+  ri!arrgrpAssigneeGroup: append(ri!arrgrpAssigneeGroup, repeat(count(local!FormName), null)),
+  ri!arrdttimDeadLine: append(ri!arrdttimDeadLine, repeat(count(local!FormName), null)),*/
+  local!GridIndexs: enumerate(count(ri!arrtxtFormName)) + 1,          
+   
+  with(
+    
+    #&quot;SYSTEM_SYSRULES_formLayout&quot;(
+      label: ri!txtApplicationName &amp; &quot; - New Application Instance&quot;,
+      instructions: &quot;All tasks will be assigned to their assignees in sequence&quot;,
+      firstColumnContents: {
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          label:&quot;Instance Name&quot;,
+          required: true(),
+          value: ri!txtAppInstanceName,
+          saveInto: 
+          a!save(
+            ri!txtAppInstanceName,
+            trim(save!value)
+          )
+        ),
+       
+         #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+    label: &quot;Set assignees and deadline for tasks&quot;,
+    instructions: &quot;Please specify both date and time for Task Deadline&quot;,
+    headerCells: {
+      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(label: &quot;Task Name&quot;),
+      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(label: &quot;Task Description&quot;, align: &quot;RIGHT&quot;),
+      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(label: &quot;Task Assignee&quot;, align: &quot;RIGHT&quot;),
+      /*a!gridLayoutHeaderCell(label: &quot;Group Assignment&quot;, align: &quot;RIGHT&quot;),*/
+      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(label: &quot;Task Deadline (optional)&quot;, align: &quot;RIGHT&quot;)
+    },
+    columnConfigs: {
+      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(width: &quot;DISTRIBUTE&quot;, weight: 2),
+      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(width: &quot;DISTRIBUTE&quot;, weight: 3),
+      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(width: &quot;DISTRIBUTE&quot;, weight: 3),
+      /*a!gridLayoutColumnConfig(width: &quot;DISTRIBUTE&quot;, weight: 3),*/
+      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(width: &quot;DISTRIBUTE&quot;, weight: 2)
+    },
+    rows: {
+     #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+       function: #&quot;cabcf7e1-1f14-40d1-af7b-f4729ba5b000&quot;(
+         _,
+         ri!arrtxtFormName,
+         ri!arrtxtFormDescription,
+         ri!arrusrFormAssignee,
+         ri!arrgrpAssigneeGroup,
+         ri!arrdttimDeadLine
+       ),
+       array: local!GridIndexs
+     )
+    }
+  ),
+       
+      },
+      buttons: #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+        primaryButtons: {
+          #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+            label: &quot;Initiate Instance&quot;,
+            style: &quot;PRIMARY&quot;,
+            value: &quot;assign&quot;,
+            saveInto: ri!txtButtonValue
+          )
+        },
+        secondaryButtons: {
+          #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+            label: &quot;Cancel&quot;,
+            style: &quot;NORMAL&quot;,
+            value: &quot;cancel&quot;,
+            saveInto: ri!txtButtonValue,
+            skipValidation: true
+          )
+        }
+      ),
+      validationGroup: &quot;Assignee&quot;
+     
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>txtButtonValue</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrusrFormAssignee</name>
+            <type>
+                <name>User?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrgrpAssigneeGroup</name>
+            <type>
+                <name>Group?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrdttimDeadLine</name>
+            <type>
+                <name>Datetime?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrtxtFormName</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrtxtFormDescription</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtAppInstanceName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtApplicationName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users>
+                <userUuid>DeepaD</userUuid>
+            </users>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtButtonValue</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{null, null, null}</a:value>
+                    <a:nameRef>arrusrFormAssignee</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{null, null, null}</a:value>
+                    <a:nameRef>arrgrpAssigneeGroup</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{null, null, null}</a:value>
+                    <a:nameRef>arrdttimDeadLine</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{&quot;form1&quot;,&quot;Form 2&quot;, &quot;Form 3&quot;}</a:value>
+                    <a:nameRef>arrtxtFormName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{&quot;form 1 Description&quot;,&quot;Form 2 Description&quot;, &quot;Form 3 Description&quot;}</a:value>
+                    <a:nameRef>arrtxtFormDescription</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtAppInstanceName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtApplicationName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

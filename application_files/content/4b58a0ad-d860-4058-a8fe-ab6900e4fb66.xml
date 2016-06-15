@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ReportTotalAppInstancesStatus</name>
+        <uuid>4b58a0ad-d860-4058-a8fe-ab6900e4fb66</uuid>
+        <description>This report will display combined status of application instances</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!ShowAppInstanceDetails: {},
+  local!SelectedStatus: &quot;&quot;,
+ 
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex : 1,
+    batchSize : 5,
+    sort : #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field : &quot;CreationDate&quot;,
+      ascending : false()
+    )
+  ),
+  with(
+    local!AppInstanceIds: #&quot;8fe7a9b1-fb87-4fca-bc17-643d5c757014&quot;(
+      ri!intAppId
+    ).Id,
+    local!arrcdtAppInstance: #&quot;c119f87b-e10f-4969-bd31-47d8c81bec83&quot;(
+      local!AppInstanceIds
+    ),
+    local!AppInstanceStatus: touniformString(
+      index(
+        local!arrcdtAppInstance,
+        &quot;Status&quot;,
+        {}
+      )
+    ),
+    local!AppInstanceId: tointeger(
+      index(
+        local!arrcdtAppInstance,
+        &quot;AppInstanceId&quot;,
+        {}
+      )
+    ),
+    local!UniqueInstanceStatus: union(
+      local!AppInstanceStatus,
+      local!AppInstanceStatus
+    ),
+    #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+      label: &quot;Application Instance Details - &quot; &amp; ri!txtApplicationName,
+      firstColumnContents : {
+        #&quot;SYSTEM_SYSRULES_pieChartField&quot;(
+        label: &quot;Application Instances&quot;,
+        labelPosition: &quot;COLLAPSED&quot;,
+        showTooltips: true(),
+        series: {
+          apply(
+            #&quot;e2615ffa-c6d2-46fe-834f-36e554973ebe&quot;(
+              txtStatus: _,
+              arrtxtApplicationInstanceStatus: local!AppInstanceStatus,
+              arrintAppInstanceIds: local!AppInstanceId,
+              arrintSelectedAppInstanceId: ri!arrintSelectedAppInstanceId,
+              SelectedStatus: local!SelectedStatus
+            ),
+            local!UniqueInstanceStatus
+          )
+        }
+      )  
+      },
+      secondColumnContents : {
+         if(
+       and( length(
+          ri!arrintSelectedAppInstanceId
+        ) &gt; 0,     length(local!UniqueInstanceStatus)&gt;0 ),
+        with(
+          local!AppInstanceGridData: #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+            entity: #&quot;_a-0000dc89-4db7-8000-927a-010000010000_201610&quot;,
+            query: #&quot;SYSTEM_SYSRULES_query&quot;(
+              filter: #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+                field: &quot;Id&quot;,
+                operator: &quot;in&quot;,
+                value: ri!arrintSelectedAppInstanceId
+              ),
+              pagingInfo: local!pagingInfo
+            )
+          ),
+          {
+             #&quot;SYSTEM_SYSRULES_textField&quot;(
+          readOnly : true()
+        ),
+          #&quot;SYSTEM_SYSRULES_gridField&quot;(
+            label: local!SelectedStatus &amp; &quot; Instances&quot;,
+            instructions: &quot;Click on application instance name for more details&quot;,
+            totalCount: local!AppInstanceGridData.totalCount,
+            columns: {
+              #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                label: &quot;Name&quot;,
+                field: &quot;Name&quot;,
+                data: index(
+                  local!AppInstanceGridData.data,
+                  &quot;Name&quot;,
+                  {}
+                ),
+                links: apply(
+                  #&quot;SYSTEM_SYSRULES_recordLink&quot;(
+                    recordType: #&quot;_a-0000dcbf-080b-8000-927a-010000010000_206207&quot;,
+                    Identifier: _
+                  ),
+                  touniformstring(
+                    index(
+                      local!AppInstanceGridData.data,
+                      &quot;Id&quot;,
+                      {}
+                    )
+                  )
+                )
+              ),
+              #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                label: &quot;Creation Date&quot;,
+                field: &quot;CreationDate&quot;,
+                data: index(
+                  local!AppInstanceGridData.data,
+                  &quot;CreationDate&quot;,
+                  {}
+                )
+              )
+            },
+            value: local!pagingInfo,
+            saveInto: local!pagingInfo
+          )
+          }
+        
+        ),
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          readOnly : true()
+        )
+      )
+      }
+    )
+   
+  )
+)</definition>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtApplicationName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrintSelectedAppInstanceId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intAppId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtApplicationName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>arrintSelectedAppInstanceId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

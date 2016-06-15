@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_configureComponentResponseOptions</name>
+        <uuid>_a-0000da67-9c1b-8000-6ee0-010000010000_1053</uuid>
+        <description>returns a UI to help manage response options for a component</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  contents: {
+    if(
+      ri!isImage,
+      #&quot;SYSTEM_SYSRULES_imageField&quot;(
+        label: &quot;Label &quot; &amp; ri!optionIndex,
+        labelPosition: &quot;ABOVE&quot;,
+        images: #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+          document: todocument(
+            ri!componentData_cdt.optionList[ri!optionIndex].optionTxt
+          )
+        ),
+        size: &quot;THUMBNAIL&quot;
+      ),
+      #&quot;SYSTEM_SYSRULES_textField&quot;(
+        label: &quot;Label &quot; &amp; ri!optionIndex,
+        align: &quot;LEFT&quot;,
+        required: true,
+        value: ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+        saveInto: {
+          /* first remove old value */
+          /*rule!PFS_SAILUI_removeFromAllCfgComponentParents(
+          valueTxt: ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+          formData_cdt: ri!formData_cdt
+        ),*/
+        /* now add new value */
+        /*fn!reject(
+          fn!isnull,
+          rule!PFS_SAILUI_addToAllCfgComponentParents(
+            valueTxtOld: ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+            valueTxtNew: save!value,
+            formData_cdt: ri!formData_cdt
+          )
+        ),*/a!save(
+            ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+            trim(save!value)
+          )
+        },
+        validations: {
+          if(
+            length(
+              fn!wherecontains(
+                ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+                ri!componentData_cdt.optionList.optionTxt
+              )
+            ) &lt;= 1,
+            {},
+            &quot;Duplicate Option&quot;
+          ),
+          if(
+            search(&quot;;&quot;,ri!componentData_cdt.optionList[ri!optionIndex].optionTxt)&lt;&gt;0,
+            &quot;semi-colon(;) is not a valid character&quot;,
+            {}
+          )
+        }
+      )
+    ),
+    #&quot;SYSTEM_SYSRULES_linkField&quot;(
+      label: &quot;&quot; &amp; ri!optionIndex,
+      links: {
+        #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          label: char(
+            10005
+          ),
+          align: &quot;CENTER&quot;,
+          value: ri!optionIndex,
+          saveInto: {
+            /*rule!PFS_SAILUI_removeFromAllCfgComponentParents(
+              valueTxt: ri!componentData_cdt.optionList[ri!optionIndex].optionTxt,
+              formData_cdt: ri!formData_cdt
+            ), */a!save(
+              ri!componentData_cdt.optionList,
+              remove(
+                ri!componentData_cdt.optionList,
+                ri!optionIndex
+              )
+            )
+          }
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>optionIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isImage</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

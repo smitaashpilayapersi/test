@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getFormVersionDesignUsingVersionId</name>
+        <uuid>5dc552f1-27fb-4429-8b3d-502e15907376</uuid>
+        <description>Query entity to get form design using version id</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>cast(
+  typeof('type!{urn:com:psi:types:AB}AB_FrmVersionDesign'()),
+  #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+  entity:#&quot;_a-0000dc7e-760f-8000-927a-010000010000_200001&quot;,
+  query:#&quot;SYSTEM_SYSRULES_query&quot;(
+    filter:#&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field:&quot;Id&quot;,
+      operator:&quot;=&quot;,
+      value:ri!intVersionId
+    ),
+    pagingInfo:#&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+      startIndex:1,
+      batchSize:-1
+    )
+  )
+).data
+)</definition>
+        <namedTypedValue>
+            <name>intVersionId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

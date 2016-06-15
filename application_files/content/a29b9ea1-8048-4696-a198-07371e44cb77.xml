@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateRecordFormCDT</name>
+        <uuid>a29b9ea1-8048-4696-a198-07371e44cb77</uuid>
+        <description>This rule will create a dynamic CDT of forms and there versions, used to display on record summary</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!MaxVersionIndex: wherecontains(tointeger(max(ri!cdtFormData.FrmVersions.Version)), ri!cdtFormData.FrmVersions.Version),
+{
+Id: index(ri!cdtFormData.FrmVersions.Id, local!MaxVersionIndex ,&quot;&quot;),
+Name: index(ri!cdtFormData.FrmVersions.Name, local!MaxVersionIndex ,&quot;&quot;),
+Description: index(ri!cdtFormData.FrmVersions.Description, local!MaxVersionIndex ,&quot;&quot;),
+Version: tointeger( index(ri!cdtFormData,&quot;DefaultAssigneeGrp&quot;,&quot;&quot;))
+}
+)</definition>
+        <namedTypedValue>
+            <name>cdtFormData</name>
+            <type>
+                <name>AB_FormsAndVersionDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

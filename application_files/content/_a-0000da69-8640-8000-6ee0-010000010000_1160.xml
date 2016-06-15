@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_shouldDisplayComponent</name>
+        <uuid>_a-0000da69-8640-8000-6ee0-010000010000_1160</uuid>
+        <description>return true if component that is passed as input should be displayed, based on the value(s) captured for parent component</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1491</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!isInActive: (
+    not(
+      fn!isnull(
+        ri!formData_cdt.componentList[ri!componentIndex].isInActive
+      )
+    )
+  ),
+  local!noParentExist: or(
+    fn!isnull(
+      ri!formData_cdt.componentList[ri!componentIndex].parentList
+    ),
+    count(
+      ri!formData_cdt.componentList[ri!componentIndex].parentList
+    ) = 0
+  ),
+  local!numberOfParents: if(
+    local!noParentExist,
+    0,
+    count(
+      ri!formData_cdt.componentList[ri!componentIndex].parentList
+    )
+  ),
+  local!shouldDisplayList: if(
+    local!noParentExist,
+    {},
+    fn!apply(
+      #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1159&quot;(
+        formData_cdt: ri!formData_cdt,
+        componentIndex: ri!componentIndex,
+        parentIndex: _
+      ),
+      1 + enumerate(
+        local!numberOfParents
+      )
+    )
+  ),
+  local!numberOfParentsAllowDisplay: if(
+    local!noParentExist,
+    0,
+    length(
+      fn!where(
+        local!shouldDisplayList
+      )
+    )
+  ),
+  local!shouldDisplay: if(
+    local!isInActive,
+    False,
+    if(
+      local!noParentExist,
+      True,
+      if(
+        ri!formData_cdt.componentList[ri!componentIndex].parentCondition = #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
+        (
+          local!numberOfParentsAllowDisplay &gt; 0
+        ),
+        (
+          local!numberOfParentsAllowDisplay = local!numberOfParents
+        )
+      )
+    )
+  ),
+  local!shouldDisplay
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

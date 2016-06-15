@@ -1,0 +1,1045 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_returnUIComponent</name>
+        <uuid>20f5e2e6-421d-42ca-9fc1-510228e2a309</uuid>
+        <description>Return SAIL component corresponding to configuration setup</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= with(&#xD;
+  local!shouldDisplayComponent: #&quot;b3025dc8-44f1-4df8-a0d1-86bd5133b565&quot;(&#xD;
+    formData_cdt: ri!formData_cdt,&#xD;
+    componentIndex: ri!componentIndex&#xD;
+  ),&#xD;
+  local!component_cdt: ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+  local!optionList: local!component_cdt.optionList,&#xD;
+  local!valueList: local!component_cdt.valueList,&#xD;
+  /*local!previousValueList: local!component_cdt.previousValueList,*/&#xD;
+  local!valueListToBeUsed:local!valueList,&#xD;
+  /*if(*/&#xD;
+  /*  or(*/&#xD;
+  /*    fn!isnull(*/&#xD;
+  /*      local!valueList*/&#xD;
+  /*    ),*/&#xD;
+  /*    length(*/&#xD;
+  /*      local!valueList*/&#xD;
+  /*    ) = 0*/&#xD;
+  /*  ),*/&#xD;
+  /*  local!previousValueList,*/&#xD;
+  /*  local!valueList*/&#xD;
+  /*),*/&#xD;
+  local!componentLabel: trim(&#xD;
+    #&quot;_a-0000da6b-fe77-8000-6ee0-010000010000_1185&quot;(&#xD;
+      component_cdt: local!component_cdt&#xD;
+    )&#xD;
+  ),&#xD;
+  local!labelPositon: fn!index(&#xD;
+    local!component_cdt,&#xD;
+    &quot;labelPositon&quot;,&#xD;
+    &quot;ABOVE&quot;&#xD;
+  ),&#xD;
+  local!buttonStyle: fn!index(&#xD;
+    local!component_cdt,&#xD;
+    &quot;labelPositon&quot;,&#xD;
+    &quot;NORMAL&quot;&#xD;
+  ),&#xD;
+  &#xD;
+  local!isReadOnly: if(isnull(ri!readOnly), fn!index(&#xD;
+    local!component_cdt,&#xD;
+    &quot;isReadOnly&quot;,&#xD;
+    false()&#xD;
+  ), ri!readOnly),&#xD;
+  local!instructions: fn!index(&#xD;
+    local!component_cdt,&#xD;
+    &quot;instruction&quot;,&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!required: fn!not(&#xD;
+    fn!isnull(&#xD;
+      local!component_cdt.isRequired&#xD;
+    )&#xD;
+  ),&#xD;
+  local!choiceLabels: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_923&quot;(&#xD;
+    inputArray: fn!index(&#xD;
+      local!optionList,&#xD;
+      &quot;optionTxt&quot;,&#xD;
+      {}&#xD;
+    ),&#xD;
+    asendingFlag: true()&#xD;
+  ),&#xD;
+  local!choiceValues: local!choiceLabels,&#xD;
+  local!value: fn!index(&#xD;
+    local!valueListToBeUsed,&#xD;
+    &quot;valueTxt&quot;,&#xD;
+    null&#xD;
+  ),&#xD;
+  local!milestoneResonse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_milestoneField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      steps: fn!index(&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+        &quot;optionList&quot;,&#xD;
+        &quot;optionTxt&quot;,&#xD;
+        {}&#xD;
+      ),&#xD;
+      active: wherecontains(&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+        fn!index(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+          &quot;optionList&quot;,&#xD;
+          &quot;optionTxt&quot;,&#xD;
+          {}&#xD;
+        )&#xD;
+      )&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!fileUploadResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71703&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_fileUploadField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      saveInto: {},&#xD;
+      validations: {}&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!userPickerResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_pickerFieldUsers&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      required: local!required,&#xD;
+      maxSelections: 1,&#xD;
+      value: local!value,&#xD;
+      disabled: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].valueList,&#xD;
+          /*save!value*/&#xD;
+          {&#xD;
+            #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(&#xD;
+              valueTxt: save!value&#xD;
+            )&#xD;
+          }&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!documentPickerResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      required: local!required,&#xD;
+      value: if(&#xD;
+        isnull(&#xD;
+          local!value&#xD;
+        ),&#xD;
+        local!value,&#xD;
+        fn!split(&#xD;
+          local!value,&#xD;
+          &quot;;&quot;&#xD;
+        )&#xD;
+      ),&#xD;
+      disabled: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          save!value&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!checkBoxResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_checkboxField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      choiceLabels: local!choiceLabels,&#xD;
+      choiceValues: local!choiceValues,&#xD;
+      value: if(&#xD;
+        and(fn!contains(&#xD;
+          fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;optionList&quot;,&#xD;
+            &quot;optionTxt&quot;,&#xD;
+            &quot;&quot;&#xD;
+          ),&#xD;
+          local!value&#xD;
+        )/*, length(local!value)&gt;0 */),&#xD;
+        local!value,&#xD;
+        &quot;&quot;&#xD;
+      ),&#xD;
+      disabled: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].valueList,&#xD;
+          if(&#xD;
+            or(&#xD;
+              fn!isnull(&#xD;
+                save!value&#xD;
+              ),&#xD;
+              length(&#xD;
+                save!value&#xD;
+              ) = 0&#xD;
+            ),&#xD;
+            {},&#xD;
+            {&#xD;
+              fn!apply(&#xD;
+                #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(&#xD;
+                  valueTxt: _&#xD;
+                ),&#xD;
+                save!value&#xD;
+              )&#xD;
+            }&#xD;
+          )&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!radioBtnResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_radioButtonField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      choiceLabels: local!choiceLabels,&#xD;
+      choiceValues: local!choiceValues,&#xD;
+      value: if(&#xD;
+        fn!contains(&#xD;
+          fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;optionList&quot;,&#xD;
+            &quot;optionTxt&quot;,&#xD;
+            &quot;&quot;&#xD;
+          ),&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue&#xD;
+        ),&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+        &quot;&quot;&#xD;
+      ),&#xD;
+      disabled: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          save!value&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!dropDownResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      choiceLabels: local!choiceLabels,&#xD;
+      choiceValues: local!choiceValues,&#xD;
+      value: if(&#xD;
+        fn!contains(&#xD;
+          fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;optionList&quot;,&#xD;
+            &quot;optionTxt&quot;,&#xD;
+            &quot;&quot;&#xD;
+          ),&#xD;
+          fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;defaultValue&quot;,&#xD;
+            null&#xD;
+          )&#xD;
+        ),&#xD;
+        fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;defaultValue&quot;,&#xD;
+            null&#xD;
+        ),&#xD;
+        &quot;&quot;&#xD;
+      ),&#xD;
+      /*value:ri!formData_cdt.componentList[ri!componentIndex].defaultValue,*/&#xD;
+      disabled: local!isReadOnly,&#xD;
+      placeholderLabel: &quot;-None-&quot;,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          save!value&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!multipleDropdownResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_multipleDropdownField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      choiceLabels: local!choiceLabels,&#xD;
+      choiceValues: local!choiceValues,&#xD;
+      value: if(&#xD;
+        fn!contains(&#xD;
+          fn!index(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex],&#xD;
+            &quot;optionList&quot;,&#xD;
+            &quot;optionTxt&quot;,&#xD;
+            &quot;&quot;&#xD;
+          ),&#xD;
+          local!value&#xD;
+        ),&#xD;
+        local!value,&#xD;
+        &quot;&quot;&#xD;
+      ),&#xD;
+      disabled: local!isReadOnly,&#xD;
+      placeholderLabel: &quot;-None-&quot;,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].valueList,&#xD;
+          if(&#xD;
+            or(&#xD;
+              fn!isnull(&#xD;
+                save!value&#xD;
+              ),&#xD;
+              length(&#xD;
+                save!value&#xD;
+              ) = 0&#xD;
+            ),&#xD;
+            {},&#xD;
+            {&#xD;
+              fn!apply(&#xD;
+                #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(&#xD;
+                  valueTxt: _&#xD;
+                ),&#xD;
+                save!value&#xD;
+              )&#xD;
+            }&#xD;
+          )&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!textBoxResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          trim(save!value)&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!richTextBoxResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_richTextDisplayField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value:#&quot;SYSTEM_SYSRULES_richTextItem&quot;(&#xD;
+        text: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+        style: &quot;EMPHASIS&quot;&#xD;
+      ),&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          trim(save!value)&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!paragraphResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1142&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_paragraphField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+           #&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(save!value)&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!integerResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1141&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_integerField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value:ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          trim(save!value)&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!decimalResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1140&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_floatingPointField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+trim(save!value)&#xD;
+/*{*/&#xD;
+/*            rule!PFS_createNewCfgComponentValue(*/&#xD;
+/*              valueTxt: save!value*/&#xD;
+/*            )*/&#xD;
+/*          }*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!dateResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_dateField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+save!value&#xD;
+/*{*/&#xD;
+/*            rule!PFS_createNewCfgComponentValue(*/&#xD;
+/*              valueTxt: save!value*/&#xD;
+/*            )*/&#xD;
+/*          }*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!dateTimeResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          save!value&#xD;
+          /*{*/&#xD;
+          /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+          /*    valueTxt: save!value*/&#xD;
+          /*  )*/&#xD;
+          /*}*/&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!buttonLayoutResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,&#xD;
+      not(&#xD;
+        #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(&#xD;
+          inputObj: ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId&#xD;
+        )&#xD;
+      )&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(&#xD;
+      primaryButtons: {&#xD;
+        if(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].columnIndex = &quot;2&quot;,&#xD;
+          #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+            label: local!componentLabel,&#xD;
+            style: local!buttonStyle,&#xD;
+            value: ri!formData_cdt.componentList[ri!componentIndex].name,&#xD;
+            saveInto: {&#xD;
+              a!save(&#xD;
+                ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+                save!value&#xD;
+                /*{*/&#xD;
+                /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+                /*    valueTxt: save!value*/&#xD;
+                /*  )*/&#xD;
+                /*}*/&#xD;
+              )&#xD;
+              /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+              /*  formData_cdt: ri!formData_cdt,*/&#xD;
+              /*  componentIndex: ri!componentIndex*/&#xD;
+              /*)*/&#xD;
+            }&#xD;
+          ),&#xD;
+          {}&#xD;
+        )&#xD;
+      },&#xD;
+      secondaryButtons: {&#xD;
+        if(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].columnIndex = &quot;1&quot;,&#xD;
+          #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+            label: local!componentLabel,&#xD;
+            style: local!buttonStyle,&#xD;
+            value: ri!formData_cdt.componentList[ri!componentIndex].name,&#xD;
+            saveInto: {&#xD;
+              a!save(&#xD;
+                ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+                save!value&#xD;
+                /*{*/&#xD;
+                /*  rule!PFS_createNewCfgComponentValue(*/&#xD;
+                /*    valueTxt: save!value*/&#xD;
+                /*  )*/&#xD;
+                /*}*/&#xD;
+              )&#xD;
+              /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+              /*  formData_cdt: ri!formData_cdt,*/&#xD;
+              /*  componentIndex: ri!componentIndex*/&#xD;
+              /*)*/&#xD;
+            }&#xD;
+          ),&#xD;
+          {}&#xD;
+        )&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!timeResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1143&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_timeDisplayField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      instructions: local!instructions,&#xD;
+      required: local!required,&#xD;
+      value: if(&#xD;
+        isnull(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue&#xD;
+        ),&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+        time(&#xD;
+          split(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+            &quot;:&quot;&#xD;
+          )[1],&#xD;
+          split(&#xD;
+            ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+            &quot;:&quot;&#xD;
+          )[2]&#xD;
+        )&#xD;
+      ),&#xD;
+      readOnly: local!isReadOnly,&#xD;
+      saveInto: {&#xD;
+        a!save(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue,&#xD;
+          /*save!value*/&#xD;
+          {&#xD;
+            #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(&#xD;
+              valueTxt: save!value&#xD;
+            )&#xD;
+          }&#xD;
+        )&#xD;
+        /*rule!PFS_SAILUI_resetComponentValueListForAll(*/&#xD;
+        /*  formData_cdt: ri!formData_cdt,*/&#xD;
+        /*  componentIndex: ri!componentIndex*/&#xD;
+        /*)*/&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  local!ImageFieldResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000daa9-76cf-8000-927a-010000010000_57789&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      labelPosition: local!labelPositon,&#xD;
+      images: apply(&#xD;
+        #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58490&quot;,&#xD;
+        {&#xD;
+          local!choiceLabels&#xD;
+        }&#xD;
+      ),&#xD;
+      size: if(&#xD;
+        #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(&#xD;
+          ri!formData_cdt.componentList[ri!componentIndex].defaultValue&#xD;
+        ),&#xD;
+        &quot;THUMBNAIL&quot;,&#xD;
+        ri!formData_cdt.componentList[ri!componentIndex].defaultValue&#xD;
+      )&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  /* for some unknown reason, section response is not working, so this variable is not used*/&#xD;
+  local!componentListForSection: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;&#xD;
+    ),&#xD;
+    fn!filter(&#xD;
+      #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1431&quot;(&#xD;
+        component_cdt: _,&#xD;
+        sectionComponentId: local!component_cdt.id&#xD;
+      ),&#xD;
+      ri!formData_cdt.componentList&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!firstColumnComponentListForSection: fn!filter(&#xD;
+    #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1432&quot;(&#xD;
+      component_cdt: _,&#xD;
+      columnIndex: 1&#xD;
+    ),&#xD;
+    local!componentListForSection&#xD;
+  ),&#xD;
+  local!firstColumnComponentIndexListForSection: if(&#xD;
+    or(&#xD;
+      fn!isnull(&#xD;
+        local!firstColumnComponentListForSection&#xD;
+      ),&#xD;
+      length(&#xD;
+        local!firstColumnComponentListForSection&#xD;
+      ) = 0,&#xD;
+      fn!isnull(&#xD;
+        ri!formData_cdt.componentList&#xD;
+      )&#xD;
+    ),&#xD;
+    {},&#xD;
+    fn!wherecontains(&#xD;
+      local!firstColumnComponentListForSection.id,&#xD;
+      ri!formData_cdt.componentList.id&#xD;
+    )&#xD;
+  ),&#xD;
+  local!secondColumnComponentListForSection: fn!filter(&#xD;
+    #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1432&quot;(&#xD;
+      component_cdt: _,&#xD;
+      columnIndex: 2&#xD;
+    ),&#xD;
+    local!componentListForSection&#xD;
+  ),&#xD;
+  local!secondColumnComponentIndexListForSection: if(&#xD;
+    or(&#xD;
+      fn!isnull(&#xD;
+        local!secondColumnComponentListForSection&#xD;
+      ),&#xD;
+      length(&#xD;
+        local!secondColumnComponentListForSection&#xD;
+      ) = 0,&#xD;
+      fn!isnull(&#xD;
+        ri!formData_cdt.componentList&#xD;
+      )&#xD;
+    ),&#xD;
+    {},&#xD;
+    fn!wherecontains(&#xD;
+      local!secondColumnComponentListForSection.id,&#xD;
+      ri!formData_cdt.componentList.id&#xD;
+    )&#xD;
+  ),&#xD;
+  /* for some unknown reason, section response is not working, so this variable is not used*/&#xD;
+  local!sectionResponse: if(&#xD;
+    and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(&#xD;
+      label: local!componentLabel,&#xD;
+      firstColumnContents: {&#xD;
+        #&quot;SYSTEM_SYSRULES_applyComponents&quot;(&#xD;
+          function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(&#xD;
+            componentIndex: _,&#xD;
+            formData_cdt: ri!formData_cdt,&#xD;
+            readOnly: ri!readOnly,&#xD;
+            fileUploadDocList: ri!fileUploadDocList&#xD;
+          ),&#xD;
+          array: local!firstColumnComponentIndexListForSection&#xD;
+        )&#xD;
+      },&#xD;
+      secondColumnContents: {&#xD;
+        #&quot;SYSTEM_SYSRULES_applyComponents&quot;(&#xD;
+          function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(&#xD;
+            componentIndex: _,&#xD;
+            formData_cdt: ri!formData_cdt,&#xD;
+            readOnly: ri!readOnly,&#xD;
+            fileUploadDocList: ri!fileUploadDocList&#xD;
+          ),&#xD;
+          array: local!secondColumnComponentIndexListForSection&#xD;
+        )&#xD;
+      }&#xD;
+    ),&#xD;
+    null&#xD;
+  ),&#xD;
+  /* for some unknown reason, grid response is not working, so this variable is not used*/&#xD;
+  local!componentListForGrid: if(&#xD;
+    fn!and(&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;&#xD;
+    ),&#xD;
+    fn!filter(&#xD;
+      #&quot;_a-0000dad3-098b-8000-927a-010000010000_71860&quot;(&#xD;
+        component_cdt: _,&#xD;
+        gridComponentId: ri!formData_cdt.componentList[ri!componentIndex].id&#xD;
+      ),&#xD;
+      ri!formData_cdt.componentList&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!sortedGridComponentList: if(&#xD;
+    fn!and(&#xD;
+      fn!length(&#xD;
+        local!componentListForGrid&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent&#xD;
+    ),&#xD;
+    #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(&#xD;
+      componentList: local!componentListForGrid&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!gridComponentIndexList: if(&#xD;
+    fn!and(&#xD;
+      fn!length(&#xD;
+        local!sortedGridComponentList&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent&#xD;
+    ),&#xD;
+    fn!wherecontains(&#xD;
+      local!sortedGridComponentList.id,&#xD;
+      ri!formData_cdt.componentList.id&#xD;
+    ),&#xD;
+    {}&#xD;
+  ),&#xD;
+  local!editableGridResponse: if(&#xD;
+    and(&#xD;
+      fn!length(&#xD;
+        local!sortedGridComponentList&#xD;
+      ) &gt; 0,&#xD;
+      local!shouldDisplayComponent,&#xD;
+      local!component_cdt.responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;&#xD;
+    ),&#xD;
+    null/*a!gridLayout(&#xD;
+      label: local!componentLabel,&#xD;
+      instructions: local!instructions,&#xD;
+      headerCells: a!applyComponents(&#xD;
+        function: rule!PFS_SAILUI_returnHeaderCellForGrid(&#xD;
+          label: _&#xD;
+        ),&#xD;
+        array: local!sortedGridComponentList.label&#xD;
+      ),&#xD;
+      rows: a!applyComponents(&#xD;
+        function: rule!PFS_SAILUI_returnGridRow(&#xD;
+          rowIndex: _,&#xD;
+          gridComponentIndexList: local!gridComponentIndexList,&#xD;
+          formData_cdt: ri!formData_cdt&#xD;
+        ),&#xD;
+        array: 1 + enumerate(&#xD;
+          1&#xD;
+        )&#xD;
+      )&#xD;
+    )*/,&#xD;
+    null&#xD;
+  ),&#xD;
+  local!returnSAILComponent: fn!reject(&#xD;
+    fn!isnull,&#xD;
+    {&#xD;
+      local!checkBoxResponse,&#xD;
+      local!dropDownResponse,&#xD;
+      local!multipleDropdownResponse,&#xD;
+      local!radioBtnResponse,&#xD;
+      local!textBoxResponse,&#xD;
+      local!paragraphResponse,&#xD;
+      local!integerResponse,&#xD;
+      local!decimalResponse,&#xD;
+      local!dateResponse,&#xD;
+      local!dateTimeResponse,&#xD;
+      local!timeResponse,&#xD;
+      local!buttonLayoutResponse,&#xD;
+      local!ImageFieldResponse,&#xD;
+      local!richTextBoxResponse,&#xD;
+      local!userPickerResponse,&#xD;
+      local!documentPickerResponse,&#xD;
+      local!fileUploadResponse,&#xD;
+      local!milestoneResonse&#xD;
+    }&#xD;
+  ),&#xD;
+  if(&#xD;
+    length(&#xD;
+      local!returnSAILComponent&#xD;
+    ) = 0,&#xD;
+    /*a!textField(*/&#xD;
+    /*  readOnly: true*/&#xD;
+    /*),*/&#xD;
+    {},&#xD;
+    local!returnSAILComponent[1]&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fileUploadDocList</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationDocument"/>
+                    <a:nameRef>fileUploadDocList</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

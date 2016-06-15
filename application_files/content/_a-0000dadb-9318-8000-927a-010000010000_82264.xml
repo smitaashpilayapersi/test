@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_isDefaultValueNeeded</name>
+        <uuid>_a-0000dadb-9318-8000-927a-010000010000_82264</uuid>
+        <description>rule that returns true if the default value is needed for the component selected. </description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1491</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= or(
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1140&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+  responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;,
+  responseType = #&quot;_a-0000daa9-76cf-8000-927a-010000010000_57789&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1141&quot;,
+  responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1142&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;,
+  responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;,
+  responseType = #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;,
+  responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1143&quot;
+)</definition>
+        <namedTypedValue>
+            <name>responseType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

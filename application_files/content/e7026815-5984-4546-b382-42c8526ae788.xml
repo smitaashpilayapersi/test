@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ApplicationInstanceVolumeReport</name>
+        <uuid>e7026815-5984-4546-b382-42c8526ae788</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!startDate: today()-7,
+  with(
+    local!DateSeries: if(isnull(local!startDate),
+    null(),
+    #&quot;bcea8918-34af-4e88-bff8-1620e5ec2e1d&quot;(
+      local!startDate
+    )
+    ),
+    local!TempAppData: if(isnull(local!DateSeries),
+    null(),
+    #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+      function: #&quot;c739dfcc-c4c7-4a0a-a46f-b7efb5e07b7f&quot;(
+        _
+      ),
+      array: local!DateSeries
+    )
+    ),
+    local!AppData: if(isnull(local!TempAppData),
+    {},
+    reject(fn!isnull,reduce(fn!append,{},(local!TempAppData)))
+    ),
+    {
+      #&quot;SYSTEM_SYSRULES_dateField&quot;(
+        label: &quot;Choose a Start Date&quot;,
+        instructions:  &quot;Please select a date before &quot; &amp; today(),
+        value: local!startDate,
+        required: true(),
+        saveInto: 
+        {
+          a!save(
+            local!startDate,
+            if(
+             save!value &gt; today(), local!startDate, save!value
+            )
+          )
+        },
+        validations: {
+          if(
+            local!startDate &gt; today(),
+            &quot;Please select a date before &quot; &amp; today(),
+            {}
+          )
+        }
+      ),
+      if(isnull(local!DateSeries),
+      {},
+      #&quot;SYSTEM_SYSRULES_columnChartField&quot;(
+        
+        categories: text(
+          local!DateSeries,
+          &quot;dddd (mm/dd/yyyy)&quot;
+        ),
+        stacking : &quot;NORMAL&quot;,
+        series: if(
+          and(not(isnull(local!startDate)),length(local!AppData)&gt;0),
+        with(
+          local!arrintAppId : union(
+            local!AppData.AppId,
+            local!AppData.AppId
+          ),
+          local!Appdetails : #&quot;3601113e-27f3-42a1-9701-d8fa99eadbf9&quot;(local!arrintAppId).data,
+          #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+          #&quot;091b6db0-a57d-4ced-8495-47db1b44e627&quot;(
+            local!AppData,
+            local!DateSeries,
+            _,
+            _
+          ),
+          merge(
+             local!Appdetails.Id,
+              local!Appdetails.Name
+          )
+        )),{}
+        )
+      )
+      )
+    }
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

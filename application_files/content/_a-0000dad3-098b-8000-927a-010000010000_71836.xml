@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_configureComponentGrid</name>
+        <uuid>_a-0000dad3-098b-8000-927a-010000010000_71836</uuid>
+        <description>configure grid to which the component should belong to</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!component: fn!index(
+    ri!formData_cdt.componentList,
+    ri!componentIndex,
+    {}
+  ),
+  local!componentId: local!component.id,
+  local!gridList: fn!index(
+    ri!formData_cdt.componentList,
+    fn!wherecontains(
+      #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;,
+      ri!formData_cdt.componentList.responseType
+    ),
+    {}
+  ),
+  /* when the grid is created newly, there will not be any value yet */local!gridNameListWithEmptyValueRemoved: fn!reject(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+      inputObj: _
+    ),
+    fn!index(
+      local!gridList,
+      &quot;name&quot;,
+      {}
+    )
+  ),
+  /* sort name list */local!gridNameListSorted: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_923&quot;(
+    inputArray: local!gridNameListWithEmptyValueRemoved,
+    asendingFlag: true
+  ),
+  /* sometimes there will be duplicate values, though these duplicates are flagged as validation errors, a drop-down field can not have duplicates, so remove duplicates */local!gridNameListFinal: if(
+    or(
+      fn!isnull(
+        local!gridNameListSorted
+      ),
+      length(
+        local!gridNameListSorted
+      ) = 0
+    ),
+    {},
+    fn!union(
+      local!gridNameListSorted,
+      local!gridNameListSorted
+    )
+  ),
+  local!gridIdListFinal: if(
+    or(
+      fn!isnull(
+        local!gridList
+      ),
+      length(
+        local!gridList
+      ) = 0,
+      fn!isnull(
+        local!gridNameListFinal
+      ),
+      length(
+        local!gridNameListFinal
+      ) = 0
+    ),
+    {},
+    fn!index(
+      local!gridList.id,
+      apply(
+        #&quot;_a-0000daa3-857f-8000-927a-010000010000_57221&quot;(
+          _,
+          local!gridNameListWithEmptyValueRemoved
+        ),
+        local!gridNameListFinal
+      )
+    )
+  ),
+  if(
+    or(
+      fn!isnull(
+        local!gridIdListFinal
+      ),
+      length(
+        local!gridIdListFinal
+      ) = 0
+    ),
+    {},
+    {
+      #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+        label: &quot;grid the component belongs to &quot; &amp; fn!left(
+          local!componentId,
+          0
+        ),
+        /*not working if fn!left * is removed, just quick fix need to work on later*/required: false,
+        value: ri!formData_cdt.componentList[ri!componentIndex].gridComponentId,
+        placeholderLabel: &quot;-None-&quot;,
+        choiceLabels: local!gridNameListFinal,
+        choiceValues: local!gridIdListFinal,
+        saveInto: {
+          ri!formData_cdt.componentList[ri!componentIndex].gridComponentId,
+          /* a component can be part of either a section or a grid, not both */a!save(
+            ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId,
+            null
+          ),
+          a!save(
+            ri!formData_cdt.componentList,
+            #&quot;_a-0000da6e-b7d1-8000-6ee0-010000010000_1297&quot;(
+              componentList: ri!formData_cdt.componentList
+            )
+          ),
+          a!save(
+            ri!componentIndex,
+            #&quot;_a-0000dadb-9318-8000-927a-010000010000_86621&quot;(
+              componentId: local!componentId,
+              componentList: ri!formData_cdt.componentList
+            )
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

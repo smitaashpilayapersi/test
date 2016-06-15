@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateFrmVersionCmpntCdtForNewVersion</name>
+        <uuid>dda44019-f4e4-4a81-a972-0b16ec792741</uuid>
+        <description>This rule is used to create new cdt of type AB_FrmVersionAndCmpntDesign, when ever a new form version is created</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(&#xD;
+local!FrmComponentCDT: index(ri!cdtFrmVersionCmpntDesign, &quot;componentList&quot;, {}),&#xD;
+cast(&#xD;
+'type!{urn:com:psi:types:AB}AB_FrmVersionAndCmpntDesign',&#xD;
+{&#xD;
+  Id: 0,&#xD;
+  FrmId: ri!cdtFrmVersionCmpntDesign.FrmId,&#xD;
+  Name: ri!cdtFrmVersionCmpntDesign.Name,&#xD;
+  Label: ri!cdtFrmVersionCmpntDesign.Label,&#xD;
+  Description: ri!cdtFrmVersionCmpntDesign.Description,&#xD;
+  Instruction: ri!cdtFrmVersionCmpntDesign.Instruction,&#xD;
+  Version:  ri!cdtFrmVersionCmpntDesign.Version + 1,&#xD;
+  DisplayPreviousForm: ri!cdtFrmVersionCmpntDesign.DisplayPreviousForm,&#xD;
+  componentList : apply( #&quot;2870ac34-c616-4578-a41b-8a737e74a54f&quot;(_),local!FrmComponentCDT)&#xD;
+ }&#xD;
+)&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>cdtFrmVersionCmpntDesign</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

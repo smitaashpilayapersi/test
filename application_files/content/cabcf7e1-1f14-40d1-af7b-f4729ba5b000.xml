@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateTaskAssignmentGridRow</name>
+        <uuid>cabcf7e1-1f14-40d1-af7b-f4729ba5b000</uuid>
+        <description>This rule will create a row for task assignment editable grid</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!assignee:ri!arrgrpAssigneeGroup[ri!intIndex],
+   with(
+     #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+        id: ri!intIndex,
+        contents: {
+          #&quot;SYSTEM_SYSRULES_textField&quot;(
+            readOnly:true(),
+            value: ri!arrFormName[ri!intIndex]
+          ),
+          #&quot;SYSTEM_SYSRULES_textField&quot;(
+            readOnly:true(),
+            value: ri!arrFormDescription[ri!intIndex]
+          ),
+          #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
+            value: local!assignee,
+            maxSelections:1,
+            validations: if( and(isnull(ri!arrusrFormAssignee[ri!intIndex]), isnull(ri!arrgrpAssigneeGroup[ri!intIndex])), &quot;Provide assignee name or group&quot;,&quot;&quot;),
+            saveInto: {
+              local!assignee,
+              if(
+                count(group(local!assignee,&quot;id&quot;))=0,
+                {
+                
+              a!save(ri!arrusrFormAssignee[ri!intIndex],save!value),
+              a!save(
+                ri!arrgrpAssigneeGroup[ri!intIndex],
+                null
+              )
+                },
+                {
+                  a!save(ri!arrusrFormAssignee[ri!intIndex],null),
+              a!save(
+                ri!arrgrpAssigneeGroup[ri!intIndex],
+                save!value
+              )
+                }
+              )
+            }
+          ),
+          /*a!pickerFieldGroups(*/
+          /*  value: ri!arrgrpAssigneeGroup[ri!intIndex],*/
+          /*  validations: if( and(isnull(ri!arrusrFormAssignee[ri!intIndex]), isnull(ri!arrgrpAssigneeGroup[ri!intIndex])), &quot;Provide assignee name or group&quot;,&quot;&quot;),*/
+          /*  saveInto: */
+          /*  {*/
+          /*    ri!arrgrpAssigneeGroup[ri!intIndex],*/
+          /*    a!save(*/
+          /*      ri!arrusrFormAssignee[ri!intIndex],*/
+          /*      null*/
+          /*    )*/
+          /*  }*/
+            
+          /*),*/
+          #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
+            label: &quot;Form Deadline&quot;,
+            validations: if(
+              and(not(isnull(ri!arrdttimDeadLine[ri!intIndex])),ri!arrdttimDeadLine[ri!intIndex] &lt;= now()),
+              &quot;Deadline must be a future date&quot;,
+              &quot;&quot;
+            ),
+            value: ri!arrdttimDeadLine[ri!intIndex],
+            saveInto: ri!arrdttimDeadLine[ri!intIndex]
+          )
+        }
+ )
+ )
+ )</definition>
+        <namedTypedValue>
+            <name>intIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrFormName</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrFormDescription</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrusrFormAssignee</name>
+            <type>
+                <name>User?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrgrpAssigneeGroup</name>
+            <type>
+                <name>Group?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrdttimDeadLine</name>
+            <type>
+                <name>Datetime?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

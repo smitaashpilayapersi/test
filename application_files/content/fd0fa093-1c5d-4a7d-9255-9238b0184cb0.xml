@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_configureComponentSection</name>
+        <uuid>fd0fa093-1c5d-4a7d-9255-9238b0184cb0</uuid>
+        <description>dropdown to select which section the component belongs to</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!component: fn!index(
+    ri!formData_cdt.componentList,
+    ri!componentIndex,
+    {}
+  ),
+  local!componentId: local!component.id,
+  local!sectionList: fn!index(
+    ri!formData_cdt.componentList,
+    fn!wherecontains(
+      #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+      ri!formData_cdt.componentList.responseType
+    ),
+    {}
+  ),
+  /* when the section is created newly, there will not be any value yet */
+  local!sectionNameListWithEmptyValueRemoved: fn!reject(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+      inputObj: _
+    ),
+    fn!index(
+      local!sectionList,
+      &quot;name&quot;,
+      {}
+    )
+  ),
+  /* sort name list */
+  local!sectionNameListSorted: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_923&quot;(
+    inputArray: local!sectionNameListWithEmptyValueRemoved,
+    asendingFlag: true
+  ),
+  /* sometimes there will be duplicate values, though these duplicates are flagged as validation errors, a drop-down field can not have duplicates, so remove duplicates */
+  local!sectionNameListFinal: if(
+    or(
+      fn!isnull(
+        local!sectionNameListSorted
+      ),
+      length(
+        local!sectionNameListSorted
+      ) = 0
+    ),
+    {},
+    fn!union(
+      local!sectionNameListSorted,
+      local!sectionNameListSorted
+    )
+  ),
+  local!sectionIdListFinal: if(
+    or(
+      fn!isnull(
+        local!sectionList
+      ),
+      length(
+        local!sectionList
+      ) = 0,
+      fn!isnull(
+        local!sectionNameListFinal
+      ),
+      length(
+        local!sectionNameListFinal
+      ) = 0
+    ),
+    {},
+    fn!index(
+      local!sectionList.Id,
+      apply(
+        #&quot;_a-0000daa3-857f-8000-927a-010000010000_57221&quot;(
+          _,
+          local!sectionNameListWithEmptyValueRemoved
+        ),
+        local!sectionNameListFinal
+      )
+    )
+  ),
+  if(
+    or(
+      fn!isnull(
+        local!sectionIdListFinal
+      ),
+      length(
+        local!sectionIdListFinal
+      ) = 0
+    ),
+    {},
+    /*a!textField(*/
+    /*  label:local!sectionList&amp;&quot;*****&quot;&amp;local!sectionNameListFinal&amp;&quot;********&quot;&amp;local!sectionIdListFinal,*/
+    /*  instructions:apply(*/
+    /*    rule!PFS_UTILgetIndex(*/
+    /*      _,*/
+    /*      local!sectionNameListWithEmptyValueRemoved*/
+    /*    ),*/
+    /*    local!sectionNameListFinal*/
+    /*  ),value:sectionNameListWithEmptyValueRemoved&amp;&quot;  &quot;&amp;local!sectionNameListSorted&amp;&quot;***&quot;&amp;local!sectionList.name*/
+    /*),*/
+    {
+      #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+        label: &quot;Section the component belongs to &quot; /*&amp; fn!left(
+          local!componentId,
+          0
+        )*/,
+        /*not working if fn!left * is removed, just quick fix need to work on later*/required: false,
+        value: ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId,
+        placeholderLabel: &quot;-None-&quot;,
+        choiceLabels: local!sectionNameListFinal,
+        choiceValues: local!sectionIdListFinal,
+        saveInto: {
+          ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId,
+          /* a component can be part of either a section or a grid, not both */a!save(
+            ri!formData_cdt.componentList[ri!componentIndex].gridComponentId,
+            null
+          )
+          /*a!save(*/
+          /*  ri!formData_cdt.componentList,*/
+          /*  rule!PFS_UTIL_sortComponentListBySeqIndex(*/
+          /*    componentList: ri!formData_cdt.componentList*/
+          /*  )*/
+          /*)*/
+          /*a!save(*/
+          /*  ri!componentIndex,*/
+          /*  rule!PFS_UTIL_getIndexOfComponent(*/
+          /*    local!componentId,*/
+          /*    ri!formData_cdt.componentList*/
+          /*  )*/
+          /*)*/
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_returnSectionComponent</name>
+        <uuid>aba0695e-9e89-4020-ab88-19614c147a5c</uuid>
+        <description>return section component</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!shouldDisplayComponent:  #&quot;b3025dc8-44f1-4df8-a0d1-86bd5133b565&quot;(
+      formData_cdt: ri!formData_cdt,
+      componentIndex: ri!componentIndex
+    ) /*if(
+    ri!componentIndex = 0,
+    False,
+    rule!AB_shouldDisplayComponent(
+      formData_cdt: ri!formData_cdt,
+      componentIndex: ri!componentIndex
+    )
+  )*/,
+  local!componentLabel: if(
+    local!shouldDisplayComponent,
+    #&quot;_a-0000da6b-fe77-8000-6ee0-010000010000_1185&quot;(
+      component_cdt: ri!formData_cdt.componentList[ri!componentIndex]
+    ),
+    {}
+  ),
+  local!componentListForSection: if(
+    local!shouldDisplayComponent,
+    fn!filter(
+      #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1431&quot;(
+        component_cdt: _,
+        sectionComponentId: ri!formData_cdt.componentList[ri!componentIndex].id
+      ),
+      ri!formData_cdt.componentList
+    ),
+    {}
+  ),
+  local!firstColumnComponentListForSection: #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(
+    fn!filter(
+      #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1432&quot;(
+        component_cdt: _,
+        columnIndex: 1
+      ),
+      local!componentListForSection
+    )
+  ),
+  local!firstColumnComponentIndexListForSection: if(
+    or(
+      fn!isnull(
+        local!firstColumnComponentListForSection
+      ),
+      length(
+        local!firstColumnComponentListForSection
+      ) = 0,
+      fn!isnull(
+        ri!formData_cdt.componentList
+      )
+    ),
+    {},
+    fn!apply(
+      fn!wherecontains(
+        _,
+        ri!formData_cdt.componentList.id
+      ),
+      local!firstColumnComponentListForSection.id
+    )
+  ),
+  local!firstColumnComponentIndexListThatWillBeDisplayedForSection: fn!filter(
+    #&quot;b3025dc8-44f1-4df8-a0d1-86bd5133b565&quot;(
+      formData_cdt: ri!formData_cdt,
+      componentIndex: _
+    ),
+    local!firstColumnComponentIndexListForSection
+  ),
+  local!secondColumnComponentListForSection: #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(
+    fn!filter(
+      #&quot;_a-0000da76-7afb-8000-6ee0-010000010000_1432&quot;(
+        component_cdt: _,
+        columnIndex: 2
+      ),
+      local!componentListForSection
+    )
+  ),
+  local!secondColumnComponentIndexListForSection: if(
+    or(
+      fn!isnull(
+        local!secondColumnComponentListForSection
+      ),
+      length(
+        local!secondColumnComponentListForSection
+      ) = 0,
+      fn!isnull(
+        ri!formData_cdt.componentList
+      )
+    ),
+    {},
+    apply(
+      fn!wherecontains(
+        _,
+        ri!formData_cdt.componentList.id
+      ),
+      local!secondColumnComponentListForSection.id
+    )
+  ),
+  local!secondColumnComponentIndexListThatWillBeDisplayedForSection: fn!filter(
+    #&quot;b3025dc8-44f1-4df8-a0d1-86bd5133b565&quot;(
+      formData_cdt: ri!formData_cdt,
+      componentIndex: _
+    ),
+    local!secondColumnComponentIndexListForSection
+  ),
+  local!firstColumnContents: if(
+    or(
+      fn!isnull(
+        local!firstColumnComponentIndexListThatWillBeDisplayedForSection
+      ),
+      length(
+        local!firstColumnComponentIndexListThatWillBeDisplayedForSection
+      ) = 0
+    ),
+    {},
+    {
+      #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+        function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(
+          componentIndex: _,
+          formData_cdt: ri!formData_cdt,
+          readOnly: ri!readOnly
+        ),
+        array: fn!append(
+          {
+            ri!componentIndex/*section will not return a component anyway*/
+          },
+          local!firstColumnComponentIndexListThatWillBeDisplayedForSection
+        )/* for some unknown reason, if first index is not appended, getting a scripting error - classCastException */
+      )
+    }
+  ),
+  local!secondColumnContents: if(
+    or(
+      fn!isnull(
+        local!secondColumnComponentIndexListThatWillBeDisplayedForSection
+      ),
+      length(
+        local!secondColumnComponentIndexListThatWillBeDisplayedForSection
+      ) = 0
+    ),
+    {},
+    {
+      #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+        function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(
+          componentIndex: _,
+          formData_cdt: ri!formData_cdt,
+          readOnly: ri!readOnly
+        ),
+        array: fn!append(
+          {
+            ri!componentIndex
+          },
+          local!secondColumnComponentIndexListThatWillBeDisplayedForSection
+        )
+      )
+    }
+  ),
+  local!sectionResponse: if(
+    local!shouldDisplayComponent,
+    #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+      label: local!componentLabel,
+      firstColumnContents: {
+        local!firstColumnContents
+      },
+      secondColumnContents: {
+        local!secondColumnContents
+      }
+    ),
+    {}
+  ),
+  local!sectionResponse
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#&quot;f8f8316c-afa2-4957-a732-c0cb2670844b&quot;(20)[1]</a:value>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">2</a:value>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

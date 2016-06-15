@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_changeSequenceGridItemRowEach</name>
+        <uuid>_a-0000dca4-b707-8000-927a-010000010000_203987</uuid>
+        <description>This rule will create a row for component layout change grid</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  id: ri!index,
+  contents: {
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      label: &quot;name &quot;,
+      value: ri!items[ri!index].name,
+      saveInto: ri!items[ri!index].name,
+      readOnly: fn!true()
+    ),
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      label: &quot;label &quot;,
+      value: ri!items[ri!index].description,
+      saveInto: ri!items[ri!index].description,
+      readOnly: fn!true()
+    ),
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+      label: &quot;Column Index&quot;,
+      disabled: if(
+        fn!isnull(
+          ri!items[ri!index].sectionComponentId
+        ),
+        fn!true(),
+        fn!false()
+      ),
+      choiceLabels: #&quot;_a-0000da64-e4d2-8000-6ee0-010000010000_948&quot;,
+      choiceValues: #&quot;_a-0000da64-e4d2-8000-6ee0-010000010000_948&quot;,
+      value: ri!items[ri!index].columnIndex,
+      saveInto: ri!items[ri!index].columnIndex
+    ),
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images: if(
+        ri!index = ri!firstItemIndex,
+        {},
+        #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+          document: #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+            icon: &quot;MOVE_UP&quot;
+          ),
+          link: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+            value: ri!items[ri!index],
+            saveInto: {
+              a!save(
+                ri!items[ri!index - 1].seqIndex,
+                ri!items[ri!index].seqIndex
+              ),
+              a!save(
+                ri!items[ri!index].seqIndex,
+                save!value.seqIndex
+              ),
+              a!save(
+                ri!items[ri!index],
+                ri!items[ri!index - 1]
+              ),
+              a!save(
+                ri!items[ri!index - 1],
+                save!value
+              )
+            }
+          )
+        )
+      ),
+      size: &quot;ICON&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images: if(
+        ri!Index = ri!LastItemIndex,
+        {},
+        #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+          document: #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+            icon: &quot;MOVE_DOWN&quot;
+          ),
+          link: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+            value: ri!items[ri!index],
+            saveInto: {
+              a!save(
+                ri!items[ri!index + 1].seqIndex,
+                ri!items[ri!index].seqIndex
+              ),
+              a!save(
+                ri!items[ri!index].seqIndex,
+                save!value.seqIndex
+              ),
+              a!save(
+                ri!items[ri!index],
+                ri!items[ri!index + 1]
+              ),
+              a!save(
+                ri!items[ri!index + 1],
+                save!value
+              )
+            }
+          )
+        )
+      ),
+      size: &quot;ICON&quot;
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>items</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>LastItemIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>firstItemIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>items</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>LastItemIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>firstItemIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ReturnParentConditionCode</name>
+        <uuid>010d7cea-d21f-4bf0-81ee-8e9e14da7474</uuid>
+        <description>This rule will return parent condition code</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!ParentCompntId: ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].parentComponentId,
+  local!ParentCmpntIndex: wherecontains(local!ParentCompntId, ri!cdtComponentList.Id),
+  local!VariableName: &quot;local!&quot; &amp; substitute(ri!cdtComponentList[local!ParentCmpntIndex].name, &quot; &quot;, &quot;_&quot;),
+  if(
+    ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].matchAnyValueFlag = true(),
+    &quot;len(&quot; &amp; local!VariableName &amp; &quot;) &gt; 0 &quot;,
+    if(
+    contains(
+      #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+      ri!cdtComponentList[local!ParentCmpntIndex].responseType
+    ),
+    &quot;contains({&quot; &amp; apply(#&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(_) ,split(ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].valueTxt, &quot;;&quot;))  &amp; &quot;}, &quot; &amp; local!VariableName &amp; &quot;)&quot; ,
+    local!VariableName &amp; &quot; = &quot; &amp; char(34) &amp; ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].valueTxt &amp; char(34)
+  )
+  )
+  
+)
+</definition>
+        <namedTypedValue>
+            <name>cdtComponentList</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intComponentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intParentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

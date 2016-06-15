@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateLocalVariables</name>
+        <uuid>59ce59b5-8263-421a-b827-c46d6ae85a83</uuid>
+        <description>This rule is used to generate local variables inside SAIL code</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  ri!cdtComponentList[ri!index].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+  {},
+  with(
+    local!CompntName: substitute(ri!cdtComponentList[ri!index].name, &quot; &quot;, &quot;_&quot;),
+    local!defaultValue: ri!cdtComponentList[ri!index].defaultValue,
+    local!Val: if(
+      contains(
+        #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+        ri!cdtComponentList[ri!index].responseType
+      ),
+      if(
+        fn!contains(
+          fn!index(
+            ri!cdtComponentList[ri!index],
+            &quot;optionList&quot;,
+            &quot;optionTxt&quot;,
+            &quot;&quot;
+          ),
+          local!defaultValue
+        ),
+        local!defaultValue,
+        &quot;&quot;
+      ),
+      local!defaultValue
+    ),
+    &quot;local!&quot; &amp; local!CompntName &amp; &quot; : &quot; &amp; char(
+      34
+    ) &amp; local!Val &amp; char(
+      34
+    ) 
+  )
+)</definition>
+        <namedTypedValue>
+            <name>cdtComponentList</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

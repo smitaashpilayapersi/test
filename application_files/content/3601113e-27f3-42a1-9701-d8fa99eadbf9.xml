@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getApplicationDetailsByAppIds</name>
+        <uuid>3601113e-27f3-42a1-9701-d8fa99eadbf9</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+  entity: #&quot;_a-0000dc89-4db7-8000-927a-010000010000_201624&quot;,
+  query: #&quot;SYSTEM_SYSRULES_query&quot;(
+    selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(
+      columns: {
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+          field: &quot;Id&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+          field: &quot;Name&quot;
+        )
+      }
+    ),
+    filter: #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field: &quot;Id&quot;,
+      operator: &quot;in&quot;,
+      value: ri!arrintAppId
+    ),
+    pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+      startIndex: 1,
+      batchSize: - 1,
+      sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+        field: &quot;Id&quot;,
+        ascending: false
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>arrintAppId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

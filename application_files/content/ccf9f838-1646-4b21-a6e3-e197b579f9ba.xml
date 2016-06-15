@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_createNewCfgComponent</name>
+        <uuid>ccf9f838-1646-4b21-a6e3-e197b579f9ba</uuid>
+        <description>returns a new configuration component to setup a form configuration</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(
+  Id: text(now(), &quot;YYMMDDHHMMSS&quot;),
+  name: &quot;tbd_&quot; &amp; ri!seqIndex,
+  responseType: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;,
+  seqIndex: ri!seqIndex,
+  columnIndex: 1,
+  parentCondition: #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;
+)</definition>
+        <namedTypedValue>
+            <name>seqIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_SAILUI_resetComponentValueList</name>
+        <uuid>_a-0000da6e-240f-8000-6ee0-010000010000_1263</uuid>
+        <description>reset value list of a component when this component is no longer visible</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1490</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!shouldDisplayComponent: #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1160&quot;(
+    formData_cdt: ri!formData_cdt,
+    componentIndex: ri!componentIndex
+  ),
+  if(
+    local!shouldDisplayComponent,
+    if(
+      or(
+        fn!isnull(
+          ri!formData_cdt.componentList[ri!componentIndex].valueList
+        ),
+        length(
+          ri!formData_cdt.componentList[ri!componentIndex].valueList
+        ) = 0
+      ),
+      a!save(
+        ri!formData_cdt.componentList[ri!componentIndex].valueList,
+        ri!formData_cdt.componentList[ri!componentIndex].previousValueList
+      ),
+      a!save(
+        ri!formData_cdt.componentList[ri!componentIndex].valueList,
+        ri!formData_cdt.componentList[ri!componentIndex].valueList
+      )
+    ),
+    {
+      a!save(
+        ri!formData_cdt.componentList[ri!componentIndex].previousValueList,
+        ri!formData_cdt.componentList[ri!componentIndex].valueList
+      ),
+      a!save(
+        ri!formData_cdt.componentList[ri!componentIndex].valueList,
+        {}
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

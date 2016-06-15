@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_configureForm</name>
+        <uuid>_a-0000dc7e-d5cf-8000-927a-010000010000_200159</uuid>
+        <description>configure a form with components</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= load(&#xD;
+  local!original_cdt: ri!formData_cdt,&#xD;
+  local!componentIndex: 1,&#xD;
+  local!isChangeTheSequenceIndex: false(),&#xD;
+  local!currentSectionId,&#xD;
+  with(&#xD;
+    &#xD;
+    local!FormIndex: ri!FormIndex,&#xD;
+    local!componentListCount: if(&#xD;
+      fn!isnull(&#xD;
+        ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+      ),&#xD;
+      0,&#xD;
+      count(&#xD;
+        ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+      )&#xD;
+    ),&#xD;
+    local!validationMessage:if(&#xD;
+      local!componentListCount&gt;1,&#xD;
+      #&quot;0c6b969b-59f8-44ef-af76-a47841d3a92a&quot;(&#xD;
+            currentComponent:ri!formData_cdt.componentList[local!componentIndex]&#xD;
+          ),&#xD;
+          {}&#xD;
+          ),&#xD;
+    local!componentListNames: if(&#xD;
+      local!componentListCount &gt; 0,&#xD;
+      index(&#xD;
+        ri!formData_cdt.componentList,&#xD;
+        &quot;name&quot;,&#xD;
+        {}&#xD;
+      ),&#xD;
+      {}&#xD;
+    ),&#xD;
+    local!duplicateComponentNames: if(&#xD;
+      local!componentListCount &gt; 0,&#xD;
+      #&quot;c1f1ed5f-032a-40a9-8f22-084c76b4367c&quot;(&#xD;
+        local!componentListNames&#xD;
+      ),&#xD;
+      {}&#xD;
+    ),&#xD;
+    local!exitBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Delete Form&quot;,&#xD;
+        value: &quot;Delete&quot;,&#xD;
+        style: &quot;NORMAL&quot;,&#xD;
+        /*skipValidation: true,*/&#xD;
+        confirmMessage: &quot;Your form will not be saved, do you really want to go back?&quot;,&#xD;
+        saveInto: {&#xD;
+          ri!actionButton_txt,&#xD;
+          a!save(&#xD;
+            ri!cdtFrmVersionCmpnt,&#xD;
+            remove(&#xD;
+              ri!cdtFrmVersionCmpnt,&#xD;
+              ri!FormIndex&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!cdtForms,&#xD;
+            remove(&#xD;
+              ri!cdtForms,&#xD;
+              ri!FormIndex&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            local!isChangeTheSequenceIndex,&#xD;
+            false()&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!intFormCount,&#xD;
+            ri!intFormCount - 1&#xD;
+          )&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    local!copyFormBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      {}/*a!buttonWidgetSubmit(*/&#xD;
+      /*         label: &quot;Copy From Other Form&quot;,*/&#xD;
+      /*         style: &quot;PRIMARY&quot;,*/&#xD;
+      /*         value: &quot;copyOtherForm&quot;,*/&#xD;
+      /*         saveInto: {*/&#xD;
+      /*           ri!actionButton_txt,*/&#xD;
+      /*           a!save(*/&#xD;
+      /*             ri!componentIndex,*/&#xD;
+      /*             ri!componentIndex*/&#xD;
+      /*           )*/&#xD;
+      /*         }*/&#xD;
+      /*       )*/&#xD;
+      &#xD;
+    ),&#xD;
+    local!deleteComponentBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Delete Component&quot;,&#xD;
+        disabled: or(&#xD;
+          isnull(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ),&#xD;
+          count(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ) = 0&#xD;
+        ),&#xD;
+        style: &quot;NORMAL&quot;,&#xD;
+        submit: false,&#xD;
+        /*validate: true,*/&#xD;
+        value: ri!componentIndex,&#xD;
+        saveInto: {&#xD;
+          a!save(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+            apply(&#xD;
+              #&quot;66d7cde1-f158-4270-8b08-6130b8ded222&quot;(&#xD;
+                cdtFrmComponent: _,&#xD;
+                txtDeletedComponentId: ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList[ri!componentIndex].Id&#xD;
+              ),&#xD;
+              {&#xD;
+                ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+              }&#xD;
+            )&#xD;
+          ),&#xD;
+          if(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,&#xD;
+            a!save(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+              apply(&#xD;
+                #&quot;858be0fc-2f75-4cd1-9975-d96699062b1f&quot;(&#xD;
+                  cdtFrmComponent: _,&#xD;
+                  txtDeletedSectionId: ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList[ri!componentIndex].Id&#xD;
+                ),&#xD;
+                {&#xD;
+                  ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+                }&#xD;
+              )&#xD;
+            ),&#xD;
+            {}&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+            fn!remove(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+              save!value&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            local!componentIndex,&#xD;
+            length(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!componentIndex,&#xD;
+            local!componentIndex&#xD;
+          )&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    local!addComponentBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Add Component&quot;,&#xD;
+        style: &quot;NORMAL&quot;,&#xD;
+        submit: false,&#xD;
+        validate: true,&#xD;
+        value: #&quot;ccf9f838-1646-4b21-a6e3-e197b579f9ba&quot;(&#xD;
+          seqIndex: local!componentListCount + 1&#xD;
+        ),&#xD;
+        saveInto: {&#xD;
+          a!save(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+            fn!append(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList,&#xD;
+              save!value&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            local!componentIndex,&#xD;
+            length(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!componentIndex,&#xD;
+            local!componentIndex&#xD;
+          )&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    local!ChangeSeqBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: if(&#xD;
+          local!isChangeTheSequenceIndex = true(),&#xD;
+          &quot;Change Property&quot;,&#xD;
+          &quot;Change Sequence&quot;&#xD;
+        ),&#xD;
+        style: &quot;NORMAL&quot;,&#xD;
+        submit: false,&#xD;
+        disabled: or(&#xD;
+          isnull(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ),&#xD;
+          count(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ) = 0&#xD;
+        ),&#xD;
+        validate: true,&#xD;
+        value: if(&#xD;
+          local!isChangeTheSequenceIndex = true(),&#xD;
+          false(),&#xD;
+          true()&#xD;
+        ),&#xD;
+        saveInto: {&#xD;
+          local!isChangeTheSequenceIndex&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    local!nextBtn: if(&#xD;
+      local!componentIndex &lt; local!componentListCount,&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Next&quot;,&#xD;
+        style: &quot;PRIMARY&quot;,&#xD;
+        value: local!componentIndex + 1,&#xD;
+        saveInto: {&#xD;
+          local!componentIndex&#xD;
+        },&#xD;
+        submit: false,&#xD;
+        validate: true&#xD;
+      ),&#xD;
+      {}&#xD;
+    ),&#xD;
+    local!prevComponentBtn: if(&#xD;
+      local!componentIndex &gt; 1,&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Previous&quot;,&#xD;
+        style: &quot;PRIMARY&quot;,&#xD;
+        value: local!componentIndex - 1,&#xD;
+        saveInto: {&#xD;
+          local!componentIndex&#xD;
+        },&#xD;
+        submit: false,&#xD;
+        validate: true&#xD;
+      ),&#xD;
+      {}&#xD;
+    ),&#xD;
+    local!previewFromBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      if(&#xD;
+        or(&#xD;
+          fn!isnull(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ),&#xD;
+          length(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ) = 0&#xD;
+        ),&#xD;
+        {},&#xD;
+        #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+          label: &quot;Preview&quot;,&#xD;
+          style: &quot;NORMAL&quot;,&#xD;
+          value: &quot;Preview&quot;,&#xD;
+          saveInto: {&#xD;
+            ri!actionButton_txt&#xD;
+          },&#xD;
+          validate: fn!true()&#xD;
+        )&#xD;
+      )&#xD;
+    ),&#xD;
+    local!basicInfoSection: #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(&#xD;
+      firstColumnContents: {&#xD;
+        /*a!textField(&#xD;
+          readOnly: true(),&#xD;
+          label: &quot;Last Modified By&quot;,&#xD;
+          required: false,&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].lastModifiedBy&#xD;
+        ),*/&#xD;
+        #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+          label: &quot;Task Name&quot;,&#xD;
+          Instructions: &quot;This name will not be displayed to the end user&quot;,&#xD;
+          required: true,&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].name,&#xD;
+          saveInto: {&#xD;
+            a!save(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].name,&#xD;
+              trim(&#xD;
+                save!value&#xD;
+              )&#xD;
+            )&#xD;
+          }&#xD;
+        )&#xD;
+      },&#xD;
+      secondColumnContents: {&#xD;
+        /*a!textField(&#xD;
+          readOnly: true(),&#xD;
+          label: &quot;Last Modified Time&quot;,&#xD;
+          required: false,&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].lastModifiedTime&#xD;
+        ),*/&#xD;
+        #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+          label: &quot;Form Label&quot;,&#xD;
+          Instructions: &quot;This label is displayed to the end user&quot;,&#xD;
+          required: true,&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].label,&#xD;
+          saveInto: {&#xD;
+            a!save(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].label,&#xD;
+              trim(&#xD;
+                save!value&#xD;
+              )&#xD;
+            )&#xD;
+          }&#xD;
+        )&#xD;
+      }&#xD;
+    ),&#xD;
+    local!compDropdown: if(&#xD;
+      or(&#xD;
+        fn!isnull(&#xD;
+          ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+        ),&#xD;
+        ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList = {},&#xD;
+        length(&#xD;
+          ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+        ) = 0&#xD;
+      ),&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_dropdownField&quot;(&#xD;
+        label: &quot;Configure Component&quot;,&#xD;
+        instructions: &quot;Select component to be configured by name&quot;,&#xD;
+        /* placeholderLabel:&quot;--No Components Added--&quot;,*/&#xD;
+        choiceLabels: ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList.name,&#xD;
+        choiceValues: if(&#xD;
+          or(&#xD;
+            isnull(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            ),&#xD;
+            count(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            ) = 0&#xD;
+          ),&#xD;
+          null,&#xD;
+          1 + enumerate(&#xD;
+            count(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            )&#xD;
+          )&#xD;
+        ),&#xD;
+        value: if(&#xD;
+          or(&#xD;
+            isnull(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            ),&#xD;
+            count(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+            ) = 0&#xD;
+          ),&#xD;
+          null,&#xD;
+          local!componentIndex&#xD;
+        ),&#xD;
+        saveInto: {&#xD;
+          a!save(&#xD;
+            local!componentIndex,&#xD;
+            if(and(length(local!validationMessage)=0,length(local!duplicateComponentNames)=0),&#xD;
+            save!value,&#xD;
+            local!componentIndex&#xD;
+          )&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!componentIndex,&#xD;
+            local!componentIndex&#xD;
+          )&#xD;
+        },&#xD;
+        validations :{&#xD;
+          local!validationMessage&#xD;
+          /*if(length(local!duplicateComponentNames)&gt;0,*/&#xD;
+          /*local!duplicateComponentNames&amp; &quot; is a duplicate component name.&quot;,*/&#xD;
+          /*{}*/&#xD;
+          /*)*/&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    local!instructionSection: #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(&#xD;
+      firstColumnContents: {&#xD;
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(&#xD;
+          label: &quot;Task Description&quot;,&#xD;
+          Instructions: &quot;Help documenting what this form is used for&quot;,&#xD;
+          /*required: true,*/&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].description,&#xD;
+          saveInto: {&#xD;
+            a!save(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].description,&#xD;
+              #&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(&#xD;
+                save!value&#xD;
+              )&#xD;
+            )&#xD;
+          }&#xD;
+        ),&#xD;
+        local!compDropdown&#xD;
+      },&#xD;
+      secondColumnContents: {&#xD;
+        #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+          label: &quot;Instruction&quot;,&#xD;
+          Instructions: &quot;Provide some instruction to end user&quot;,&#xD;
+          /*required: true,*/&#xD;
+          value: ri!cdtFrmVersionCmpnt[ri!FormIndex].instruction,&#xD;
+          saveInto: {&#xD;
+            a!save(&#xD;
+              ri!cdtFrmVersionCmpnt[ri!FormIndex].instruction,&#xD;
+              trim(&#xD;
+                save!value&#xD;
+              )&#xD;
+            )&#xD;
+          }&#xD;
+        ),&#xD;
+        #&quot;SYSTEM_SYSRULES_pickerFieldGroups&quot;(&#xD;
+          label: &quot;Default assignee&quot;,&#xD;
+          instructions: &quot;Default group to whom this task would be assigned&quot;,&#xD;
+          maxSelections: 1,&#xD;
+          value: ri!cdtForms[ri!FormIndex].DefaultAssigneeGrp,&#xD;
+          saveInto: ri!cdtForms[ri!FormIndex].DefaultAssigneeGrp,&#xD;
+          placeholder: &quot;None&quot;&#xD;
+        ),&#xD;
+        #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+          labelPosition: &quot;ADJACENT&quot;,&#xD;
+          readonly: true()&#xD;
+        ),&#xD;
+        #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(&#xD;
+          primaryButtons: {&#xD;
+            local!ChangeSeqBtn&#xD;
+          }&#xD;
+        )&#xD;
+      }&#xD;
+    ),&#xD;
+    local!mainConfigSection: if(&#xD;
+      or(&#xD;
+        fn!isnull(&#xD;
+          ri!formData_cdt&#xD;
+        ),&#xD;
+        fn!isnull(&#xD;
+          ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+        ),&#xD;
+        length(&#xD;
+          ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+        ) = 0&#xD;
+      ),&#xD;
+      {},&#xD;
+      #&quot;ac71f376-5676-40ac-9e32-8a04e81ca3e7&quot;(&#xD;
+        formData_cdt: ri!formData_cdt,&#xD;
+        componentIndex: local!componentIndex,&#xD;
+        fileUploadDocList: ri!fileUploadDocList,&#xD;
+        isDashboardView: ri!isDashboardView,&#xD;
+        isChangeTheSequenceIndex: local!isChangeTheSequenceIndex,&#xD;
+        currentSectionId: ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId,&#xD;
+        actionButton_txt: ri!actionButton_txt&#xD;
+      )&#xD;
+    ),&#xD;
+    local!saveBtn: if(&#xD;
+      ri!isDashboardView,&#xD;
+      {},&#xD;
+      #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+        label: &quot;Save&quot;,&#xD;
+        value: &quot;Save&quot;,&#xD;
+        style: &quot;PRIMARY&quot;,&#xD;
+        disabled: or(&#xD;
+          isnull(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ),&#xD;
+          count(&#xD;
+            ri!cdtFrmVersionCmpnt[ri!FormIndex].componentList&#xD;
+          ) = 0&#xD;
+        ),&#xD;
+        validate: fn!true(),&#xD;
+        saveInto: {&#xD;
+          ri!actionButton_txt,&#xD;
+          a!save(&#xD;
+            ri!cdtForms[ri!FormIndex].LastModifiedDate,&#xD;
+            now()&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!cdtForms[ri!FormIndex].LastModifiedBy,&#xD;
+            loggedInUser()&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            ri!componentIndex,&#xD;
+            1&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            local!componentIndex,&#xD;
+            1&#xD;
+          ),&#xD;
+          a!save(&#xD;
+            local!isChangeTheSequenceIndex,&#xD;
+            false()&#xD;
+          )&#xD;
+        }&#xD;
+      )&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_formLayout&quot;(&#xD;
+      label: if(&#xD;
+        ri!isDashboardView,&#xD;
+        {},&#xD;
+        ri!cdtFrmVersionCmpnt[ri!FormIndex].label&#xD;
+      ),&#xD;
+      firstColumnContents: {&#xD;
+        local!basicInfoSection,&#xD;
+        local!instructionSection,&#xD;
+        local!mainConfigSection&#xD;
+      },&#xD;
+      buttons: #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(&#xD;
+        primaryButtons: {&#xD;
+          /*local!copyFormBtn,*/&#xD;
+          /*local!nextBtn,*/&#xD;
+          local!saveBtn,&#xD;
+          local!previewFromBtn&#xD;
+        },&#xD;
+        secondaryButtons: {&#xD;
+          local!exitBtn,&#xD;
+          if(&#xD;
+            local!isChangeTheSequenceIndex = true(),&#xD;
+            {},&#xD;
+            {&#xD;
+              local!addComponentBtn,&#xD;
+              local!deleteComponentBtn&#xD;
+            }&#xD;
+          )/*local!prevComponentBtn*/&#xD;
+          &#xD;
+        }&#xD;
+      )&#xD;
+    )&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>actionButton_txt</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDashboardView</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fileUploadDocList</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>FormIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFrmVersionCmpnt</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtForms</name>
+            <type>
+                <name>AB_FormsDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intFormCount</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>actionButton_txt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isDashboardView</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>fileUploadDocList</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>FormIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtFrmVersionCmpnt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtForms</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intFormCount</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_Display_Form_Grid</name>
+        <uuid>4577c967-319f-42b2-a978-fe23b5a69b09</uuid>
+        <description>SAIL interface to display grids</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  
+  #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+  label: &quot;Application Forms&quot;,
+  instructions: &quot;On checking 'Previous Task' option, Previous Task's data is shown on that Task in ReadOnly form&quot;,
+  labelPosition: &quot;ABOVE&quot;,
+  /*instructions: &quot;Forms in the current application&quot;,*/
+  helptooltip: #&quot;_a-0000dc7e-6e54-8000-927a-010000010000_199992&quot;,
+  emptyGridMessage: &quot;No search items found&quot;,
+  columnConfigs:{
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;DISTRIBUTE&quot;,
+      weight: 3
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;DISTRIBUTE&quot;,
+      weight: 4
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;DISTRIBUTE&quot;,
+      weight: 2
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;DISTRIBUTE&quot;,
+      weight: 1
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;ICON&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;ICON&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+      width:&quot;ICON&quot;
+    )
+  },
+  headerCells:{
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      label:&quot;Task Name&quot;,
+      align:&quot;CENTER&quot;
+    ),
+     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      label:&quot;Task Description&quot;,
+      align:&quot;CENTER&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      label:&quot;Last Modified Date&quot;,
+      align:&quot;CENTER&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      label:&quot;Previous Task&quot;,
+      align:&quot;CENTER&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      /*label:&quot;Move up&quot;,*/
+      align:&quot;CENTER&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      /*label:&quot;Move down&quot;,*/
+      align:&quot;CENTER&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+      /*label:&quot;Delete Form&quot;,*/
+      align:&quot;CENTER&quot;
+    )
+  },
+  rows:apply(#&quot;a7484958-ec56-4278-9fe6-a8a78ba03e7a&quot;(txtButton:ri!txtButton,FormIndex:ri!FormIndex,cdtForms:ri!cdtForms,cdtFormVersionComponent:ri!cdtFormVersionComponent,intFormCount:ri!intFormCount,intIndex:_),enumerate(count(ri!cdtFormVersionComponent))+1)
+)
+
+)</definition>
+        <namedTypedValue>
+            <name>cdtFormVersionComponent</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtForms</name>
+            <type>
+                <name>AB_FormsDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>FormIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtButton</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intFormCount</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtFormVersionComponent</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtForms</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>FormIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtButton</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intFormCount</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

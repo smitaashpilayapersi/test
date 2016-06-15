@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getDuplicateComponentNames</name>
+        <uuid>c1f1ed5f-032a-40a9-8f22-084c76b4367c</uuid>
+        <description>Rule used to get duplicate component names</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!arrtxtUnique: union(
+    ri!arrtxtInputArray,
+    ri!arrtxtInputArray
+  ),
+  if(
+    length(
+      local!arrtxtUnique
+    ) &lt;&gt; length(
+      ri!arrtxtInputArray
+    ),
+    index(
+      local!arrtxtUnique,
+      where(
+        #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+          function: length(
+            _
+          ),
+          array: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+            function: wherecontains(
+              _,
+              ri!arrtxtInputArray
+            ),
+            array: union(
+              ri!arrtxtInputArray,
+              ri!arrtxtInputArray
+            )
+          )
+        ) &gt; 1
+      ),
+      {}
+    ),
+    {}
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>arrtxtInputArray</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_App_SummaryDasboard_Main</name>
+        <uuid>552188ef-5ab6-42d0-bd3e-d250add47d9b</uuid>
+        <description>Interface displaying app record summary dashboard main grid sections</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: 5,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;CreationDate&quot;,
+      ascending: false()
+    )
+  ),
+  with(
+    local!cdtAppData: #&quot;8fe7a9b1-fb87-4fca-bc17-643d5c757014&quot;(
+      ri!intAppId
+    ),
+    local!cdtAppInstances: todatasubset(
+      local!cdtAppData,
+      local!pagingInfo
+    ),
+    #&quot;SYSTEM_SYSRULES_dashboardLayout&quot;(
+      firstColumnContents: {
+        /*a!textField(*/
+        /*  value: local!selectedAppInstanceId&amp;&quot;***********&quot;&amp;ri!intSelectedFormInstanceId*/
+        /*),*/
+        #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+          firstColumnContents: {
+            #&quot;SYSTEM_SYSRULES_textField&quot;(
+              label: &quot;Application Name&quot;,
+              labelPosition: &quot;ADJACENT&quot;,
+              /*instructions: &quot;Enter application name&quot;,*/
+              value: ri!txtApplicationName,
+              readOnly: true()
+            ),
+            #&quot;SYSTEM_SYSRULES_textField&quot;(
+              label: &quot;Created By&quot;,
+              labelPosition: &quot;ADJACENT&quot;,
+              /*instructions: &quot;Enter application name&quot;,*/
+              value: ri!txtCreatedBy,
+              readOnly: true()
+            ),
+            #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
+              label: &quot;Creation Date&quot;,
+              labelPosition: &quot;ADJACENT&quot;,
+              /*instructions: &quot;Enter application name&quot;,*/
+              value: ri!dtCreationDate,
+              readOnly: true()
+            ),
+            #&quot;SYSTEM_SYSRULES_textField&quot;(
+              label: &quot;Application Users&quot;,
+              labelPosition: &quot;ADJACENT&quot;,
+              /*instructions: &quot;Select Application Users&quot;,*/
+              value: touniformstring(
+                apply(
+                  #&quot;3ebe3aec-2bc8-42a1-b804-f2c39dfe70fd&quot;(
+                    _
+                  ),
+                  ri!usrApplicationUsers
+                )
+              ),
+              readOnly: true()
+            ),
+            #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+              label: &quot;Description&quot;,
+              labelPosition: &quot;ADJACENT&quot;,
+              /*instructions: &quot;Enter application description&quot;,*/
+              value: ri!txtAppDescription,
+              readOnly: true()
+            )
+          },
+          secondColumncontents: {
+            if(
+              or(
+                isnull(
+                  local!cdtAppInstances
+                ),
+                count(
+                  local!cdtAppInstances
+                ) = 0
+              ),
+              {},
+              {
+                #&quot;SYSTEM_SYSRULES_gridField&quot;(
+                  label: &quot;All Application Instances&quot;,
+                  totalCount: 
+                    local!cdtAppInstances.totalCount
+                  ,
+                  columns: {
+                    #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                      label: &quot;Instance Name&quot;,
+                      field: &quot;Name&quot;,
+                      data: index(
+                        local!cdtAppInstances.data,
+                        &quot;Name&quot;,
+                        null
+                      ),
+                      links: apply(
+                        #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                          value: _,
+                          saveInto: ri!selectedAppInstanceId
+                        ),
+                        index(
+                          local!cdtAppInstances.data,
+                          &quot;Id&quot;,
+                          {}
+                        )
+                      )
+                    ),
+                    #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                      label: &quot;Creation Date&quot;,
+                      field: &quot;CreationDate&quot;,
+                      data: index(
+                        local!cdtAppInstances.data,
+                        &quot;CreationDate&quot;,
+                        null
+                      )
+                    )
+                  },
+                  emptyGridMessage: &quot;No Instances for &quot; &amp; ri!txtApplicationName &amp; &quot; have been created&quot;,
+                  value: local!pagingInfo,
+                  saveInto: local!pagingInfo
+                )
+              }
+            )
+          }
+        ),
+        if(
+          or(
+            isnull(
+              ri!selectedAppInstanceId
+            ),
+            count(
+              ri!selectedAppInstanceId
+            ) = 0,
+            ri!selectedAppInstanceId = 0
+          ),
+          {},
+          #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+            label: &quot;List of forms&quot;,
+            firstColumnContents: {
+              #&quot;fca909cb-f928-486e-8b84-25ab080bab39&quot;(
+                cdtFormVersionCmpnt: ri!cdtFormVersionCmpnt,
+                intAppinsId: ri!selectedAppInstanceId,
+                selectedFormInstanceId: ri!selectedFormInstanceId,
+                actionButton_txt: ri!actionButton_txt
+              )
+            }
+          )
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtAppDescription</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedFormInstanceId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtApplicationName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>usrApplicationUsers</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>actionButton_txt</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedAppInstanceId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dtCreationDate</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtCreatedBy</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFormVersionCmpnt</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">17</a:value>
+                    <a:nameRef>intAppId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">test</a:value>
+                    <a:nameRef>txtAppDescription</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selectedFormInstanceId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">test</a:value>
+                    <a:nameRef>txtApplicationName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>usrApplicationUsers</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>actionButton_txt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selectedAppInstanceId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">now()</a:value>
+                    <a:nameRef>dtCreationDate</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>txtCreatedBy</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:psi:types:AB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AB_FrmVersionAndCmpntDesign"/>
+                    <a:nameRef>cdtFormVersionCmpnt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

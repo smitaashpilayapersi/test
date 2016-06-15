@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_configureComponentResponseDefaultValueField</name>
+        <uuid>_a-0000dcbc-4de4-8000-927a-010000010000_205816</uuid>
+        <description>returns UI to setup a default value for component.  when a default value needs to be managed based on any new response type, only this rule needs to be modified.</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!valueList,
+  with(
+    local!defaultDropdownValue: &quot;&quot;,
+    local!optionTxtList: fn!index(
+      ri!formData_cdt.componentList[ri!componentIndex],
+      &quot;optionList&quot;,
+      &quot;optionTxt&quot;,
+      {}
+    ),
+    /* when the option is created newly, there will not be any value yet */local!optionTxtListWithEmptyValueRemoved: fn!reject(
+      #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+        inputObj: _
+      ),
+      local!optionTxtList
+    ),
+    /* sort option list */local!optionTxtListSorted: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_923&quot;(
+      inputArray: local!optionTxtListWithEmptyValueRemoved,
+      asendingFlag: true
+    ),
+    /* sometimes there will be duplicate values, though these duplicates are flaged as validation errors, a dropdown field can not have duplicates, so remove duplicates */local!optionTxtListFinal: if(
+      or(
+        fn!isnull(
+          local!optionTxtListSorted
+        ),
+        length(
+          local!optionTxtListSorted
+        ) = 0
+      ),
+      {},
+      fn!union(
+        local!optionTxtListSorted,
+        local!optionTxtListSorted
+      )
+    ),
+    if(
+      not(
+        #&quot;_a-0000dadb-9318-8000-927a-010000010000_82264&quot;(
+          responseType: ri!formData_cdt.componentList[ri!componentIndex].responseType
+        )
+      ),
+      {},
+      if(
+        fn!contains(
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1149&quot;(),
+          ri!formData_cdt.componentList[ri!componentIndex].responseType
+        ),
+        if(
+          ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,
+          #&quot;SYSTEM_SYSRULES_dateField&quot;(
+            label: &quot;Default Value&quot;,
+            required: if(and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+                true(),
+                false()
+              ),
+            requiredMessage: &quot;Please define a default value&quot;,
+            labelPosition: &quot;ABOVE&quot;,
+            value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+            saveInto: {
+              ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+              a!save(
+                ri!formData_cdt.componentList[ri!componentIndex].valueList,
+                {
+                  #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                    valueTxt: save!value
+                  )
+                }
+              )
+            }
+          ),
+          if(
+            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,
+            #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
+              label: &quot;Default Value&quot;,
+               required: if(and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+                true(),
+                false()
+              ),
+            requiredMessage: &quot;Please define a default value&quot;,
+              labelPosition: &quot;ABOVE&quot;,
+              value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+              saveInto: {
+                ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+                a!save(
+                  ri!formData_cdt.componentList[ri!componentIndex].valueList,
+                  {
+                    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                      valueTxt: save!value
+                    )
+                  }
+                )
+              }
+            ),
+            if(
+              ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000daa9-76cf-8000-927a-010000010000_57789&quot;,
+              #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+                label: &quot;Select size of image&quot;,
+                required: true,
+                placeholderLabel: &quot;-Select size-&quot;,
+                value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+                choiceLabels: {
+                  &quot;STANDARD&quot;,
+                  &quot;THUMBNAIL&quot;,
+                  &quot;ICON&quot;
+                },
+                choiceValues: {
+                  &quot;STANDARD&quot;,
+                  &quot;THUMBNAIL&quot;,
+                  &quot;ICON&quot;
+                },
+                saveInto: {
+                  ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+                  a!save(
+                    ri!formData_cdt.componentList[ri!componentIndex].valueList,
+                    {
+                      #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                        valueTxt: save!value
+                      )
+                    }
+                  )
+                }
+              ),
+              #&quot;SYSTEM_SYSRULES_textField&quot;(
+                label: &quot;Default Value&quot;,
+                instructions: if(
+                  ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1143&quot;,
+                  &quot;Please enter the Default Time separated by coma (HH/MM) format&quot;,
+                  if(
+                    ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;,
+                    &quot;Value will be displayed in Italic format&quot;,
+                    {}
+                  )
+                ),
+                validations: if(
+                  len(ri!formData_cdt.componentList[ri!componentIndex].defaultValue)&gt;255,
+                  &quot;Maximum Character limit is 255&quot;,
+                  &quot;&quot;
+                ),
+                 required: if(and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+                true(),
+                false()
+              ),
+            requiredMessage: &quot;Please define a default value&quot;,
+                value: ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+                saveInto: {
+                  a!save(ri!formData_cdt.componentList[ri!componentIndex].defaultValue, trim(save!value))
+                 /* a!save(
+                    ri!formData_cdt.componentList[ri!componentIndex].valueList,
+                    {
+                      rule!PFS_createNewCfgComponentValue(
+                        valueTxt: save!value
+                      )
+                    }
+                  )*/
+                }
+              )
+            )
+          )
+        ),
+        if(
+          fn!contains(
+            #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+            ri!formData_cdt.componentList[ri!componentIndex].responseType
+          ),
+          #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+            label: &quot;Default Value&quot;,
+             required: if(and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+                true(),
+                false()
+              ),
+            requiredMessage: &quot;Please define a default value&quot;,
+            value: if(
+              ri!formData_cdt.componentList[ri!componentIndex].optionList = &quot;&quot;,
+              &quot;&quot;,
+              if(
+                fn!contains(
+                  ri!formData_cdt.componentList[ri!componentIndex].optionList.optionTxt,
+                  ri!formData_cdt.componentList[ri!componentIndex].defaultValue
+                ),
+                ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+                &quot;&quot;
+              )
+            ),
+            placeholderLabel: &quot;-None-&quot;,
+            choiceLabels: local!optionTxtListFinal,
+            choiceValues: local!optionTxtListFinal,
+            saveInto: {
+              ri!formData_cdt.componentList[ri!componentIndex].defaultValue,
+              a!save(
+                ri!formData_cdt.componentList[ri!componentIndex].valueList,
+                {
+                  #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
+                    valueTxt: save!value
+                  )
+                }
+              )
+            }
+          ),
+          /*if(
+          ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_BUTTON,
+          a!textField(
+            label: &quot;Default Button Value&quot;,
+            required: false,
+            value: local!valueList,
+            saveInto: {
+              local!valueList,
+              ri!formData_cdt.componentList[ri!componentIndex].buttonValue
+            }
+          ),
+          {}
+        )*/{}
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

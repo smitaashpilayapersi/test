@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_configureComponentResponseSection</name>
+        <uuid>5acde649-3bd8-4750-88f5-3e5b2691005f</uuid>
+        <description>returns a UI to help setup with response type configuration of the component</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_sectionLayoutColumns&quot;(
+  label: &quot;Setup the look and feel of the component&quot;,
+  columns: {
+    #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
+      contents: {
+        #&quot;f447bb5c-7a15-4c97-b15c-fc536ff6d7a0&quot;(
+          formData_cdt: ri!formData_cdt,
+          componentIndex: ri!componentIndex
+        ),
+        #&quot;_a-0000dcbc-4de4-8000-927a-010000010000_205816&quot;(
+          formData_cdt: ri!formData_cdt,
+          componentIndex: ri!componentIndex
+        ),
+        if(
+          or(
+            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;
+          ),
+          /* a section can not have another section or grid */{},
+          {
+            #&quot;fd0fa093-1c5d-4a7d-9255-9238b0184cb0&quot;(
+              formData_cdt: ri!formData_cdt,
+              componentIndex: ri!componentIndex
+            ),
+            #&quot;ec6c792d-ef0c-4073-90aa-47b613bda4f9&quot;(
+              formData_cdt: ri!formData_cdt,
+              componentIndex: ri!componentIndex
+            )
+          }
+        ),
+        if(
+          #&quot;_a-0000dad3-098b-8000-927a-010000010000_71865&quot;(
+            component_cdt: ri!formData_cdt.componentList[ri!componentIndex]
+          ),
+          /* show list of grids only if the component is eligible */{
+            #&quot;_a-0000dad3-098b-8000-927a-010000010000_71836&quot;(
+              formData_cdt: ri!formData_cdt,
+              componentIndex: ri!componentIndex
+            )
+          },
+          {}
+        )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
+      contents: {
+        #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1051&quot;(
+          formData_cdt: ri!formData_cdt,
+          componentIndex: ri!componentIndex,
+          fileUploadDocList: ri!fileUploadDocList
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fileUploadDocList</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>componentIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>fileUploadDocList</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

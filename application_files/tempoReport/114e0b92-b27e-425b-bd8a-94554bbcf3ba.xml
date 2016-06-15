@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tempoReportHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <tempoReport name="Application Builder: Application Instances Weekly Report" a:uuid="114e0b92-b27e-425b-bd8a-94554bbcf3ba">
+        <a:description>This report will display application instances created for each Application on Weekly bases</a:description>
+        <a:uiExpr>=#&quot;e7026815-5984-4546-b382-42c8526ae788&quot;()</a:uiExpr>
+        <a:urlStub>iqcpaA</a:urlStub>
+    </tempoReport>
+    <roleMap>
+        <role name="report_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000dca4-d1d4-8000-9277-010000010000_908</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+</tempoReportHaul>

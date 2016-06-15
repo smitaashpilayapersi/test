@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getAppIdWithInstanceCount</name>
+        <uuid>c739dfcc-c4c7-4a0a-a46f-b7efb5e07b7f</uuid>
+        <description>this query rule is used to get application Id with instance count filtered by creation date</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!AppData: index(
+    #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+      entity: #&quot;_a-0000dc89-4db7-8000-927a-010000010000_201610&quot;,
+      query: #&quot;SYSTEM_SYSRULES_query&quot;(
+        aggregation: #&quot;SYSTEM_SYSRULES_queryAggregation&quot;(
+          aggregationColumns: {
+            #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+              field: &quot;AppId&quot;,
+              alias: &quot;AppId&quot;,
+              visible: true(),
+              isGrouping: true()
+            ),
+            #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+              field: &quot;Id&quot;,
+              alias: &quot;AppIdCount&quot;,
+              visible: true(),
+              aggregationFunction: &quot;COUNT&quot;
+            )
+          }
+        ),
+        filter: {
+          #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+            field: &quot;CreationDate&quot;,
+            operator: &quot;between&quot;,
+            value: #&quot;5fcae195-beb6-4622-a03b-482ec7455a74&quot;(
+              ri!inputDate
+            )
+          )
+        },
+        pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+          startIndex: 1,
+          batchSize: 10,
+          sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+            field: &quot;AppIdCount&quot;,
+            ascending: false()
+          )
+        )
+      )
+    ),
+    &quot;data&quot;,
+    null()
+  ),
+  if(
+    length(
+      local!AppData
+    ) &gt; 0,
+    apply(
+      #&quot;4594e5e3-6eef-4cc9-b24c-206aac8bdfaf&quot;(
+        ri!inputDate,
+        _,
+        _
+      ),
+      merge(
+        local!AppData.AppId,
+        local!AppData.AppIdCount
+      )
+    ),
+    null()
+  )
+)</definition>
+        <namedTypedValue>
+            <name>inputDate</name>
+            <type>
+                <name>date</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

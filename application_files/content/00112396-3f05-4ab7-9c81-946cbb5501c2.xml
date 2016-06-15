@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ApplicationsTimeLineReport</name>
+        <uuid>00112396-3f05-4ab7-9c81-946cbb5501c2</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!arrintMonthDelay: {
+    3,
+    6,
+    9,
+    12
+  },
+  local!intMonthDelay: local!arrintMonthDelay[1],
+  with(
+    local!arrDtRange: eomonth(
+      today(),
+      (
+        - 1
+      ) * (
+        enumerate(
+          local!intMonthDelay
+        )
+      )
+    ),
+    local!applicationData: #&quot;93a6d27c-191a-445a-b7d2-e7c16255829c&quot;(
+      dtMinDate: reverse(
+        local!arrDtRange
+      )[1],
+      dtMaxDate: local!arrDtRange[1]
+    ).data,
+    local!applicationInstancesData: #&quot;ce932235-598f-4050-bd1d-a83a0e97121c&quot;(
+      dtMinDate: reverse(
+        local!arrDtRange
+      )[1],
+      dtMaxDate: local!arrDtRange[1]
+    ).data,
+    {
+      #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+        label: &quot;Applications created each Month&quot;,
+        choiceLabels: apply(
+          fn!concat(
+            &quot;Last &quot;,
+            _,
+            &quot; months&quot;
+          ),
+          local!arrintMonthDelay
+        ),
+        choiceValues: local!arrintMonthDelay,
+        value: local!intMonthDelay,
+        saveInto: local!intMonthDelay
+      ),
+      if(
+        length(
+          local!applicationData
+        ) &gt; 0,
+        #&quot;SYSTEM_SYSRULES_lineChartField&quot;(
+          categories: text(
+            local!arrDtRange,
+            &quot;MMMM YYYY&quot;
+          ),
+          series: {
+            #&quot;SYSTEM_SYSRULES_chartSeries&quot;(
+              label: &quot;Applications&quot;,
+              data: apply(
+                #&quot;a5fac82e-1ad4-4276-b8f5-4cfa0b143686&quot;(
+                  _,
+                  local!applicationData.CreationDate
+                ),
+                local!arrDtRange
+              )
+            ),
+            #&quot;SYSTEM_SYSRULES_chartSeries&quot;(
+              label: &quot;Applications Instances&quot;,
+              data: apply(
+                #&quot;a5fac82e-1ad4-4276-b8f5-4cfa0b143686&quot;(
+                  _,
+                  local!applicationInstancesData.CreationDate
+                ),
+                local!arrDtRange
+              )
+            )
+          }
+        ),
+        {}
+      )
+    }
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

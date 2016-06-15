@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getResponseTypeList</name>
+        <uuid>93655336-4d9f-4d5c-933c-2f9f9a3a6998</uuid>
+        <description>return list of components supported</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1140&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1141&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1142&quot;,
+  /*cons!PFS_RESPONSE_TYPE_TIME,*/
+  /*cons!PFS_RESPONSE_TYPE_IMAGE,*/
+  #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;,
+  /*cons!PFS_RESPONSE_TYPE_FILE_UPLOAD_FIELD,*/
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+  /*cons!PFS_RESPONSE_TYPE_MULTI_DROPDOWN,*/
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;,
+  #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;,
+  /*cons!PFS_RESPONSE_TYPE_DOCUMENT_PICKER,*/
+  /*cons!PFS_RESPONSE_TYPE_MILE_STONE_FIELD,*/
+  /*cons!PFS_RESPONSE_TYPE_GRID_EDITABLE,*/
+  /*cons!PFS_RESPONSE_TYPE_BUTTON,*/
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;
+}</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

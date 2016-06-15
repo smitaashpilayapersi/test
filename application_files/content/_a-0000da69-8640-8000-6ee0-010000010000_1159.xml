@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_shouldDisplayComponentPerParent</name>
+        <uuid>_a-0000da69-8640-8000-6ee0-010000010000_1159</uuid>
+        <description>return true if component that is passed as input should be displayed, based on the value(s) captured for parent component</description>
+        <parentUuid>_a-0000da77-7eeb-8000-6ee0-010000010000_1491</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!cfgComponent: ri!formData_cdt.componentList[ri!componentIndex],
+  local!cfgComponentParent: local!cfgComponent.parentList[ri!parentIndex],
+  local!cfgComponentParentId: local!cfgComponentParent.parentComponentId,
+  /* if any one of the values to the parent component trigger the current component */local!cfgComponentParentValueList: index(
+    local!cfgComponentParent,
+    &quot;parentValueList&quot;,
+    &quot;valueTxt&quot;,
+    {}
+  ),
+  /* take a look at the values of the parent component */local!parentComponent: if(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
+      local!cfgComponentParentId
+    ),
+    {},
+    fn!index(
+      ri!formData_cdt.componentList,
+      fn!wherecontains(
+        local!cfgComponentParentId,
+        ri!formData_cdt.componentList.id
+      ),
+      {}
+    )
+  ),
+  local!parentComponentValues: fn!index(
+    local!parentComponent,
+    1,
+    &quot;valueList&quot;,
+    &quot;valueTxt&quot;,
+    {}
+  ),
+  local!parentComponentFirstValue: fn!index(
+    local!parentComponent,
+    1,
+    &quot;valueList&quot;,
+    1,
+    &quot;valueTxt&quot;,
+    &quot;&quot;
+  ),
+  local!isParentValueMatched: if(
+    fn!not(
+      fn!isnull(
+        local!cfgComponentParent.matchAnyValueFlag
+      )
+    ),
+    (
+      len(
+        local!parentComponentFirstValue
+      ) &gt; 0
+    ),
+    if(
+      or(
+        fn!isnull(
+          local!parentComponentValues
+        ),
+        length(
+          local!parentComponentValues
+        ) = 0,
+        fn!isnull(
+          local!cfgComponentParentValueList
+        ),
+        length(
+          local!cfgComponentParentValueList
+        ) = 0
+      ),
+      False,
+      (
+        length(
+          wherecontains(
+            local!parentComponentValues,
+            local!cfgComponentParentValueList
+          )
+        ) &gt; 0
+      )
+    )
+  ),
+  /* if there is no parent or parent value matched with configured parent value */local!shouldDisplayComponent: or(
+    fn!isnull(
+      local!parentComponent
+    ),
+    local!isParentValueMatched
+  ),
+  local!shouldDisplayComponent
+)</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>componentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

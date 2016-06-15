@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>PFS_UTIL_generateRandomGUID</name>
+        <uuid>_a-0000da67-9c1b-8000-6ee0-010000010000_1078</uuid>
+        <description>return new GUID</description>
+        <parentUuid>_a-0000da76-7afb-8000-6ee0-010000010000_1389</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!guidLengths: {
+    8,
+    4,
+    4,
+    4,
+    12
+  },
+  local!guidSepChar: &quot;-&quot;,
+  local!guidPart1: fn!apply(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1077&quot;(
+      counter: _
+    ),
+    fn!repeat(
+      local!guidLengths[1],
+      0
+    )
+  ),
+  local!guidPart2: fn!apply(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1077&quot;(
+      counter: _
+    ),
+    fn!repeat(
+      local!guidLengths[2],
+      0
+    )
+  ),
+  local!guidPart3: fn!apply(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1077&quot;(
+      counter: _
+    ),
+    fn!repeat(
+      local!guidLengths[3],
+      0
+    )
+  ),
+  local!guidPart4: fn!apply(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1077&quot;(
+      counter: _
+    ),
+    fn!repeat(
+      local!guidLengths[4],
+      0
+    )
+  ),
+  local!guidPart5: fn!apply(
+    #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1077&quot;(
+      counter: _
+    ),
+    fn!repeat(
+      local!guidLengths[5],
+      0
+    )
+  ),
+  local!guidFull: fn!concat(
+    local!guidPart1,
+    local!guidSepChar,
+    local!guidPart2,
+    local!guidSepChar,
+    local!guidPart3,
+    local!guidSepChar,
+    local!guidPart4,
+    local!guidSepChar,
+    local!guidPart5
+  ),
+  local!guidFull
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>
