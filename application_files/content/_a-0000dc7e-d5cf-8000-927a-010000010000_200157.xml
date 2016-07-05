@@ -15,9 +15,14 @@
             <unlogged>false</unlogged>
         </visibility>
         <definition>load(
-  local!ShowPreviousForm: false(),
+  /*local!FormInstanceId: index(ri!arrintFormInstanceIds, count(ri!arrintFormInstanceIds),0),*/
+  /*local!MilestoneActiveState: ri!intMilestoneActiveState,*/
+  local!CurrentFormInstanceId: ri!intFormInstanceId,
   with(
+  /*  local!FormInstanceId: index(ri!arrintFormInstanceIds, count(ri!arrintFormInstanceIds),0),*/
+    local!MilestoneActiveState: wherecontains(ri!intFormInstanceId,ri!arrintFormInstanceIds),
     local!preserveformData_cdt: ri!formData_cdt,
+    local!formData_cdt:if(isnull(ri!intFormInstanceId),{},#&quot;69b157a4-bee4-4f93-a3df-c4eb9c5aec0e&quot;(ri!intFormInstanceId)),
     local!save_btn: #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
       label: &quot;Save&quot;,
       value: &quot;Save&quot;,
@@ -43,9 +48,14 @@
       if(
         ri!isTaskView,
         #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
-          label: &quot;Submit&quot;,
+          label: ri!formData_cdt.ApproveLabel,
           style: &quot;PRIMARY&quot;,
-          value: &quot;Submit&quot;,
+          value: index(
+            #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+            1,
+            {}
+          ),
+           disabled: if(ri!intFormInstanceId = local!CurrentFormInstanceId, false(), true()),
           saveInto: {
             a!save(
               ri!actionButton_txt,
@@ -57,6 +67,11 @@
             )
           },
           skipValidation: false
+        ),
+        {
+          #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+          label: ri!formData_cdt.ApproveLabel,
+          style: &quot;PRIMARY&quot;
         ),
         #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
           label: &quot;Configure&quot;,
@@ -74,6 +89,39 @@
           },
           skipValidation: true
         )
+        }
+      )
+    ),
+    local!rejectBtn: if(
+      ri!isDashboardView,
+      {},
+      if(
+        ri!isTaskView,
+        #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+          label: ri!formData_cdt.RejectLabel,
+          style: &quot;NORMAL&quot;,
+          value: index(
+            #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+            5,
+            {}
+          ),
+           disabled: if(ri!intFormInstanceId = local!CurrentFormInstanceId, false(), true()),
+          saveInto: {
+            a!save(
+              ri!actionButton_txt,
+              save!value
+            ),
+            a!save(
+              ri!formData_cdt,
+              local!preserveformData_cdt
+            )
+          },
+          skipValidation: false
+        ),
+        #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+          label: ri!formData_cdt.RejectLabel,
+          style: &quot;NORMAL&quot;
+        )
       )
     ),
     local!exitBtn: if(
@@ -82,14 +130,30 @@
       if(
         ri!isTaskView,
         #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
-          label: &quot;Exit&quot;,
-          value: &quot;Exit&quot;,
-          style: &quot;DESTRUCTIVE&quot;,
+          label: index(
+            #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,
+            2,
+            {}
+          ),
+          value: index(
+            #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+            2,
+            {}
+          ),
+          style: &quot;NORMAL&quot;,
+         
           skipValidation: true,
-          confirmMessage: &quot;All data will be lost, do you really want to exit?&quot;,
+          confirmMessage: &quot;By clicking on Yes you will terminate the flow, do you really want to exit?&quot;,
           saveInto: ri!actionButton_txt
         ),
-        {}
+        #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+          label: index(
+            #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,
+            2,
+            {}
+          ),
+          style: &quot;NORMAL&quot;
+        )
         /*a!buttonWidget(*/
         /*  label: &quot;Exit&quot;,*/
         /*  value: &quot;Exit&quot;,*/
@@ -141,11 +205,13 @@
         )
       )
     ),
+    
     local!sectionComponentList: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
       function: #&quot;27036a83-35ee-400c-82be-cbe65360e10f&quot;(
         componentIndex: _,
         formData_cdt: ri!formData_cdt,
-        readOnly: ri!readOnly
+        readOnly: ri!readOnly,
+        isDashboardView:ri!isDashboardView
       ),
       array: if(
         or(
@@ -162,40 +228,65 @@
     ),
 
     #&quot;SYSTEM_SYSRULES_formLayout&quot;(
-      label: ri!formData_cdt.label,
-      instructions: ri!formData_cdt.instruction,
+      label:if(ri!isDashboardView,
+      local!formData_cdt.label,
+      ri!formData_cdt.label),
+      instructions: if(ri!isDashboardView,
+      local!formData_cdt.Instruction,
+        ri!formData_cdt.Instruction),
       firstColumnContents: {
         if(
-          isnull(
-            ri!cdtPreviousFormVersionCmpnt
-          ),
+          or(isnull(
+            ri!arrtxtFormName
+          ),length(ri!arrtxtFormName)=1),
           {},
-          #&quot;SYSTEM_SYSRULES_linkField&quot;(
-            labelPosition: &quot;COLLAPSED&quot;,
-            links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-              label: if(
-                local!ShowPreviousForm = false(),
-                &quot;Show &quot; &amp; ri!cdtPreviousFormVersionCmpnt.Label,
-                &quot;Hide &quot; &amp; ri!cdtPreviousFormVersionCmpnt.Label
-              ),
-              value: if(
-                local!ShowPreviousForm = false(),
-                true(),
-                false()
-              ),
-              saveInto: local!ShowPreviousForm
-            )
+          #&quot;SYSTEM_SYSRULES_milestoneField&quot;(
+              steps :ri!arrtxtFormName,
+              active: local!MilestoneActiveState,
+              links: apply(
+                #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                  value: _,
+                  saveInto: {
+                     a!save(
+                      ri!intFormInstanceId,
+                      save!value
+                     )
+                     /*a!save(*/
+                     /* ri!intMilestoneActiveState,*/
+                     /* wherecontains(save!value, ri!arrintFormInstanceIds)*/
+                     /*)*/
+                  }
+                ),
+                ri!arrintFormInstanceIds
+              )  
           )
         ),
-        if(
-          local!ShowPreviousForm,
+        /*if(*/
+        /*  local!FormInstanceId &lt;&gt; index(ri!arrintFormInstanceIds, count(ri!arrintFormInstanceIds),0),*/
+          if(ri!isDashboardView,
           #&quot;_a-0000dc95-f9ff-8000-927a-010000010000_202937&quot;(
-            formData_cdt: ri!cdtPreviousFormVersionCmpnt,
-            readOnly: true()
+            formData_cdt: local!formData_cdt,
+            readOnly: true(),
+            isDashboardView: true(),
+            isTaskView:ri!isTaskView
           ),
-          {}
-        ),
-        local!sectionComponentList
+          if(isnull(ri!intFormInstanceId),
+          local!sectionComponentList,
+          if(
+            ri!intFormInstanceId &lt;&gt; local!CurrentFormInstanceId /*index(ri!arrintFormInstanceIds, count(ri!arrintFormInstanceIds),0)*/,
+            #&quot;_a-0000dc95-f9ff-8000-927a-010000010000_202937&quot;(
+            formData_cdt: local!formData_cdt,
+            readOnly: true(),
+            isDashboardView: true(),
+            isTaskView:ri!isTaskView
+          ),
+           local!sectionComponentList
+           )
+           )
+           ),
+        /*   local!sectionComponentList*/
+        /*),*/
+       
       },
       buttons: #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
         primaryButtons: {
@@ -215,7 +306,11 @@
         },
         secondaryButtons: {
           {
-            local!exitBtn/*,
+            local!exitBtn,
+            if(ri!formData_cdt.HideRejectButton,
+            {},
+            local!rejectBtn
+            )/*,
             if(
               isnull(
                 local!configuredButtonListAtFormLevel
@@ -285,10 +380,31 @@
             </type>
         </namedTypedValue>
         <namedTypedValue>
-            <name>cdtPreviousFormVersionCmpnt</name>
+            <name>arrtxtFormName</name>
             <type>
-                <name>AB_FrmVersionAndCmpntDesign</name>
-                <namespace>urn:com:psi:types:AB</namespace>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrintFormInstanceIds</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intFormInstanceId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intMilestoneActiveState</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
         </namedTypedValue>
         <preferredEditor>interface</preferredEditor>
@@ -329,7 +445,7 @@
             <el>
                 <a:name/>
                 <a:ruleInputTestConfigs>
-                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">=#&quot;f8f8316c-afa2-4957-a732-c0cb2670844b&quot;(30)</a:value>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">=#&quot;f8f8316c-afa2-4957-a732-c0cb2670844b&quot;(1)[1]</a:value>
                     <a:nameRef>formData_cdt</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
@@ -364,10 +480,26 @@
                     <a:id/>
                 </a:ruleInputTestConfigs>
                 <a:ruleInputTestConfigs>
-                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">=#&quot;69b157a4-bee4-4f93-a3df-c4eb9c5aec0e&quot;(44)</a:value>
-                    <a:nameRef>cdtPreviousFormVersionCmpnt</a:nameRef>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{&quot;form1&quot;, &quot;form2&quot;, &quot;form3&quot;}</a:value>
+                    <a:nameRef>arrtxtFormName</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{1,0}</a:value>
+                    <a:nameRef>arrintFormInstanceIds</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intFormInstanceId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intMilestoneActiveState</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

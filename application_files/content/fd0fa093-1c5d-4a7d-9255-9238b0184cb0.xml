@@ -116,7 +116,7 @@
         )*/,
         /*not working if fn!left * is removed, just quick fix need to work on later*/required: false,
         value: ri!formData_cdt.componentList[ri!componentIndex].sectionComponentId,
-        placeholderLabel: &quot;-None-&quot;,
+        /*placeholderLabel: &quot;-None-&quot;,*/
         choiceLabels: local!sectionNameListFinal,
         choiceValues: local!sectionIdListFinal,
         saveInto: {
@@ -204,6 +204,7 @@
                     <a:nameRef>componentIndex</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

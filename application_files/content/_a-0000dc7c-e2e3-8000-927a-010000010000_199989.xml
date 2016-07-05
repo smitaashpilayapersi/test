@@ -24,6 +24,8 @@ Buttons for Submit, Cancel and Edit</description>
                 <el>Create Application</el>
                 <el>Cancel</el>
                 <el>Save Changes</el>
+                <el>Next</el>
+                <el>Reject</el>
             </value>
         </typedValue>
     </constant>

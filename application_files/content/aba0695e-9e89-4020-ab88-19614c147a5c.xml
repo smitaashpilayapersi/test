@@ -14,7 +14,9 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>with(
+        <definition>load(
+local!viewDocuments: false(),  
+with(
   local!shouldDisplayComponent:  #&quot;b3025dc8-44f1-4df8-a0d1-86bd5133b565&quot;(
       formData_cdt: ri!formData_cdt,
       componentIndex: ri!componentIndex
@@ -133,7 +135,9 @@
         function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(
           componentIndex: _,
           formData_cdt: ri!formData_cdt,
-          readOnly: ri!readOnly
+          readOnly: ri!readOnly,
+          viewDocuments: local!viewDocuments,
+          isDashboardView:ri!isDashboardView
         ),
         array: fn!append(
           {
@@ -159,7 +163,9 @@
         function: #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(
           componentIndex: _,
           formData_cdt: ri!formData_cdt,
-          readOnly: ri!readOnly
+          readOnly: ri!readOnly,
+          viewDocuments: local!viewDocuments,
+          isDashboardView:ri!isDashboardView
         ),
         array: fn!append(
           {
@@ -184,7 +190,10 @@
     {}
   ),
   local!sectionResponse
-)</definition>
+)
+
+)
+</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
             <type>
@@ -201,6 +210,13 @@
         </namedTypedValue>
         <namedTypedValue>
             <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDashboardView</name>
             <type>
                 <name>boolean</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
@@ -258,6 +274,12 @@
                     <a:nameRef>readOnly</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isDashboardView</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

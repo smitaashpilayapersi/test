@@ -27,14 +27,14 @@
   /*cons!PFS_RESPONSE_TYPE_FILE_UPLOAD_FIELD,*/
   #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
   #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
-  /*cons!PFS_RESPONSE_TYPE_MULTI_DROPDOWN,*/
+  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;,
   #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;,
   #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;,
-  /*cons!PFS_RESPONSE_TYPE_DOCUMENT_PICKER,*/
+  #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;
   /*cons!PFS_RESPONSE_TYPE_MILE_STONE_FIELD,*/
   /*cons!PFS_RESPONSE_TYPE_GRID_EDITABLE,*/
   /*cons!PFS_RESPONSE_TYPE_BUTTON,*/
-  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;
+  /*cons!PFS_RESPONSE_TYPE_SECTION*/
 }</definition>
         <preferredEditor>legacy</preferredEditor>
         <offlineEnabled>false</offlineEnabled>

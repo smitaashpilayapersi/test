@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_AppMilestoneGridLayout</name>
+        <uuid>403647ae-e04b-4612-a272-dfa3d6c5f1ae</uuid>
+        <description>Interface to display gridLayout for application milestones</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(ri!boolIsReadOnly,
+#&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+  label:&quot;Application Milestones&quot;,
+      headerCells:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;S.No&quot;,
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;Milestone Step&quot;,
+          align:&quot;CENTER&quot;
+        )
+      },
+      columnConfigs:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;NARROW&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;DISTRIBUTE&quot;
+        )
+      },
+      rows:#&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+        function:#&quot;53552cff-2502-43bb-8b55-07ab52aa9801&quot;(
+          cdtMilestoneDesign:ri!cdtMilestoneDesign,
+          cdtMilestoneRouting:ri!cdtMilestoneRouting,
+          index:_,
+          boolIsReadOnly:ri!boolIsReadOnly
+        ),
+        array:if(
+          or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)=0),
+          {},
+          enumerate(count(ri!cdtMilestoneDesign))+1
+        )
+      )
+    ),
+    if(
+      or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)&lt;#&quot;_a-0000dd12-a9fb-8000-927a-010000010000_225546&quot;),
+    #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+      totalCount:if(or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)=0),0,count(ri!cdtMilestoneDesign)),
+      headerCells:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;S.No&quot;,
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;Milestone Step&quot;,
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        )
+      },
+      columnConfigs:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;NARROW&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;DISTRIBUTE&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        )
+      },
+      rows:#&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+        function:#&quot;53552cff-2502-43bb-8b55-07ab52aa9801&quot;(
+          cdtMilestoneDesign:ri!cdtMilestoneDesign,
+          cdtMilestoneRouting:ri!cdtMilestoneRouting,
+          index:_,
+          boolIsReadOnly:ri!boolIsReadOnly
+        ),
+        array:if(
+          or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)=0),
+          {},
+          enumerate(count(ri!cdtMilestoneDesign))+1
+        )
+      ),
+      addRowLink:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+        label:&quot;Add Milestone&quot;,
+        value:ri!intMilestoneCount+1,
+        saveInto:{
+          ri!intMilestoneCount,
+          a!save(
+            ri!cdtMilestoneDesign,append(ri!cdtMilestoneDesign,'type!{urn:com:psi:types:AB}AB_MilestoneDesign'(
+              Id:save!value
+            ))
+            ),
+            a!save(
+              ri!cdtMilestoneRouting,append(ri!cdtMilestoneRouting,'type!{urn:com:psi:types:AB}AB_MilestoneRouting'(
+                Id:save!value,
+                Version:1
+                /*FormId:0,*/
+                /*ApproveFormId:0,*/
+                /*RejectFormId:0*/
+              ))
+            )
+        }
+      ),
+      validations: {
+      if(
+        and(
+          or(
+            isnull(
+              ri!cdtMilestoneDesign
+            ),
+            length(
+              ri!cdtMilestoneDesign
+            ) = 0
+          ),ri!intMilestoneStep = 2
+        ),
+        &quot;You need to add atleast one milestone to your application&quot;,
+        {}
+      )
+    },
+    validationGroup: &quot;Task Group Validation&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+      totalCount:if(or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)=0),0,count(ri!cdtMilestoneDesign)),
+      headerCells:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;S.No&quot;,
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          label:&quot;Milestone Step&quot;,
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+          align:&quot;CENTER&quot;
+        )
+      },
+      columnConfigs:{
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;NARROW&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;DISTRIBUTE&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        ),
+        #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+          width:&quot;ICON&quot;
+        )
+      },
+      rows:#&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+        function:#&quot;53552cff-2502-43bb-8b55-07ab52aa9801&quot;(
+          cdtMilestoneDesign:ri!cdtMilestoneDesign,
+          cdtMilestoneRouting:ri!cdtMilestoneRouting,
+          index:_,
+          boolIsReadOnly:ri!boolIsReadOnly
+        ),
+        array:if(
+          or(isnull(ri!cdtMilestoneDesign),length(ri!cdtMilestoneDesign)=0),
+          {},
+          enumerate(count(ri!cdtMilestoneDesign))+1
+        )
+      ),
+      validations: {
+      if(
+        and(
+          or(
+            isnull(
+              ri!cdtMilestoneDesign
+            ),
+            length(
+              ri!cdtMilestoneDesign
+            ) = 0
+          ),ri!intMilestoneStep = 2
+        ),
+        &quot;You need to add atleast one milestone to your application&quot;,
+        {}
+      )
+    },
+    validationGroup: &quot;Task Group Validation&quot;
+    ))
+)</definition>
+        <namedTypedValue>
+            <name>cdtMilestoneDesign</name>
+            <type>
+                <name>AB_MilestoneDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtMilestoneRouting</name>
+            <type>
+                <name>AB_MilestoneRouting?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intMilestoneCount</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>boolIsReadOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intMilestoneStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtMilestoneDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtMilestoneRouting</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intMilestoneCount</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>boolIsReadOnly</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intMilestoneStep</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

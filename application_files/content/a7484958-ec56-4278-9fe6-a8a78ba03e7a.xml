@@ -14,115 +14,125 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>  with(
-    local!cdtFormVersionComponent:ri!cdtFormVersionComponent,
-    local!cdtForms:ri!cdtForms,
+        <definition>with(
+  local!cdtFormVersionComponent: ri!cdtFormVersionComponent,
+  local!cdtForms: ri!cdtForms,
   #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
-  contents:{
-    #&quot;SYSTEM_SYSRULES_linkField&quot;(
-      links:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-        label:ri!cdtFormVersionComponent[ri!intIndex].name,
-      value:ri!intIndex,
-      saveInto:{
-        ri!FormIndex,
-        a!save(                                         
-          ri!txtButton,
-          &quot;&quot;
-        )
-      
-      
-      }
-      )
-    ),
-    #&quot;SYSTEM_SYSRULES_textField&quot;(
-      value:ri!cdtFormVersionComponent[ri!intIndex].description,
-      readOnly:true()
-    ),
-    #&quot;SYSTEM_SYSRULES_textField&quot;(
-      value:ri!cdtForms[ri!intIndex].LastModifiedDate,
-      readOnly:true()
-    ),
-    if(ri!intIndex=1,
-     #&quot;SYSTEM_SYSRULES_textField&quot;(
-       readOnly: true()
-     ),
-     #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
-      choiceLabels: {&quot;&quot;},
-      choiceValues: {true()},
-      align : &quot;CENTER&quot;, 
-      value: ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm,
-      saveInto: ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm
-    ) 
-    ),
-    #&quot;SYSTEM_SYSRULES_imageField&quot;(
-      images:if(ri!intIndex=1,{},#&quot;SYSTEM_SYSRULES_documentImage&quot;(
-        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
-          icon:&quot;MOVE_UP&quot;
-        ),
-        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-          value:ri!intIndex,
-          saveInto:{
-            a!save(ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm, if(ri!intIndex=2, null, ri!cdtFormVersionComponent[ri!intIndex].DisplayPreviousForm) ),
-            a!save(ri!cdtFormVersionComponent,updatearray(ri!cdtFormVersionComponent,{ri!intIndex-1,ri!intIndex},{local!cdtFormVersionComponent[ri!intIndex],local!cdtFormVersionComponent[ri!intIndex-1]})),
-            a!save(ri!cdtForms,updatearray(ri!cdtForms,{ri!intIndex-1,ri!intIndex},{local!cdtForms[ri!intIndex],local!cdtForms[ri!intIndex-1]}))
-          
-          }
-        )
-        )),
-        size:&quot;ICON&quot;
-    ),
-    #&quot;SYSTEM_SYSRULES_imageField&quot;(
-      images:if(ri!intIndex=count(ri!cdtForms),{},
-      #&quot;SYSTEM_SYSRULES_documentImage&quot;(
-        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
-          icon:&quot;MOVE_DOWN&quot;
-        ),
-        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-          value:ri!intIndex,
-          saveInto:{
-            a!save(ri!cdtFormVersionComponent,updatearray(ri!cdtFormVersionComponent,{ri!intIndex,ri!intIndex+1},{local!cdtFormVersionComponent[ri!intIndex+1],local!cdtFormVersionComponent[ri!intIndex]})),
-            a!save(ri!cdtForms,updatearray(ri!cdtForms,{ri!intIndex,ri!intIndex+1},{local!cdtForms[ri!intIndex+1],local!cdtForms[ri!intIndex]}))
-          }
-        )
-        )),
-        size:&quot;ICON&quot;
-    ),
-  
-      #&quot;SYSTEM_SYSRULES_imageField&quot;(
-      images:#&quot;SYSTEM_SYSRULES_documentImage&quot;(
-        document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
-          icon:&quot;REMOVE&quot;
-        ),
-        link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-          value:ri!intIndex,
-          saveInto:{
-            a!save(
-              ri!cdtFormVersionComponent,remove(
-                ri!cdtFormVersionComponent,save!value
-              )
-            ),
-            a!save(
-              ri!cdtForms,remove(
-                ri!cdtForms,save!value
-              )
-            ),
-            /*a!save(*/
-            /*  ri!FormIndex,*/
-            /*    ri!FormIndex-1*/
-            /*),*/
-            a!save(
-              ri!intFormCount,
-              ri!intFormCount-1
-            )
-          }
-        )
+    contents: {
+      #&quot;SYSTEM_SYSRULES_textField&quot;(
+        value: ri!cdtFormVersionComponent[ri!intIndex].name,
+        readOnly: true()
       ),
-      size:&quot;ICON&quot;
-    )
-  }
-)
-)
-</definition>
+      #&quot;SYSTEM_SYSRULES_textField&quot;(
+        value: ri!cdtFormVersionComponent[ri!intIndex].description,
+        readOnly: true()
+      ),
+      #&quot;SYSTEM_SYSRULES_textField&quot;(
+        value: ri!cdtForms[ri!intIndex].LastModifiedDate,
+        readOnly: true()
+      ),
+      #&quot;SYSTEM_SYSRULES_pickerFieldGroups&quot;(
+        maxSelections: 1,
+        value: togroup(ri!cdtForms[ri!intIndex].DefaultAssigneeGrp),
+        saveInto: {
+          a!save(ri!cdtForms[ri!intIndex].DefaultAssigneeGrp,tointeger(save!value))
+        }
+      )
+      /*a!imageField(
+        images: if(
+          ri!intIndex = 1,
+          {},
+          a!documentImage(
+            document: a!iconIndicator(
+              icon: &quot;MOVE_UP&quot;
+            ),
+            link: a!dynamicLink(
+              value: ri!intIndex,
+              saveInto: {
+                a!save(
+                  ri!cdtFormVersionComponent,
+                  updatearray(
+                    ri!cdtFormVersionComponent,
+                    {
+                      ri!intIndex - 1,
+                      ri!intIndex
+                    },
+                    {
+                      local!cdtFormVersionComponent[ri!intIndex],
+                      local!cdtFormVersionComponent[ri!intIndex - 1]
+                    }
+                  )
+                ),
+                a!save(
+                  ri!cdtForms,
+                  updatearray(
+                    ri!cdtForms,
+                    {
+                      ri!intIndex - 1,
+                      ri!intIndex
+                    },
+                    {
+                      local!cdtForms[ri!intIndex],
+                      local!cdtForms[ri!intIndex - 1]
+                    }
+                  )
+                )
+              }
+            )
+          )
+        ),
+        size: &quot;ICON&quot;
+      ),
+      a!imageField(
+        images: if(
+          ri!intIndex = count(
+            ri!cdtForms
+          ),
+          {},
+          a!documentImage(
+            document: a!iconIndicator(
+              icon: &quot;MOVE_DOWN&quot;
+            ),
+            link: a!dynamicLink(
+              value: ri!intIndex,
+              saveInto: {
+                a!save(
+                  ri!cdtFormVersionComponent,
+                  updatearray(
+                    ri!cdtFormVersionComponent,
+                    {
+                      ri!intIndex,
+                      ri!intIndex + 1
+                    },
+                    {
+                      local!cdtFormVersionComponent[ri!intIndex + 1],
+                      local!cdtFormVersionComponent[ri!intIndex]
+                    }
+                  )
+                ),
+                a!save(
+                  ri!cdtForms,
+                  updatearray(
+                    ri!cdtForms,
+                    {
+                      ri!intIndex,
+                      ri!intIndex + 1
+                    },
+                    {
+                      local!cdtForms[ri!intIndex + 1],
+                      local!cdtForms[ri!intIndex]
+                    }
+                  )
+                )
+              }
+            )
+          )
+        ),
+        size: &quot;ICON&quot;
+      )*/
+    }
+  )
+)</definition>
         <namedTypedValue>
             <name>cdtFormVersionComponent</name>
             <type>
@@ -233,6 +243,7 @@
                     <a:nameRef>intFormCount</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

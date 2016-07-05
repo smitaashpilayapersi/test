@@ -19,7 +19,7 @@
                 <name>int</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
-            <value>6</value>
+            <value>15</value>
         </typedValue>
     </constant>
     <roleMap public="true">

@@ -38,7 +38,7 @@
       startIndex:1,
       batchSize:-1,
       sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
-        field: &quot;SequenceNumber&quot;,
+        field: &quot;Id&quot;,
         ascending : true()
       )
     )

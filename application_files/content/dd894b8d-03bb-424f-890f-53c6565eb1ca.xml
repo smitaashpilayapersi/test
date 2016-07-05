@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_Task_GridLayoutEachRow</name>
+        <uuid>dd894b8d-03bb-424f-890f-53c6565eb1ca</uuid>
+        <description>This rule is used to display task added in an application (Task name, task description, form label, form description, default assignee) in each row in a grid </description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  contents: {
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      readOnly  : ri!boolIsReadOnly,
+      required: true(),
+      value: ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Name,
+      saveInto: a!save(
+        ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Name,
+        trim(
+          save!value
+        )
+      ),
+      validations:{
+        if(
+            fn!len(
+              ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Name
+            ) &lt;= 200,
+            &quot;&quot;,
+            &quot;The character limit is 200&quot;
+          )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+      readOnly  : ri!boolIsReadOnly,
+      value: ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Description,
+      saveInto: a!save(
+        ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Description,
+        #&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(
+          save!value
+        )
+      ),
+      validations:{
+        if(
+            fn!len(
+              ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Description
+            ) &lt;= 500,
+            &quot;&quot;,
+            &quot;The character limit is 500&quot;
+          )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      readOnly  : ri!boolIsReadOnly,
+      required: true(),
+      value: ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Label,
+      saveInto: a!save(
+        ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Label,
+        trim(
+          save!value
+        )
+      ),
+      validations:{
+        if(
+            fn!len(
+              ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Label
+            ) &lt;= 200,
+            &quot;&quot;,
+            &quot;The character limit is 200&quot;
+          )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+      readOnly  : ri!boolIsReadOnly,
+      value: ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Instruction,
+      saveInto: a!save(
+        ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Instruction,
+        #&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(
+          save!value
+        )
+      ),
+      validations:{
+        if(
+            fn!len(
+              ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Instruction
+            ) &lt;= 200,
+            &quot;&quot;,
+            &quot;The character limit is 200&quot;
+          )
+      }
+    ),
+    if(
+      ri!boolIsReadOnly = true(),
+      {},
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images: #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        altText : &quot;Configure&quot;,
+        caption : &quot;Configure &quot;&amp;ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].Name,
+        document: #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon: &quot;PREVIEW&quot;
+        ),
+        link: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value: ri!intIndex,
+          saveInto: {ri!intSelectedIndex,
+          a!save(ri!intSequenceNumber,count(ri!arrcdtFrmVersionAndCmpntDesign[ri!intIndex].componentList)+1)
+          }
+        )
+      ),
+      size: &quot;ICON&quot;
+    )),
+    if(
+      ri!boolIsReadOnly = true(),
+      {},#&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images: #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        document: #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon: &quot;REMOVE&quot;
+        ),
+        link: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value: ri!intIndex,
+          saveInto: {
+            a!save(
+              ri!arrcdtFrmVersionAndCmpntDesign,
+              remove(
+                ri!arrcdtFrmVersionAndCmpntDesign,
+                save!value
+              )
+            ),
+            a!save(
+              ri!arrcdtFormsDesign,
+              remove(
+                ri!arrcdtFormsDesign,
+                save!value
+              )
+            )
+          }
+        )
+      ),
+      size: &quot;ICON&quot;
+    ))
+    
+  }
+)</definition>
+        <namedTypedValue>
+            <name>intIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrcdtFormsDesign</name>
+            <type>
+                <name>AB_FormsDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrcdtFrmVersionAndCmpntDesign</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intSelectedIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>boolIsReadOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intSequenceNumber</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>arrcdtFormsDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>arrcdtFrmVersionAndCmpntDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intSelectedIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>boolIsReadOnly</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intSequenceNumber</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

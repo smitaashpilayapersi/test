@@ -15,10 +15,10 @@
             <unlogged>false</unlogged>
         </visibility>
         <definition>with(
-  local!isInActive: (
+  local!isDisabled: (
     not(
       fn!isnull(
-        ri!formData_cdt.componentList[ri!componentIndex].isInActive
+        ri!formData_cdt.componentList[ri!componentIndex].isDisabled
       )
     )
   ),
@@ -61,14 +61,12 @@
     )
   ),
   local!shouldDisplay: if(
-    local!isInActive,
-    False,
-    
-    if(
       local!noParentExist,
       True,
       if(
-        ri!formData_cdt.componentList[ri!componentIndex].parentCondition = #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
+        or(
+          ri!formData_cdt.componentList[ri!componentIndex].parentCondition = #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
+          ri!formData_cdt.componentList[ri!componentIndex].parentCondition = #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1234&quot;),
         (
           local!numberOfParentsAllowDisplay &gt; 0
         ),
@@ -76,8 +74,7 @@
           local!numberOfParentsAllowDisplay = local!numberOfParents
         )
       )
-    )
-  ),
+    ),
   local!shouldDisplay
 )</definition>
         <namedTypedValue>
@@ -141,6 +138,7 @@
                     <a:nameRef>componentIndex</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

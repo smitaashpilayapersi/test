@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateApplicationGroupCdt</name>
+        <uuid>80405b6b-2048-4232-a7c5-b9a55cf967f3</uuid>
+        <description>Rule to create AB_ApplicationGroups cdt using groupId</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>'type!{urn:com:psi:types:AB}AB_ApplicationGroups'(
+  txtGroupNames:group(ri!group,&quot;groupName&quot;),
+  txtDescription:group(ri!group,&quot;description&quot;),
+  txtGroupMembers:{touser(touniformString(#&quot;520cf56e-0a4a-46d3-83ca-766a9d517c4a&quot;(ri!group))),togroup(touniformString(#&quot;520cf56e-0a4a-46d3-83ca-766a9d517c4a&quot;(ri!group)))},
+  intGroupId:tointeger(ri!group)
+)</definition>
+        <namedTypedValue>
+            <name>group</name>
+            <type>
+                <name>Group</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

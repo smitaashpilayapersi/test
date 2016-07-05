@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_ConfigureFormButtons</name>
+        <uuid>bb7b8a44-6331-4c5c-b295-c10a9ecd1857</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_sectionLayout&quot;(&#xD;
+          label:&quot;Configure buttons for &quot; &amp; ri!formData_cdt.Label,&#xD;
+          firstColumnContents:{&#xD;
+            #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+              label:&quot;Label for Primary Button&quot;,&#xD;
+              labelPosition:&quot;ADJACENT&quot;,&#xD;
+              value:ri!formData_cdt.ApproveLabel,&#xD;
+              saveInto:ri!formData_cdt.ApproveLabel,&#xD;
+              required:true()&#xD;
+            ),&#xD;
+            #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+              label:&quot;Label for Secondary Button&quot;,&#xD;
+              labelPosition:&quot;ADJACENT&quot;,&#xD;
+              value:ri!formData_cdt.RejectLabel,&#xD;
+              saveInto:ri!formData_cdt.RejectLabel,&#xD;
+              required:if(isnull(ri!formData_cdt.HideRejectButton),true(),false())&#xD;
+            )&#xD;
+          },&#xD;
+          secondColumnContents:{&#xD;
+            #&quot;SYSTEM_SYSRULES_checkboxField&quot;(&#xD;
+              label:&quot;Is Secondary Button Hidden?&quot;,&#xD;
+              labelPosition:&quot;ADJACENT&quot;,&#xD;
+              choiceLabels:{&quot;&quot;},&#xD;
+              choiceValues:{true()},&#xD;
+              value:ri!formData_cdt.HideRejectButton,&#xD;
+              saveInto:ri!formData_cdt.HideRejectButton&#xD;
+            )&#xD;
+          }&#xD;
+        )</definition>
+        <namedTypedValue>
+            <name>formData_cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users>
+                <userUuid>Smita.Ashpilaya</userUuid>
+            </users>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>formData_cdt</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

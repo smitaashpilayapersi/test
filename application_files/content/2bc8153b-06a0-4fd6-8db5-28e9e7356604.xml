@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ReturnDefaultValueBasedOnResponseType</name>
+        <uuid>2bc8153b-06a0-4fd6-8db5-28e9e7356604</uuid>
+        <description>This rule will return Default value based on response type of the component</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(&#xD;
+    contains(#&quot;eff69213-a672-4fa9-9d27-d6e7981bc8f0&quot;(),tostring(ri!cdtFrmCmpnts.responseType)), &#xD;
+    #&quot;52aaefce-1d22-4d52-9691-8b01f6c21b98&quot;(ri!cdtFrmCmpnts),&#xD;
+    ri!cdtFrmCmpnts.defaultValue&#xD;
+ &#xD;
+ )</definition>
+        <namedTypedValue>
+            <name>cdtFrmCmpnts</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

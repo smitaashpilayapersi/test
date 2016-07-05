@@ -62,7 +62,8 @@
     function: #&quot;27036a83-35ee-400c-82be-cbe65360e10f&quot;(
       componentIndex: _,
       formData_cdt: ri!formData_cdt,
-      readOnly: ri!readOnly
+      readOnly: ri!readOnly,
+      isDashboardView:ri!isDashboardView
     ),
     array: if(
       or(
@@ -77,7 +78,18 @@
       local!FormLevelComponentIndexList
     )
   ),
-  local!sectionComponentList
+  {
+    if(ri!isTaskView,
+    #&quot;SYSTEM_SYSRULES_richTextDisplayField&quot;(
+      value: #&quot;SYSTEM_SYSRULES_richTextItem&quot;(
+        text: ri!formData_cdt.label,
+        style: &quot;HEADER_MEDIUM&quot;
+      )
+    ),
+    {}),
+    local!sectionComponentList  
+  }
+  
 )</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
@@ -201,6 +213,7 @@
                     <a:nameRef>isTaskView</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

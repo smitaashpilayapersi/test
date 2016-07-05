@@ -33,6 +33,14 @@
         labelPosition: &quot;ABOVE&quot;,
         value: local!selectedUsers,
         maxSelections: 1,
+        required:if(
+              and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
+                true(),
+                false()
+              ),
+        requiredMessage: &quot;Please select a default user&quot;,
         saveInto: {
           local!selectedUsers,
           a!save(
@@ -53,18 +61,30 @@
         #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(
           label: &quot;Select Documents&quot;,
           labelPosition: &quot;ABOVE&quot;,
-          value: local!selectedDocuments,
-          saveInto: {
-            local!selectedDocuments,
-            a!save(
-              ri!formData_cdt.componentList[ri!componentIndex].valueList,
-              {
-                #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1038&quot;(
-                  valueTxt: save!value
-                )
-              }
-            )
-          }
+          required: if(
+            and(
+              ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
+                true(),
+                false()
+          ),
+          value: split(ri!formData_cdt.componentList[ri!componentIndex].defaultValue, &quot;;&quot;),
+          saveInto: ri!formData_cdt.componentList[ri!componentIndex].defaultValue
+          /*value: local!selectedDocuments,*/
+          /*saveInto: {*/
+          /*  local!selectedDocuments,*/
+          /*  a!save(*/
+          /*    ri!formData_cdt.componentList[ri!componentIndex].valueList,*/
+          /*    {*/
+          /*      append(*/
+          /*        ri!formData_cdt.componentList[ri!componentIndex].valueList,*/
+          /*        rule!PFS_createNewCfgComponentValue(*/
+          /*          valueTxt: save!value*/
+          /*        )*/
+          /*      )*/
+          /*    }*/
+          /*  )*/
+          /*}*/
         ),
         {
           #&quot;SYSTEM_SYSRULES_gridLayout&quot;(

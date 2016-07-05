@@ -14,126 +14,199 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>#&quot;SYSTEM_SYSRULES_sectionLayoutColumns&quot;(
-  columns: {
-    #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
-      contents: {
-        /*if(
-          or(
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_SECTION,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_GRID_EDITABLE
-          ),
-          /* a section or grid will always use single column *//*{},
-          a!dropdownField(
-            label: &quot;Column Index&quot;,
-            instructions: &quot;column index determines if the component appears where the component appears&quot;,
-            required: false,
-            choiceLabels: cons!PFS_COL_INDEX_LIST,
-            choiceValues: cons!PFS_COL_INDEX_LIST,
-            value: if(
-              fn!isnull(
-                ri!formData_cdt.componentList[ri!componentIndex].columnIndex
-              ),
-              cons!PFS_COL_INDEX_LIST[1],
-              ri!formData_cdt.componentList[ri!componentIndex].columnIndex
-            ),
-            saveInto: {
-              ri!formData_cdt.componentList[ri!componentIndex].columnIndex
-            }
-          )
-        ),*/
-        if(
-          or(
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;
-          ),
-          {},
-          {
-            #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
-              required: false,
-              instructions: &quot;check this box, to make the corresponding component readOnly&quot;,
-              choiceLabels: {
-                &quot;Is ReadOnly&quot;
-              },
-              choiceValues: {
-                true
-              },
-              value: ri!formData_cdt.componentList[ri!componentIndex].isReadOnly,
-              saveInto: {
-                ri!formData_cdt.componentList[ri!componentIndex].isReadOnly
-              }
-            )
-          }
-        )
-      }
-    ),
-    #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
-      contents: {
-        if(
-          or(
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;
-          ),
-          {},
-          {
-            #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
-              instructions: &quot;check this box if the component must be answered to submit the form&quot;,
-              choiceLabels: {
-                &quot;Is Required&quot;
-              },
-              choiceValues: {
-                true
-              },
-              required: false,
-              value: ri!formData_cdt.componentList[ri!componentIndex].isRequired,
-              saveInto: {
-                ri!formData_cdt.componentList[ri!componentIndex].isRequired
-              }
-            )
-          }
-        )
-        /* a!dropdownField(
-          label: &quot;Sequence&quot;,
-          instructions: &quot;Sequence Index is used to sort the components with in a section&quot;,
+        <definition>/*a!sectionLayoutColumns(*/
+/*  columns: {*/
+/*    a!columnLayout(*/
+/*      contents: {*/
+/*        if(*/
+/*          or(*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_SECTION,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_BUTTON,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_MILE_STONE_FIELD*/
+/*          ),*/
+/*          {},*/
+/*          {*/
+/*            a!checkboxField(*/
+/*              required: false,*/
+/*              instructions: &quot;check this box, to make the corresponding component readOnly&quot;,*/
+/*              choiceLabels: {*/
+/*                &quot;Is ReadOnly&quot;*/
+/*              },*/
+/*              choiceValues: {*/
+/*                true*/
+/*              },*/
+/*              value: ri!formData_cdt.componentList[ri!componentIndex].isReadOnly,*/
+/*              saveInto: {*/
+/*                ri!formData_cdt.componentList[ri!componentIndex].isReadOnly*/
+/*              }*/
+/*            )*/
+/*          }*/
+/*        )*/
+/*      }*/
+/*    ),*/
+/*    a!columnLayout(*/
+/*      contents: {*/
+/*        if(*/
+/*          or(*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_SECTION,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_BUTTON,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_MILE_STONE_FIELD*/
+/*          ),*/
+/*          {},*/
+/*          {*/
+/*            a!checkboxField(*/
+/*              instructions: &quot;check this box if the component must be answered to submit the form&quot;,*/
+/*              choiceLabels: {*/
+/*                &quot;Is Required&quot;*/
+/*              },*/
+/*              choiceValues: {*/
+/*                true*/
+/*              },*/
+/*              required: false,*/
+/*              value: ri!formData_cdt.componentList[ri!componentIndex].isRequired,*/
+/*              saveInto: {*/
+/*                ri!formData_cdt.componentList[ri!componentIndex].isRequired*/
+/*              }*/
+/*            )*/
+/*          }*/
+/*        )*/
+/*      }*/
+/*    ),*/
+/*    a!columnLayout(*/
+/*      contents: {*/
+/*        if(*/
+/*          or(*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_SECTION,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_BUTTON,*/
+/*            ri!formData_cdt.componentList[ri!componentIndex].responseType = cons!PFS_RESPONSE_TYPE_MILE_STONE_FIELD*/
+/*          ),*/
+/*          {},*/
+/*          {*/
+/*            a!checkboxField(*/
+/*              instructions: &quot;check this box if the component must be disabled in the form&quot;,*/
+/*              choiceLabels: {*/
+/*                &quot;Is Disabled&quot;*/
+/*              },*/
+/*              choiceValues: {*/
+/*                true*/
+/*              },*/
+/*              required: false,*/
+/*              value: ri!formData_cdt.componentList[ri!componentIndex].isDisabled,*/
+/*              saveInto: {*/
+/*                ri!formData_cdt.componentList[ri!componentIndex].isDisabled*/
+/*              }*/
+/*            )*/
+/*          }*/
+/*        )*/
+/*      }*/
+/*    )*/
+/*  }*/
+/*)*/
+#&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+  firstColumnContents: {
+    if(
+      or(
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;
+      ),
+      {},
+      {
+        #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
           required: false,
-          choiceLabels: 1 + enumerate(
-            count(
-              ri!formData_cdt.componentList
-            )
-          ),
-          choiceValues: 1 + enumerate(
-            count(
-              ri!formData_cdt.componentList
-            )
-          ),
-          value: ri!formData_cdt.componentList[ri!componentIndex].seqIndex,
-          saveInto: {
-            ri!formData_cdt.componentList[ri!componentIndex].seqIndex
-             ,a!save(
-              ri!formData_cdt.componentList,
-              rule!PFS_UTIL_sortComponentListBySeqIndex(
-                componentList: ri!formData_cdt.componentList
-              )
-            )
-          }
-        ),
-        a!checkboxField(
-          required: false,
-          instructions: &quot;check this box, if you want to retire or ignore this component in the form&quot;,
+          instructions: &quot;check this box, to make the corresponding component readOnly&quot;,
           choiceLabels: {
-            &quot;Is InActive&quot;
+            &quot;Is ReadOnly&quot;
           },
           choiceValues: {
             true
           },
-          value: ri!formData_cdt.componentList[ri!componentIndex].isInActive,
+          value: ri!formData_cdt.componentList[ri!componentIndex].isReadOnly,
           saveInto: {
-            ri!formData_cdt.componentList[ri!componentIndex].isInActive
+            ri!formData_cdt.componentList[ri!componentIndex].isReadOnly
           }
-        )*/
-        
+        )
+      }
+    ),
+    if(
+      or(
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;
+      ),
+      {},
+      {
+        #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
+          instructions: &quot;check this box if the component must be disabled in the form&quot;,
+          choiceLabels: {
+            &quot;Is Disabled&quot;
+          },
+          choiceValues: {
+            true
+          },
+          required: false,
+          value: ri!formData_cdt.componentList[ri!componentIndex].isDisabled,
+          saveInto: {
+            ri!formData_cdt.componentList[ri!componentIndex].isDisabled
+          }
+        )
+      }
+    )
+  },
+  secondColumnContents: {
+    if(
+      or(
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1158&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;,
+        ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;
+      ),
+      {},
+      {
+        #&quot;SYSTEM_SYSRULES_checkboxField&quot;(
+          instructions: &quot;check this box if the component must be answered to submit the form&quot;,
+          choiceLabels: {
+            &quot;Is Required&quot;
+          },
+          choiceValues: {
+            true
+          },
+          required: false,
+          value: ri!formData_cdt.componentList[ri!componentIndex].isRequired,
+          saveInto: {
+            ri!formData_cdt.componentList[ri!componentIndex].isRequired
+          },
+          disabled: if(
+            and(
+              contains(
+                {
+                  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+                  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+                  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;,
+                  #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;
+                },
+                ri!formData_cdt.componentList[ri!componentIndex].responseType
+              ),
+              or(
+                isnull(
+                  ri!formData_cdt.componentList[ri!componentIndex].optionList
+                ),
+                length(
+                  ri!formData_cdt.componentList[ri!componentIndex].optionList
+                ) = 0
+              )
+            ),
+            true(),
+            false()
+          )
+        )
       }
     )
   }
@@ -199,6 +272,7 @@
                     <a:nameRef>componentIndex</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

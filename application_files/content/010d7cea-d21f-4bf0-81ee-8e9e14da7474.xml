@@ -18,6 +18,7 @@
   local!ParentCompntId: ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].parentComponentId,
   local!ParentCmpntIndex: wherecontains(local!ParentCompntId, ri!cdtComponentList.Id),
   local!VariableName: &quot;local!&quot; &amp; substitute(ri!cdtComponentList[local!ParentCmpntIndex].name, &quot; &quot;, &quot;_&quot;),
+  local!ParentCmpntResponseType:ri!cdtComponentList[local!ParentCmpntIndex].responseType,
   if(
     ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].matchAnyValueFlag = true(),
     &quot;len(&quot; &amp; local!VariableName &amp; &quot;) &gt; 0 &quot;,
@@ -26,7 +27,10 @@
       #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
       ri!cdtComponentList[local!ParentCmpntIndex].responseType
     ),
-    &quot;contains({&quot; &amp; apply(#&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(_) ,split(ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].valueTxt, &quot;;&quot;))  &amp; &quot;}, &quot; &amp; local!VariableName &amp; &quot;)&quot; ,
+    &quot;wherecontains(&quot;&amp;
+    if(local!ParentCmpntResponseType=#&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,&quot;todocument(&quot;,&quot;&quot;)&amp;
+    &quot;{&quot; &amp; apply(#&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(_) ,split(ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].valueTxt, &quot;;&quot;))&amp; &quot;}&quot;&amp;
+    if(local!ParentCmpntResponseType=#&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,&quot;)&quot;,&quot;&quot;)&amp;&quot;, &quot; &amp; local!VariableName &amp; &quot;)&quot; ,
     local!VariableName &amp; &quot; = &quot; &amp; char(34) &amp; ri!cdtComponentList[ri!intComponentIndex].parentList[ri!intParentIndex].valueTxt &amp; char(34)
   )
   )

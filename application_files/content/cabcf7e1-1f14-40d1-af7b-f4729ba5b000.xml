@@ -15,72 +15,108 @@
             <unlogged>false</unlogged>
         </visibility>
         <definition>load(
-  local!assignee:ri!arrgrpAssigneeGroup[ri!intIndex],
-   with(
-     #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
-        id: ri!intIndex,
-        contents: {
-          #&quot;SYSTEM_SYSRULES_textField&quot;(
-            readOnly:true(),
-            value: ri!arrFormName[ri!intIndex]
-          ),
-          #&quot;SYSTEM_SYSRULES_textField&quot;(
-            readOnly:true(),
-            value: ri!arrFormDescription[ri!intIndex]
-          ),
-          #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
-            value: local!assignee,
-            maxSelections:1,
-            validations: if( and(isnull(ri!arrusrFormAssignee[ri!intIndex]), isnull(ri!arrgrpAssigneeGroup[ri!intIndex])), &quot;Provide assignee name or group&quot;,&quot;&quot;),
-            saveInto: {
-              local!assignee,
-              if(
-                count(group(local!assignee,&quot;id&quot;))=0,
-                {
-                
-              a!save(ri!arrusrFormAssignee[ri!intIndex],save!value),
-              a!save(
-                ri!arrgrpAssigneeGroup[ri!intIndex],
-                null
+  local!assignee: if(tointeger(ri!arrcdtFormInstances[ri!intIndex].AssigneeGroup)&gt;0, ri!arrcdtFormInstances[ri!intIndex].AssigneeGroup, null),
+  with(
+    #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+      id: ri!intIndex,
+      contents: {
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          readOnly: true(),
+          value: ri!arrFormName[ri!intIndex]
+        ),
+        #&quot;SYSTEM_SYSRULES_textField&quot;(
+          readOnly: true(),
+          value: ri!arrFormDescription[ri!intIndex]
+        ),
+        #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
+          value: local!assignee,
+          maxSelections: 1,
+          validations: if(
+            and(
+              isnull(
+                ri!arrcdtFormInstances[ri!intIndex].AssigneeUser
+              ),
+              isnull(
+                ri!arrcdtFormInstances[ri!intIndex].AssigneeGroup
               )
-                },
-                {
-                  a!save(ri!arrusrFormAssignee[ri!intIndex],null),
-              a!save(
-                ri!arrgrpAssigneeGroup[ri!intIndex],
-                save!value
-              )
-                }
-              )
-            }
-          ),
-          /*a!pickerFieldGroups(*/
-          /*  value: ri!arrgrpAssigneeGroup[ri!intIndex],*/
-          /*  validations: if( and(isnull(ri!arrusrFormAssignee[ri!intIndex]), isnull(ri!arrgrpAssigneeGroup[ri!intIndex])), &quot;Provide assignee name or group&quot;,&quot;&quot;),*/
-          /*  saveInto: */
-          /*  {*/
-          /*    ri!arrgrpAssigneeGroup[ri!intIndex],*/
-          /*    a!save(*/
-          /*      ri!arrusrFormAssignee[ri!intIndex],*/
-          /*      null*/
-          /*    )*/
-          /*  }*/
-            
-          /*),*/
-          #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
-            label: &quot;Form Deadline&quot;,
-            validations: if(
-              and(not(isnull(ri!arrdttimDeadLine[ri!intIndex])),ri!arrdttimDeadLine[ri!intIndex] &lt;= now()),
-              &quot;Deadline must be a future date&quot;,
-              &quot;&quot;
             ),
-            value: ri!arrdttimDeadLine[ri!intIndex],
-            saveInto: ri!arrdttimDeadLine[ri!intIndex]
-          )
-        }
- )
- )
- )</definition>
+            &quot;Provide assignee name or group&quot;,
+            &quot;&quot;
+          ),
+          saveInto: {
+            local!assignee,
+            if(
+              count(
+                group(
+                  local!assignee,
+                  &quot;id&quot;
+                )
+              ) = 0,
+              {
+                a!save(
+                  ri!arrcdtFormInstances[ri!intIndex].AssigneeUser,
+                  save!value
+                ),
+                a!save(
+                  ri!arrcdtFormInstances[ri!intIndex].AssigneeGroup,
+                  null
+                )
+              },
+              {
+                a!save(
+                  ri!arrcdtFormInstances[ri!intIndex].AssigneeUser,
+                  null
+                ),
+                a!save(
+                  ri!arrcdtFormInstances[ri!intIndex].AssigneeGroup,
+                  save!value
+                )
+              }
+            )
+          }
+        ),
+        #&quot;SYSTEM_SYSRULES_imageField&quot;(
+          images:#&quot;SYSTEM_SYSRULES_documentImage&quot;(
+            caption:&quot;Configure deadline/escalation&quot;,
+            document:#&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+              icon:&quot;PREVIEW&quot;
+            ),
+            link:#&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+              value:ri!intIndex,
+              saveInto:{
+                ri!intSelectedIndex,
+                a!save(ri!UserAndGroupData,#&quot;1a2d6e9e-9176-4eec-a152-768e3d15adbf&quot;(ri!arrcdtForminstances[save!value].EscalateToUserOrGroup))
+              }
+            )
+          ),
+          size:&quot;ICON&quot;
+        )
+        /*a!pickerFieldGroups(*/
+        /*  value: ri!arrgrpAssigneeGroup[ri!intIndex],*/
+        /*  validations: if( and(isnull(ri!arrusrFormAssignee[ri!intIndex]), isnull(ri!arrgrpAssigneeGroup[ri!intIndex])), &quot;Provide assignee name or group&quot;,&quot;&quot;),*/
+        /*  saveInto: */
+        /*  {*/
+        /*    ri!arrgrpAssigneeGroup[ri!intIndex],*/
+        /*    a!save(*/
+        /*      ri!arrusrFormAssignee[ri!intIndex],*/
+        /*      null*/
+        /*    )*/
+        /*  }*/
+        /*),*/
+        /*a!dateTimeField(*/
+        /*  label: &quot;Form Deadline&quot;,*/
+        /*  validations: if(*/
+        /*    and(not(isnull(ri!arrdttimDeadLine[ri!intIndex])),ri!arrdttimDeadLine[ri!intIndex] &lt;= now()),*/
+        /*    &quot;Deadline must be a future date&quot;,*/
+        /*    &quot;&quot;*/
+        /*  ),*/
+        /*  value: ri!arrdttimDeadLine[ri!intIndex],*/
+        /*  saveInto: ri!arrdttimDeadLine[ri!intIndex]*/
+        /*)*/
+      }
+    )
+  )
+)</definition>
         <namedTypedValue>
             <name>intIndex</name>
             <type>
@@ -120,6 +156,27 @@
             <name>arrdttimDeadLine</name>
             <type>
                 <name>Datetime?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrcdtFormInstances</name>
+            <type>
+                <name>AB_FrmInstances?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intSelectedIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>UserAndGroupData</name>
+            <type>
+                <name>UserOrGroup?list</name>
                 <namespace>http://www.appian.com/ae/types/2009</namespace>
             </type>
         </namedTypedValue>

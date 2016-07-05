@@ -20,7 +20,7 @@ Description: This constant is used to provide unique number to each group create
                 <name>int</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
-            <value>1</value>
+            <value>72</value>
         </typedValue>
     </constant>
     <roleMap public="true">

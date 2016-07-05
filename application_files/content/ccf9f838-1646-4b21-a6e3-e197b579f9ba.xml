@@ -16,10 +16,11 @@
         </visibility>
         <definition>'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(
   Id: text(now(), &quot;YYMMDDHHMMSS&quot;),
-  name: &quot;tbd_&quot; &amp; ri!seqIndex,
-  responseType: #&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;,
+  name: ri!txtName,
+  responseType: ri!txtResponseType,
   seqIndex: ri!seqIndex,
   columnIndex: 1,
+  sectionComponentId:ri!txtSectionComponentId,
   parentCondition: #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;
 )</definition>
         <namedTypedValue>
@@ -28,6 +29,30 @@
                 <name>int</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtResponseType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtSectionComponentId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
         </namedTypedValue>
         <preferredEditor>legacy</preferredEditor>
         <offlineEnabled>false</offlineEnabled>

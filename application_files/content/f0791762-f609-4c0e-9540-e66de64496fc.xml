@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_EditApplicationGroups</name>
+        <uuid>f0791762-f609-4c0e-9540-e66de64496fc</uuid>
+        <description>SAIL UI to edit Application Groups</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!cdtApplicationsGrpOldInfo: ri!cdtApplicationGroups,
+  #&quot;SYSTEM_SYSRULES_formLayout&quot;(
+    label: &quot;Create or Edit Application Groups&quot;,
+    /*instructions: and(count(difference(local!cdtApplicationsGrpOldInfo, ri!cdtApplicationGroups)) = 0, count(difference(ri!cdtApplicationGroups, local!cdtApplicationsGrpOldInfo )) = 0),*/
+    firstColumnContents: {
+      /*a!textField(*/
+      /*  value:local!cdtAppInfo*/
+      /*),*/
+       #&quot;SYSTEM_SYSRULES_milestoneField&quot;(
+          /*label:local!CurrentMaxIndex,*/
+          steps: index(#&quot;_a-0000dd03-d8d9-8000-927a-010000010000_223115&quot;, {5,6}, {}),
+          active: ri!intMilestoneStep/*,
+          links: if(or(ri!intMilestoneStep=5,ri!intMilestoneStep=6),
+          {},
+          apply(
+            a!dynamicLink(
+              value: _,
+              saveInto: {
+                a!save(
+                  ri!intMilestoneStep,
+                  save!value
+                )
+              }
+            ),
+            enumerate(
+              ri!intMilestoneStep
+            ) + 1
+          )
+          )*/
+        ),
+      #&quot;386f6f3f-136c-4092-8e56-411cb0ba9be9&quot;(
+        cdtAppForms: ri!cdtAppForms,
+        isReadonly: true(),
+        usrAppUsers: #&quot;520cf56e-0a4a-46d3-83ca-766a9d517c4a&quot;(
+          ri!cdtAppForms.ViewerGroup
+        )
+      ),
+      if(
+        isnull(ri!txtButtonAction),
+        #&quot;eb3561dc-64dc-4c11-8c04-d913d4bd8893&quot;(
+          cdtApplicationGroups: ri!cdtApplicationGroups,
+          intMilestoneStep: 0
+        ),
+        {
+          #&quot;4577c967-319f-42b2-a978-fe23b5a69b09&quot;(
+            cdtFormVersionComponent: ri!cdtFrmVersionAndCmpntDesign,
+            cdtForms: ri!cdtAppForms.Forms
+          )
+        }
+      )
+    },
+    buttons: #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+      primaryButtons: {
+        #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+          label: index(
+            #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,
+            3,
+            {}
+          ),
+          value: if(
+            and(
+              isnull(ri!txtButtonAction),
+              count(difference(local!cdtApplicationsGrpOldInfo,ri!cdtApplicationGroups)) = 0,
+              count(difference(ri!cdtApplicationGroups,local!cdtApplicationsGrpOldInfo)) = 0
+            ),
+            index(
+              #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+              4,
+              {}
+            ),
+            index(
+              #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+              1,
+              {}
+            )
+          ),
+          saveinto: ri!txtButtonAction,
+          style: &quot;PRIMARY&quot;
+        )
+      },
+      secondaryButtons: {
+        #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(
+          label: index(
+            #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,
+            2,
+            {}
+          ),
+          value: index(
+            #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,
+            2,
+            {}
+          ),
+          saveinto: ri!txtButtonAction,
+          skipValidation: true()
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtApplicationGroups</name>
+            <type>
+                <name>AB_ApplicationGroups?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtButtonAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFrmVersionAndCmpntDesign</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtAppForms</name>
+            <type>
+                <name>AB_AppAndFormsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intMilestoneStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intAppId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtApplicationGroups</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtButtonAction</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdtFrmVersionAndCmpntDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:psi:types:AB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AB_AppAndFormsDesign"/>
+                    <a:nameRef>cdtAppForms</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intMilestoneStep</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

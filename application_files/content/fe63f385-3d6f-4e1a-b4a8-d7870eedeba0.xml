@@ -17,190 +17,196 @@
         <definition>with(
   local!CurrentParentCmpntIndex: count(ri!formData_cdt.componentList[ri!componentIndex].parentList),
   local!CurrentCmpntVal:index(ri!formData_cdt.componentList[ri!componentIndex].parentList, local!CurrentParentCmpntIndex, &quot;parentComponentId&quot;, null),
-
-if(
-  fn!not(
-    fn!isnull(
-      ri!formData_cdt.componentList[ri!componentIndex].gridComponentId
-    )
-  ),
-  /* if the component belongs to a grid, parent section is not applicable */{},
   {
-    #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
-      label: &quot;Setup Components that will trigger &quot; &amp; #&quot;_a-0000da6b-fe77-8000-6ee0-010000010000_1185&quot;(
-        component_cdt: ri!formData_cdt.componentList[ri!componentIndex]
-      ) &amp; &quot; to be displayed or hidden&quot;,
-      firstColumnContents: {
-        if(
-          (
+    #&quot;SYSTEM_SYSRULES_richTextDisplayField&quot;(
+      value: #&quot;SYSTEM_SYSRULES_richTextItem&quot;(
+        text: &quot;Setup Parent that will trigger &quot; &amp;  ri!formData_cdt.componentList[ri!componentIndex].name
+           &amp; &quot; to be displayed or hidden&quot;,
+        style: &quot;HEADER_SMALL&quot;
+      )
+    ),
+    if(
+      fn!not(
+        fn!isnull(
+          ri!formData_cdt.componentList[ri!componentIndex].gridComponentId
+        )
+      ),
+      /* if the component belongs to a grid, parent section is not applicable */{},
+      {
+        #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+          
+          firstColumnContents: {
+            if(
+              (
+                or(
+                  fn!isnull(
+                    ri!formData_cdt.componentList[ri!componentIndex]
+                  ),
+                  fn!isnull(
+                    ri!formData_cdt.componentList[ri!componentIndex].parentList
+                  ),
+                  count(
+                    ri!formData_cdt.componentList[ri!componentIndex].parentList
+                  ) &lt; 2
+                )
+              ),
+              {},
+              #&quot;SYSTEM_SYSRULES_radioButtonField&quot;(
+                label: &quot;Condition&quot;,
+                instructions: &quot;Any one Parent is good enough to trigger this component or all parent values should be in sync ?&quot;,
+                choiceLabels: {
+                  #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
+                  #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1234&quot;
+                },
+                choiceValues: {
+                  #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
+                  #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1234&quot;
+                },
+                value: ri!formData_cdt.componentList[ri!componentIndex].parentCondition,
+                saveInto: ri!formData_cdt.componentList[ri!componentIndex].parentCondition
+              )
+            )
+          }
+        ),
+        
+          if(
             or(
               fn!isnull(
-                ri!formData_cdt.componentList[ri!componentIndex]
+                ri!formData_cdt.componentList
               ),
               fn!isnull(
                 ri!formData_cdt.componentList[ri!componentIndex].parentList
               ),
               count(
                 ri!formData_cdt.componentList[ri!componentIndex].parentList
-              ) &lt; 2
-            )
-          ),
-          {},
-          #&quot;SYSTEM_SYSRULES_radioButtonField&quot;(
-            label: &quot;Condition&quot;,
-            instructions: &quot;Any one Parent is good enough to trigger this component or all parent values should be in sync ?&quot;,
-            choiceLabels: {
-              #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
-              #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1234&quot;
-            },
-            choiceValues: {
-              #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1233&quot;,
-              #&quot;_a-0000da6e-240f-8000-6ee0-010000010000_1234&quot;
-            },
-            value: ri!formData_cdt.componentList[ri!componentIndex].parentCondition,
-            saveInto: ri!formData_cdt.componentList[ri!componentIndex].parentCondition
-          )
-        )
-      }
-    ),
-    
-      if(
-        or(
-          fn!isnull(
-            ri!formData_cdt.componentList
-          ),
-          fn!isnull(
-            ri!formData_cdt.componentList[ri!componentIndex].parentList
-          ),
-          count(
-            ri!formData_cdt.componentList[ri!componentIndex].parentList
-          ) = 0
-        ),
-    {},
-      #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
-    headerCells:{
-      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-        label:&quot;Parent Component&quot;,
-        align:&quot;CENTER&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-        label:&quot;Any Value&quot;,
-        align:&quot;CENTER&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-        label:&quot;Value&quot;,
-        align:&quot;CENTER&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-        label:&quot;Delete&quot;,
-        align:&quot;CENTER&quot;
-      )
-    },
-    columnConfigs:{
-      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-        width:&quot;DISTRIBUTE&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-        width:&quot;NARROW&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-        width:&quot;DISTRIBUTE&quot;
-      ),
-      #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-        width:&quot;NARROW&quot;
-      )
-    },
-    rows:{#&quot;SYSTEM_SYSRULES_applyComponents&quot;(
-      function: #&quot;a773e433-62b9-4f3e-ab99-3cc6019f5f9b&quot;(
-        formData_cdt: ri!formData_cdt,
-        componentIndex: ri!componentIndex,
-        parentIndex: _
-      ),
-      array: if(
-        or(
-          fn!isnull(
-            ri!formData_cdt.componentList
-          ),
-          fn!isnull(
-            ri!formData_cdt.componentList[ri!componentIndex].parentList
-          ),
-          count(
-            ri!formData_cdt.componentList[ri!componentIndex].parentList
-          ) = 0
-        ),
-        {},
-        1 + enumerate(
-          count(
-            ri!formData_cdt.componentList[ri!componentIndex].parentList
-          )
-        )
-      )
-    )})),
-    
-      
-    if(
-      or(
-        fn!isnull(
-          ri!formData_cdt.componentList
-        ),
-        length(
-          ri!formData_cdt.componentList
-        ) &lt;1,
-        count(
-          #&quot;ed1b761c-2449-4ce0-8293-413bd3de65b9&quot;(
-            formData_cdt: ri!formData_cdt,
-            componentIndex: ri!componentIndex
-          )
-        ) = 0
-        /*count(index(ri!formData_cdt.componentList[ri!componentIndex].parentList,&quot;id&quot;,{}))=count(*/
-        /*  rule!AB_getAllParentComponents(*/
-        /*    formData_cdt: ri!formData_cdt,*/
-        /*    componentIndex: ri!componentIndex*/
-        /*  )*/
-        /*)*/
-      ),
-      {
-        #&quot;SYSTEM_SYSRULES_richTextDisplayField&quot;(
-          labelPosition: &quot;COLLAPSED&quot;,
-          value: {
-            #&quot;SYSTEM_SYSRULES_richTextItem&quot;(
-              text: &quot;There are no components that qualify as parent for this component&quot;,
-              style: &quot;HEADER_SMALL&quot;
-            )
-          }
-        )
-      },
-      if(
-        
-        and(local!CurrentParentCmpntIndex=&gt;1,isnull(local!CurrentCmpntVal),not(isnull(ri!formData_cdt.componentList[ri!componentIndex].parentList)))
-      ,{},
-      #&quot;SYSTEM_SYSRULES_linkField&quot;(
-        labelPosition: &quot;COLLAPSED&quot;,
-        links: {
-          #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
-            label: &quot;+ Add Parent&quot;,
-            value: #&quot;34f823e1-eba2-476f-b2b8-5e6d5f48358b&quot;(
-              parentComponentId:null,
-              matchAnyValueFlag:true(),
-              valueTxt:null
+              ) = 0
             ),
-            saveInto: {
-              a!save(
-                ri!formData_cdt.componentList[ri!componentIndex].parentList,
-                append(
-                  ri!formData_cdt.componentList[ri!componentIndex].parentList,
-                  {
-                    save!value
-                  }
+        {},
+          #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+        headerCells:{
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label:&quot;Parent Component&quot;,
+            align:&quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label:&quot;Any Value&quot;,
+            align:&quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label:&quot;Value&quot;,
+            align:&quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label:&quot;Delete&quot;,
+            align:&quot;CENTER&quot;
+          )
+        },
+        columnConfigs:{
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width:&quot;DISTRIBUTE&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width:&quot;NARROW&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width:&quot;DISTRIBUTE&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width:&quot;NARROW&quot;
+          )
+        },
+        rows:{#&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+          function: #&quot;a773e433-62b9-4f3e-ab99-3cc6019f5f9b&quot;(
+            formData_cdt: ri!formData_cdt,
+            componentIndex: ri!componentIndex,
+            parentIndex: _
+          ),
+          array: if(
+            or(
+              fn!isnull(
+                ri!formData_cdt.componentList
+              ),
+              fn!isnull(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList
+              ),
+              count(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList
+              ) = 0
+            ),
+            {},
+            1 + enumerate(
+              count(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList
+              )
+            )
+          )
+        )})),
+        
+          
+        if(
+          or(
+            fn!isnull(
+              ri!formData_cdt.componentList
+            ),
+            length(
+              ri!formData_cdt.componentList
+            ) &lt;1,
+            count(
+              #&quot;ed1b761c-2449-4ce0-8293-413bd3de65b9&quot;(
+                formData_cdt: ri!formData_cdt,
+                componentIndex: ri!componentIndex
+              )
+            ) = 0
+            /*count(index(ri!formData_cdt.componentList[ri!componentIndex].parentList,&quot;id&quot;,{}))=count(*/
+            /*  rule!AB_getAllParentComponents(*/
+            /*    formData_cdt: ri!formData_cdt,*/
+            /*    componentIndex: ri!componentIndex*/
+            /*  )*/
+            /*)*/
+          ),
+          {
+            #&quot;SYSTEM_SYSRULES_richTextDisplayField&quot;(
+              labelPosition: &quot;COLLAPSED&quot;,
+              value: {
+                #&quot;SYSTEM_SYSRULES_richTextItem&quot;(
+                  text: &quot;There are no components that qualify as parent for this component&quot;,
+                  style: &quot;EMPHASIS&quot;
                 )
+              }
+            )
+          },
+          if(
+            
+            and(local!CurrentParentCmpntIndex=&gt;1,isnull(local!CurrentCmpntVal),not(isnull(ri!formData_cdt.componentList[ri!componentIndex].parentList)))
+          ,{},
+          #&quot;SYSTEM_SYSRULES_linkField&quot;(
+            labelPosition: &quot;COLLAPSED&quot;,
+            links: {
+              #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                label: &quot;+ Add Parent&quot;,
+                value: #&quot;34f823e1-eba2-476f-b2b8-5e6d5f48358b&quot;(
+                  parentComponentId:null,
+                  matchAnyValueFlag:true(),
+                  valueTxt:null
+                ),
+                saveInto: {
+                  a!save(
+                    ri!formData_cdt.componentList[ri!componentIndex].parentList,
+                    append(
+                      ri!formData_cdt.componentList[ri!componentIndex].parentList,
+                      {
+                        save!value
+                      }
+                    )
+                  )
+                }
               )
             }
-          )
-        }
-      ))
+          ))
+        )
+      }
     )
   }
-)
 )</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
@@ -263,6 +269,7 @@ if(
                     <a:nameRef>componentIndex</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

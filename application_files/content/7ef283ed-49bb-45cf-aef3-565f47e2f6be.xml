@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_generateGridRowLayoutForGroups</name>
+        <uuid>7ef283ed-49bb-45cf-aef3-565f47e2f6be</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load
+(
+  local!UserAndGroupData: 
+  if(and(ri!cdtApplicationGroups[ri!index].intGroupId =0,ri!boolIsReadOnly),
+  #&quot;1a2d6e9e-9176-4eec-a152-768e3d15adbf&quot;(ri!cdtApplicationGroups[ri!index].txtGroupMembers),
+  if(
+    ri!cdtApplicationGroups[ri!index].intGroupId &gt;0, 
+    {getdirectgroupmemberuserspaging(ri!cdtApplicationGroups[ri!index].intGroupId,0,-1),getdirectmembergroups(ri!cdtApplicationGroups[ri!index].intGroupId)},
+    {touser(null), togroup(null)}
+  )
+  ),
+  #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  contents: {
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      required: true(),
+      readOnly: if(ri!cdtApplicationGroups[ri!index].intGroupId &gt;0, true(), ri!boolIsReadOnly),
+      value: ri!cdtApplicationGroups[ri!index].txtGroupNames,
+      saveInto: a!save(
+        ri!cdtApplicationGroups[ri!index].txtGroupNames,
+        cleanwith(
+          trim(
+            save!value
+          ),
+          #&quot;_a-0000dcbf-080b-8000-927a-010000010000_206873&quot;
+        )
+      ),
+      validations:{
+        if(
+          if(ri!cdtApplicationGroups[ri!index].intGroupId &gt;0, true(), ri!boolIsReadOnly),
+        {},
+        {
+        if(contains(remove(ri!cdtApplicationGroups.txtGroupNames,ri!index),ri!cdtApplicationGroups[ri!index].txtGroupNames),
+        &quot;Duplicate group names&quot;,
+        {}
+        ),
+        if(isnull(getgroupbyname(ri!cdtApplicationGroups[ri!index].txtGroupNames)),
+        {},
+        ri!cdtApplicationGroups[ri!index].txtGroupNames&amp;&quot; already exists&quot;
+        ),
+        if(
+            fn!len(
+              ri!cdtApplicationGroups[ri!index].txtGroupNames
+            ) &lt;= 200,
+            &quot;&quot;,
+            &quot;The character limit is 200&quot;
+          )
+        }
+        )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+      readOnly: if(ri!cdtApplicationGroups[ri!index].intGroupId &gt;0, true(), ri!boolIsReadOnly),
+      value: ri!cdtApplicationGroups[ri!index].txtDescription,
+      saveinto: a!save(ri!cdtApplicationGroups[ri!index].txtDescription,#&quot;3a8ab5b3-edae-4a9e-b8f0-b9cf4ed59f70&quot;(txtParagraphFieldValue:save!value)),
+      validations:{
+        if(
+            fn!len(
+              ri!cdtApplicationGroups[ri!index].txtGroupNames
+            ) &lt;= 1000,
+            &quot;&quot;,
+            &quot;The character limit is 1000&quot;
+          )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
+      readOnly:ri!boolIsReadOnly,
+      value: local!UserAndGroupData,
+      saveInto:{
+        local!UserAndGroupData,
+        a!save(
+          ri!cdtApplicationGroups[ri!index].txtGroupMembers,
+          save!value
+        )
+      },
+      
+      /*value: ri!cdtApplicationGroups[ri!index].txtGroupMembers,
+      saveInto: ri!cdtApplicationGroups[ri!index].txtGroupMembers,*/
+      required:true()
+    ),
+    if(ri!cdtApplicationGroups[ri!index].intGroupId &gt;0,
+      /*if(ri!cdtApplicationGroups[ri!index].intGroupId &gt;0, true(), ri!boolIsReadOnly),*/
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      readOnly: true()
+    ),
+    if(
+      ri!boolIsReadOnly,
+      {},
+    #&quot;SYSTEM_SYSRULES_imageField&quot;(
+      images: #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+        document: #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+          icon: &quot;REMOVE&quot;
+        ),
+        link: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          value: ri!index,
+          saveInto: {
+            a!save(
+              ri!cdtApplicationGroups,
+              remove(
+                ri!cdtApplicationGroups,
+                ri!index
+              )
+            )
+          }
+        )
+      ),
+      size:&quot;ICON&quot;
+    )
+    )
+    )
+  }
+)
+)</definition>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtApplicationGroups</name>
+            <type>
+                <name>AB_ApplicationGroups?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>boolIsReadOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

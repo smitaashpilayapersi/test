@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateNewApplicationWizard</name>
+        <uuid>46245c09-374a-4b16-b471-4a2a482ece00</uuid>
+        <description>Sail Interface for creating an application wizard</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(&#xD;
+  local!actionButton_txt: null(),&#xD;
+  local!componentIndex: 1,&#xD;
+  local!CurrentMaxIndex:if(or(isnull(ri!cdtAppForms),length(ri!cdtAppForms)=0),0,count(ri!cdtAppForms.Forms)),&#xD;
+  local!intMilestoneCount:if(or(isnull(ri!cdtAppForms),length(ri!cdtAppForms)=0),0,count(ri!cdtAppForms.Milestones)),&#xD;
+  local!txtSelectedSectionId:null(),&#xD;
+  local!txtSelectedComponentId:null(),&#xD;
+  local!txtSelectedSectionName:null(), &#xD;
+  local!txtSelectedComponentName:null(),&#xD;
+  local!intSequenceNumber: 1,&#xD;
+  local!boolIsComponentSelected:false(),&#xD;
+  if(&#xD;
+    local!actionButton_txt = &quot;Preview&quot;,&#xD;
+    #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200157&quot;(&#xD;
+      formData_cdt: ri!cdtFrmVersionAndCmpntDesign[ri!intSelectedIndex],&#xD;
+      /*readOnly: false(),*/&#xD;
+      actionButton_txt: local!actionButton_txt,&#xD;
+      isDashboardView: false(),&#xD;
+      isTaskView: false()&#xD;
+    ),&#xD;
+    #&quot;SYSTEM_SYSRULES_formLayout&quot;(&#xD;
+      label:  &quot;Create New Application&quot;,&#xD;
+      firstColumnContents: {&#xD;
+        #&quot;SYSTEM_SYSRULES_milestoneField&quot;(&#xD;
+          /*label:local!CurrentMaxIndex,*/&#xD;
+          steps: #&quot;_a-0000dd03-d8d9-8000-927a-010000010000_223115&quot;,&#xD;
+          active: ri!intMilestoneStep,&#xD;
+          links: if(and(ri!intMilestoneStep=3,not(isnull(ri!intSelectedIndex))),&#xD;
+          {},&#xD;
+          if(or(ri!intMilestoneStep=5,ri!intMilestoneStep=6),&#xD;
+          {},&#xD;
+          apply(&#xD;
+            #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+              value: _,&#xD;
+              saveInto: {&#xD;
+                a!save(&#xD;
+                  ri!intMilestoneStep,&#xD;
+                  save!value&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+            enumerate(&#xD;
+              ri!intMilestoneStep&#xD;
+            ) + 1&#xD;
+          )&#xD;
+          ))&#xD;
+        ),&#xD;
+        choose(&#xD;
+          key: ri!intMilestoneStep,&#xD;
+          choice1: #&quot;386f6f3f-136c-4092-8e56-411cb0ba9be9&quot;(&#xD;
+            cdtAppForms: ri!cdtAppForms,&#xD;
+            usrAppUsers: ri!usrAppUsers,&#xD;
+            isReadOnly: false()&#xD;
+          ),&#xD;
+          choice2:#&quot;403647ae-e04b-4612-a272-dfa3d6c5f1ae&quot;(&#xD;
+            cdtMilestoneDesign:ri!cdtAppForms.Milestones,&#xD;
+            cdtMilestoneRouting:ri!cdtMilestoneRouting,&#xD;
+            intMilestoneCount:local!intMilestoneCount,&#xD;
+            boolIsReadOnly:false(),&#xD;
+            intMilestoneStep:ri!intMilestoneStep&#xD;
+          ),&#xD;
+          &#xD;
+          choice3:if(&#xD;
+            isnull(&#xD;
+              ri!intSelectedIndex&#xD;
+            ),&#xD;
+            #&quot;a60af4af-47ff-422e-a779-8961ed381ed7&quot;(&#xD;
+              arrcdtFormsDesign: ri!cdtAppForms.Forms,&#xD;
+              arrcdtFrmVersionAndCmpntDesign: ri!cdtFrmVersionAndCmpntDesign,&#xD;
+              boolIsReadOnly: false(),&#xD;
+              intSelectedIndex: ri!intSelectedIndex,&#xD;
+              intMilestoneStep: ri!intMilestoneStep,&#xD;
+              intFormIndex:local!CurrentMaxIndex,&#xD;
+              intSequenceNumber: local!intSequenceNumber&#xD;
+            ),&#xD;
+            #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200159&quot;(&#xD;
+              formData_cdt: ri!cdtFrmVersionAndCmpntDesign[ri!intSelectedIndex],&#xD;
+              actionButton_txt: local!actionButton_txt,&#xD;
+              isDashboardView: false(),&#xD;
+              componentIndex: local!componentIndex,&#xD;
+              FormIndex: ri!intSelectedIndex,&#xD;
+              cdtFrmVersionCmpnt: ri!cdtFrmVersionAndCmpntDesign,&#xD;
+              cdtForms: ri!cdtAppForms.Forms,&#xD;
+              txtSelectedSectionId:local!txtSelectedSectionId,&#xD;
+              txtSelectedComponentId:local!txtSelectedComponentId,&#xD;
+              txtSelectedSectionName:local!txtSelectedSectionName,&#xD;
+              txtSelectedComponentName:local!txtSelectedComponentName,&#xD;
+              intSequenceNumber: local!intSequenceNumber,&#xD;
+              boolIsComponentSelected:local!boolIsComponentSelected&#xD;
+            &#xD;
+            )&#xD;
+          ),&#xD;
+          choice4: {&#xD;
+            #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(&#xD;
+              firstColumnContents:{&#xD;
+            #&quot;SYSTEM_SYSRULES_dropdownField&quot;(&#xD;
+              label:&quot;Select initial task form &quot;,&#xD;
+              labelPosition:&quot;ADJACENT&quot;,&#xD;
+              required:true(),&#xD;
+              choiceLabels:ri!cdtFrmVersionAndCmpntDesign.Label,&#xD;
+              choiceValues:ri!cdtFrmVersionAndCmpntDesign.Id,&#xD;
+              value:if(contains(ri!cdtFrmVersionAndCmpntDesign.Id,ri!cdtMilestoneRouting[1].FormId),ri!cdtMilestoneRouting[1].FormId,null()),&#xD;
+              saveInto:{ri!cdtMilestoneRouting[1].FormId,&#xD;
+              a!save(ri!cdtMilestoneRouting[1].RejectActionMoveBack,false())&#xD;
+              },&#xD;
+              placeholderLabel:&quot;-Select-&quot;&#xD;
+            )&#xD;
+              },&#xD;
+              secondColumnContents:{&#xD;
+                 #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+              readOnly:true()&#xD;
+            )&#xD;
+              }&#xD;
+              ),&#xD;
+            #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+              readOnly:true()&#xD;
+            ),&#xD;
+            #&quot;fffbf8e3-7236-4900-900b-cca5b0f8a562&quot;(&#xD;
+              cdtFrmVersionCmpntDesign :ri!cdtFrmVersionAndCmpntDesign,&#xD;
+              cdtMilestoneRouting :ri!cdtMilestoneRouting&#xD;
+            )&#xD;
+          },&#xD;
+          &#xD;
+          choice5:#&quot;eb3561dc-64dc-4c11-8c04-d913d4bd8893&quot;(&#xD;
+            cdtApplicationGroups: ri!cdtGroups,&#xD;
+            intMilestoneStep: ri!intMilestoneStep,&#xD;
+            boolIsReadOnly: false()&#xD;
+          ),&#xD;
+          &#xD;
+          choice6: {&#xD;
+            #&quot;386f6f3f-136c-4092-8e56-411cb0ba9be9&quot;(&#xD;
+              cdtAppForms: ri!cdtAppForms,&#xD;
+              usrAppUsers: ri!usrAppUsers,&#xD;
+              isReadOnly: true()&#xD;
+            ),&#xD;
+            #&quot;SYSTEM_SYSRULES_textField&quot;(&#xD;
+              label:&quot;&quot;,&#xD;
+              readOnly:true()&#xD;
+            ),&#xD;
+            #&quot;4577c967-319f-42b2-a978-fe23b5a69b09&quot;(&#xD;
+              cdtFormVersionComponent:ri!cdtFrmVersionAndCmpntDesign,&#xD;
+              cdtForms:ri!cdtAppForms.Forms&#xD;
+            )&#xD;
+          /*  rule!AB_Task_GridLayout(*/&#xD;
+          /*    arrcdtFormsDesign: ri!cdtAppForms.Forms,*/&#xD;
+          /*    arrcdtFrmVersionAndCmpntDesign: ri!cdtFrmVersionAndCmpntDesign,*/&#xD;
+          /*    boolIsReadOnly: true(),*/&#xD;
+          /*    intSelectedIndex: ri!intSelectedIndex,*/&#xD;
+          /*    intMilestoneStep: ri!intMilestoneStep*/&#xD;
+          /*  ),*/&#xD;
+          /*  a!textField(*/&#xD;
+          /*    label:&quot;&quot;,*/&#xD;
+          /*    readOnly:true()*/&#xD;
+          /*  ),*/&#xD;
+          /*  rule!AB_CreateApplicationWithGroups(*/&#xD;
+          /*    cdtApplicationGroups: ri!cdtGroups,*/&#xD;
+          /*    intMilestoneStep: ri!intMilestoneStep,*/&#xD;
+          /*    boolIsReadOnly: true()*/&#xD;
+          /*  ),*/&#xD;
+          /*  a!textField(*/&#xD;
+          /*    label:&quot;&quot;,*/&#xD;
+          /*    readOnly:true()*/&#xD;
+          /*  ),*/&#xD;
+          /*  rule!AB_AppMilestoneGridLayout(*/&#xD;
+          /*  cdtMilestoneDesign:ri!cdtAppForms.Milestones,*/&#xD;
+          /*  cdtMilestoneRouting:ri!cdtMilestoneRouting,*/&#xD;
+          /*  intMilestoneCount:local!intMilestoneCount,*/&#xD;
+          /*  boolIsReadOnly:true()*/&#xD;
+          /*)*/&#xD;
+          }&#xD;
+        ),&#xD;
+        if(and(ri!intMilestoneStep=3, ri!intSelectedIndex &gt; 0   ), {},&#xD;
+        #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(&#xD;
+          primaryButtons: {&#xD;
+            if(or(ri!intMilestoneStep = 6,ri!intMilestoneStep = 5,ri!intMilestoneStep = 4),&#xD;
+              #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(&#xD;
+                label:if(&#xD;
+                  ri!intMilestoneStep = 4,&#xD;
+                index(&#xD;
+                    #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,&#xD;
+                    1,&#xD;
+                    {}&#xD;
+                  ),&#xD;
+                  if(&#xD;
+                    ri!intMilestoneStep=6,&#xD;
+                    &quot;Submit&quot;,&#xD;
+                  if(and(ri!intMilestoneStep=5,or(isnull(ri!cdtGroups),length(ri!cdtGroups)=0)),&#xD;
+                  &quot;Next&quot;,&#xD;
+                  &quot;Create Groups&quot;&#xD;
+                  ))),&#xD;
+                value: if(&#xD;
+                  and(ri!intMilestoneStep=5,or(isnull(ri!cdtGroups),length(ri!cdtGroups)=0)),&#xD;
+                  index(&#xD;
+                    #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,&#xD;
+                    4,&#xD;
+                    {}&#xD;
+                  ),&#xD;
+                  index(&#xD;
+                    #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,&#xD;
+                    1,&#xD;
+                    {}&#xD;
+                  )&#xD;
+                  ),&#xD;
+                style: &quot;PRIMARY&quot;,&#xD;
+                saveInto: {&#xD;
+                  a!save(&#xD;
+                    ri!txtButtonAction,&#xD;
+                    save!value&#xD;
+                  )&#xD;
+                },&#xD;
+                confirmMessage: if(ri!intMilestoneStep = 4,&quot;Once the application is created you cannot move back.Do you want to continue?&quot;,{})&#xD;
+              ),&#xD;
+              #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(&#xD;
+                label: index(&#xD;
+                  #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,&#xD;
+                  4,&#xD;
+                  {}&#xD;
+                ),&#xD;
+                validate: true(),&#xD;
+                style: &quot;PRIMARY&quot;,&#xD;
+                value: ri!intMilestoneStep + 1,&#xD;
+                saveInto: {&#xD;
+                  ri!intMilestoneStep,&#xD;
+                  a!save(&#xD;
+                    ri!intSelectedIndex,&#xD;
+                    null()&#xD;
+                  )&#xD;
+                },&#xD;
+                validationGroup: &quot;Task Group Validation&quot;&#xD;
+              )&#xD;
+            )&#xD;
+          },&#xD;
+          secondaryButtons: {&#xD;
+            if(or(ri!intMilestoneStep=6,ri!intMilestoneStep = 5),&#xD;
+            #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(&#xD;
+              label: &quot;Exit&quot;,&#xD;
+              value: index(&#xD;
+                #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,&#xD;
+                2,&#xD;
+                {}&#xD;
+              ),&#xD;
+              saveInto: ri!txtButtonAction,&#xD;
+              skipValidation: true()&#xD;
+            ),&#xD;
+            #&quot;SYSTEM_SYSRULES_ButtonWidgetSubmit&quot;(&#xD;
+              label: index(&#xD;
+                #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199989&quot;,&#xD;
+                2,&#xD;
+                {}&#xD;
+              ),&#xD;
+              value: index(&#xD;
+                #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200308&quot;,&#xD;
+                2,&#xD;
+                {}&#xD;
+              ),&#xD;
+              saveInto: ri!txtButtonAction,&#xD;
+              skipValidation: true()&#xD;
+              /*confirmMessage: &quot;Do you really want to delete this application?&quot;*/&#xD;
+            )&#xD;
+            )&#xD;
+          }&#xD;
+        )&#xD;
+        )&#xD;
+      }&#xD;
+    )&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>cdtAppForms</name>
+            <type>
+                <name>AB_AppAndFormsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtButtonAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>usrAppUsers</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intMilestoneStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtAppGroups</name>
+            <type>
+                <name>AB_AppAndGroupsDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFrmVersionAndCmpntDesign</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intSelectedIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtGroups</name>
+            <type>
+                <name>AB_ApplicationGroups?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtMilestoneRouting</name>
+            <type>
+                <name>AB_MilestoneRouting?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:psi:types:AB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AB_AppAndFormsDesign"/>
+                    <a:nameRef>cdtAppForms</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtButtonAction</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>usrAppUsers</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>intMilestoneStep</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:psi:types:AB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AB_AppAndGroupsDesign"/>
+                    <a:nameRef>cdtAppGroups</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtFrmVersionAndCmpntDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intSelectedIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtGroups</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtMilestoneRouting</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

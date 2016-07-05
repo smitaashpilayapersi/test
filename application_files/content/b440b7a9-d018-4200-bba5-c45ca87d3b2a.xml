@@ -18,7 +18,7 @@
   isnull(ri!cdtComponent.optionList),null(),
   if(any(
   fn!isnull,
-  ri!cdtComponent.optionList.optionTxt
+  index(ri!cdtComponent.optionList, &quot;optionTxt&quot;, {})
 ),ri!cdtComponent.name&amp;&quot; has null value as an option&quot;,null()))</definition>
         <namedTypedValue>
             <name>cdtComponent</name>

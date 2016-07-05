@@ -14,19 +14,26 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>if(
+        <definition>load(
+  local!viewDocuments: false(),
+  if(
   ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
   #&quot;aba0695e-9e89-4020-ab88-19614c147a5c&quot;(
       componentIndex: ri!componentIndex,
       formData_cdt: ri!formData_cdt,
-      readOnly: ri!readOnly
+      readOnly: ri!readOnly,
+      isDashboardView:ri!isDashboardView
     ),
     #&quot;20f5e2e6-421d-42ca-9fc1-510228e2a309&quot;(
       componentIndex: ri!componentIndex,
       formData_cdt: ri!formData_cdt,
-      readOnly: ri!readOnly
+      readOnly: ri!readOnly,
+      viewDocuments: local!viewDocuments,
+      isDashboardView:ri!isDashboardView
     )
-)</definition>
+)
+)
+</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
             <type>
@@ -45,6 +52,13 @@
             <name>componentIndex</name>
             <type>
                 <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDashboardView</name>
+            <type>
+                <name>boolean</name>
                 <namespace>http://www.w3.org/2001/XMLSchema</namespace>
             </type>
         </namedTypedValue>

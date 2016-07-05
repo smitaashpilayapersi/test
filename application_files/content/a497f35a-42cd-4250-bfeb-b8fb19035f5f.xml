@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ReturnAvailableDocumentIdsForUser</name>
+        <uuid>a497f35a-42cd-4250-bfeb-b8fb19035f5f</uuid>
+        <description>This rule will identify list of documents that are available to logged In User, based on security</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(&#xD;
+  local!DocumentName: property(&#xD;
+    #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(&#xD;
+      value: ri!arrintDocList&#xD;
+    ),&#xD;
+    &quot;tokensData&quot;&#xD;
+  ),&#xD;
+  local!DocumentIds: property(&#xD;
+    #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(&#xD;
+      value: ri!arrintDocList&#xD;
+    ),&#xD;
+    &quot;tokensIdentifiers&quot;&#xD;
+  ),&#xD;
+  local!AvailableDocumentIndexs: difference(&#xD;
+    enumerate(&#xD;
+      count(&#xD;
+        local!DocumentName&#xD;
+      )&#xD;
+    ) + 1,&#xD;
+    wherecontains(&#xD;
+      &quot;[Not Available]&quot;,&#xD;
+      local!DocumentName&#xD;
+    )&#xD;
+  ),&#xD;
+ todocument( index(&#xD;
+    local!DocumentIds,&#xD;
+    local!AvailableDocumentIndexs,&#xD;
+    {}&#xD;
+  ))&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>arrintDocList</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getFormCmpntDefaultValueUsingVersionId</name>
+        <uuid>2b25eef4-c830-4192-923b-d9b706258c93</uuid>
+        <description>This query will return default value for all components present in that form version</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(&#xD;
+  local!FrmVersionData:&#xD;
+  #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+  entity: #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200706&quot;,&#xD;
+  query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+    selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+      columns: {&#xD;
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+          field: &quot;responseType&quot;&#xD;
+        ),&#xD;
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+          field: &quot;defaultValue&quot;&#xD;
+        ),&#xD;
+         #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+          field: &quot;valueList&quot;&#xD;
+        ),&#xD;
+         #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+            alias: &quot;SortID&quot;,&#xD;
+            field: &quot;Pk_Id&quot;,&#xD;
+            visible: true()&#xD;
+          )&#xD;
+      }&#xD;
+    ),&#xD;
+    filter: #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+      field: &quot;FrmVersionId&quot;,&#xD;
+      operator: &quot;=&quot;,&#xD;
+      value: ri!intFrmVersionId&#xD;
+    ),&#xD;
+    pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(&#xD;
+      startIndex: 1,&#xD;
+      batchSize: - 1,&#xD;
+      sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(&#xD;
+          field: &quot;SortID&quot;,&#xD;
+          ascending: true()&#xD;
+        )&#xD;
+    )&#xD;
+  )&#xD;
+).data,&#xD;
+&#xD;
+apply(#&quot;2bc8153b-06a0-4fd6-8db5-28e9e7356604&quot;(_), local!FrmVersionData)&#xD;
+)&#xD;
+&#xD;
+</definition>
+        <namedTypedValue>
+            <name>intFrmVersionId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

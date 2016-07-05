@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getTaskGroupIdsByAppId</name>
+        <uuid>2abd39f1-9905-4def-8f5b-cea84033926d</uuid>
+        <description>Query rule to get group ids for an application</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+  entity: #&quot;_a-0000dd03-d8d9-8000-927a-010000010000_223440&quot; ,
+  query:#&quot;SYSTEM_SYSRULES_query&quot;(
+    selection:#&quot;SYSTEM_SYSRULES_querySelection&quot;(
+      columns:{
+        #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+          field:&quot;TaskGrpId&quot;,
+          alias:&quot;TaskGrpId&quot;
+        )
+      }
+    ),
+    filter:#&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field:&quot;AppId&quot;,
+      operator:&quot;=&quot;,
+      value:ri!intAppId
+    ),
+    pagingInfo:#&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+      startIndex:1,
+      batchSize:-1
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

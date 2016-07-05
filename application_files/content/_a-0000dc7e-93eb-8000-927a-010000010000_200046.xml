@@ -16,7 +16,14 @@
         </visibility>
         <definition>'type!{urn:com:psi:types:AB}AB_FrmVersionAndCmpntDesign'(&#xD;
   Id: ri!intIndex,&#xD;
-  Version:ri!intVersion&#xD;
+  Version:ri!intVersion,&#xD;
+  ApproveLabel:&quot;Approve&quot;,&#xD;
+  RejectLabel:&quot;Reject&quot;,&#xD;
+  componentList: #&quot;ccf9f838-1646-4b21-a6e3-e197b579f9ba&quot;(&#xD;
+                txtName: &quot;Form_Section&quot;,&#xD;
+                seqIndex: 1,&#xD;
+                txtResponseType: #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;&#xD;
+              )&#xD;
   )</definition>
         <namedTypedValue>
             <name>intIndex</name>

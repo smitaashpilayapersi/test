@@ -29,14 +29,31 @@
     false(),
     ri!currentcomponent.isRequired
   ),
-  local!componentDefaultValue: fn!index(
+  local!isComponentDisabled: if(
+    isnull(
+      ri!currentComponent.isDisabled
+    ),
+    false(),
+    ri!currentcomponent.isDisabled
+  ),
+  local!componentDefaultValue: 
+  if(or(ri!currentComponent.responseType=#&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;,ri!currentComponent.responseType=#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;),
+  fn!index(
+    ri!currentComponent,
+    &quot;valueList&quot;,
+    {}
+  ),
+  fn!index(
     ri!currentComponent,
     &quot;defaultValue&quot;,
     {}
-  ),
+  )),
   local!isComponentWithDefaultNull: if(
     and(
-      local!isComponentReadOnly,
+      or(
+        local!isComponentReadOnly,
+        local!isComponentDisabled
+        ),
       local!isComponentRequired,
       isnull(
         local!componentDefaultValue
@@ -48,7 +65,10 @@
   local!validations:{
     if(
       local!isComponentWithDefaultNull,
-      &quot;Component &quot;&amp;ri!currentComponent.name &amp; &quot; has its default value null.&quot;,
+      if(ri!currentComponent.responseType=#&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,
+      &quot;Component &quot;&amp;ri!currentComponent.name &amp; &quot; has no documents selected.&quot;,
+      &quot;Component &quot;&amp;ri!currentComponent.name &amp; &quot; has its default value null.&quot;
+      ),
       null()
     ),
     if(
@@ -72,6 +92,26 @@
           ri!currentComponent.parentList.parentComponentId
         ),
         &quot;Component &quot;&amp;ri!currentComponent.name &amp; &quot; has null value for its parent component&quot;,
+        null()
+      )
+    ),
+    if(
+      isnull(
+        ri!currentComponent.parentList
+      ),
+      null(),
+      if(
+        length(
+          where(apply(
+          fn!isnull(_),
+          index(
+            ri!currentComponent.parentList.valueTxt,
+            where(apply(isnull(_),ri!currentComponent.parentList.matchAnyValueFlag)),
+            {}
+            )
+        )
+        ))&gt;0,
+        &quot;Component &quot;&amp;ri!currentComponent.name &amp; &quot; has no value defined for its parent component&quot;,
         null()
       )
     ),

@@ -90,6 +90,7 @@
           ),
           choiceValues: local!parentComponentList,
           saveInto: {
+            local!parentComponent_cdt,
             a!save(
               ri!formData_cdt.componentList[ri!componentIndex].parentList[ri!parentIndex].parentComponentId,
               fn!index(
@@ -160,7 +161,9 @@
             )
           },
           disabled: if(
-            and(
+            or(
+              contains({#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,#&quot;_a-0000dab5-7e00-8000-927a-010000010000_64564&quot;},local!parentComponent_cdt.responseType),
+              and(
               contains(
                 #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
                 fn!index(
@@ -170,6 +173,7 @@
                 )
               ),
               isnull(local!optionList)
+            )
             ),
             fn!true(),
             fn!false()
@@ -203,7 +207,35 @@
           /*  value:local!parentComponent_cdt,*/
           /*  label:isnull()*/
           /*),*/
-          #&quot;SYSTEM_SYSRULES_pickerFieldCustom&quot;(
+          if(
+            fn!index(
+              local!parentComponent_cdt,
+              &quot;responseType&quot;,
+              {}
+            )=#&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,
+            #&quot;SYSTEM_SYSRULES_pickerFieldDocuments&quot;(
+              required:true(),
+              value:if(
+              isnull(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList[ri!parentIndex].valueTxt
+              ),
+              null,
+              split(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList[ri!parentIndex].valueTxt,
+                &quot;;&quot;
+              )
+            ),
+              saveInto:{
+                a!save(
+                ri!formData_cdt.componentList[ri!componentIndex].parentList[ri!parentIndex].valueTxt,
+                joinarray(
+                  union(save!value, cast(typeof(save!value), {})),
+                  &quot;;&quot;
+                )
+                )
+              }
+            ),
+            #&quot;SYSTEM_SYSRULES_pickerFieldCustom&quot;(
             required: true,
             placeholder: &quot;-Option Value-&quot;,
             value: if(
@@ -245,72 +277,9 @@
                 joinarray(
                   union(save!value, cast(typeof(save!value), {})),
                   &quot;;&quot;
-                )/*fn!apply(*/
-                /*  rule!PFS_createNewCfgComponentValue(*/
-                /*    valueTxt: _*/
-                /*  ),*/
-                /*  save!value*/
-                /*)*/
-                
-              )
-            }
-          )/*a!dropdownField(*/
-          /*  label: &quot;Value List &quot; &amp; ri!parentIndex,*/
-          /*  required: true,*/
-          /*  placeholderLabel: &quot;-Option Value-&quot;,*/
-          /*value: fn!index(*/
-          /*  local!parentInfo_cdt,*/
-          /*  &quot;parentValueList&quot;,*/
-          /*  &quot;valueTxt&quot;,*/
-          /*  {}*/
-          /*),*/
-          /*  value: if(*/
-          /*    isnull(*/
-          /*      index(*/
-          /*        local!parentInfo_cdt,*/
-          /*        &quot;valueTxt&quot;,*/
-          /*        null*/
-          /*      )*/
-          /*    ),*/
-          /*    null,*/
-          /*    split(*/
-          /*      index(*/
-          /*        local!parentInfo_cdt,*/
-          /*        &quot;valueTxt&quot;,*/
-          /*        null*/
-          /*      ),*/
-          /*      &quot;;&quot;*/
-          /*    )*/
-          /*  ),*/
-          /*  choiceLabels: fn!index(*/
-          /*    local!parentComponent_cdt,*/
-          /*    &quot;optionList&quot;,*/
-          /*    &quot;optionTxt&quot;,*/
-          /*    {}*/
-          /*  ),*/
-          /*  choiceValues: fn!index(*/
-          /*    local!parentComponent_cdt,*/
-          /*    &quot;optionList&quot;,*/
-          /*    &quot;optionTxt&quot;,*/
-          /*    {}*/
-          /*  ),*/
-          /*  saveInto: {*/
-          /*    a!save(*/
-          /*      ri!formData_cdt.componentList[ri!componentIndex].parentList[ri!parentIndex].valueTxt,*/
-          /*      joinarray(*/
-          /*        save!value,*/
-          /*        &quot;;&quot;*/
-          /*      )*/
-          /*fn!apply(*/
-          /*  rule!PFS_createNewCfgComponentValue(*/
-          /*    valueTxt: _*/
-          /*  ),*/
-          /*  save!value*/
-          /*)*/
-          /*    )*/
-          /*  }*/
-          /*)*/
-          ,
+                ))
+            })
+            ),
           #&quot;SYSTEM_SYSRULES_textField&quot;(
             label: &quot;Value &quot;,
             align: &quot;LEFT&quot;,
@@ -706,6 +675,7 @@
                     <a:nameRef>parentIndex</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

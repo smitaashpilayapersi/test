@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getMilestoneRoutingUsingAppInstanceId</name>
+        <uuid>4214f4f3-5a90-4c12-9878-f9234b93a0fa</uuid>
+        <description>Rule to retrieve routing details for an application instance</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!milestoneRoutingIds:
+  tointeger(#&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+    entity:#&quot;_a-0000dd12-a9fb-8000-927a-010000010000_225305&quot;,
+    query:#&quot;SYSTEM_SYSRULES_query&quot;(
+      selection:#&quot;SYSTEM_SYSRULES_querySelection&quot;(
+        columns:{
+          #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+            field:&quot;MilestoneRoutingId&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+            field:&quot;Id&quot;,
+            visible:false()
+          )
+        }
+      ),
+      filter:#&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+        field:&quot;AppInstanceId&quot;,
+        operator:&quot;=&quot;,
+        value:ri!intAppInsId
+      ),
+      pagingInfo:#&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+        startIndex: 1,
+        batchSize: -1,
+        sort:#&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+          field:&quot;Id&quot;,
+          ascending:true()
+        )
+      )
+    )
+  ).data.MilestoneRoutingId),
+  /*local!milestoneRoutingIds*/
+  local!milestoneRouting:#&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+    entity:#&quot;_a-0000dd12-a9fb-8000-927a-010000010000_224773&quot;,
+    query:#&quot;SYSTEM_SYSRULES_query&quot;(
+      filter:#&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+        field:&quot;Id&quot;,
+        operator:&quot;in&quot;,
+        value:{local!milestoneRoutingIds}
+      ),
+      pagingInfo:#&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+        startIndex: 1,
+        batchSize: -1
+      )
+    )
+  ).data,
+  cast(typeof({'type!{urn:com:psi:types:AB}AB_MilestoneRouting'()}),apply(displayvalue(_,local!milestoneRouting.Id,local!milestoneRouting,{}),local!milestoneRoutingIds))
+)</definition>
+        <namedTypedValue>
+            <name>intAppInsId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

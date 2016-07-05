@@ -14,25 +14,7 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>if(
-  ri!isChangeTheSequenceIndex,
-  #&quot;_a-0000dca4-9ba1-8000-927a-010000010000_203160&quot;(
-    sectionId: ri!currentSectionId,
-    pfsMainCDT: ri!formData_cdt,
-    isChangeTheSequenceIndex: ri!isChangeTheSequenceIndex,
-    inputFormDataCDT: ri!formData_cdt,
-    actionButton_txt: ri!actionButton_txt
-  ),
-{
-  #&quot;fe74cf47-4610-4593-b54a-b2cc04034da5&quot;(
-    formData_cdt: ri!formData_cdt,
-    componentIndex: ri!componentIndex,
-    isDashboardView: ri!isDashboardView
-  ),
-  #&quot;fe63f385-3d6f-4e1a-b4a8-d7870eedeba0&quot;(
-    formData_cdt: ri!formData_cdt,
-    componentIndex: ri!componentIndex
-  ),
+        <definition>{
   #&quot;5acde649-3bd8-4750-88f5-3e5b2691005f&quot;(
     formData_cdt: ri!formData_cdt,
     componentIndex: ri!componentIndex,
@@ -41,9 +23,12 @@
   #&quot;28ee1ca3-37d6-43d9-b180-faa68ae4cc53&quot;(
     formData_cdt: ri!formData_cdt,
     componentIndex: ri!componentIndex
+  ),
+   #&quot;fe63f385-3d6f-4e1a-b4a8-d7870eedeba0&quot;(
+    formData_cdt: ri!formData_cdt,
+    componentIndex: ri!componentIndex
   )
-}
-)</definition>
+}</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
             <type>
@@ -166,6 +151,7 @@
                     <a:nameRef>actionButton_txt</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

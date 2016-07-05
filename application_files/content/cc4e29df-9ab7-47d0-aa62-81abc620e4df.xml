@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_ConfigureTaskDeadlineAndEscalation</name>
+        <uuid>cc4e29df-9ab7-47d0-aa62-81abc620e4df</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*with(*/
+/*  local!UserAndGroupData:rule!AB_ConvertArrTxtUserGroupToPeopleArray(ri!arrcdtForminstances[ri!intIndex].EscalateToUserOrGroup),*/
+ {
+   
+   #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+         label:&quot;Configure Deadline and Escalation for &quot;&amp;ri!arrtxtFormName[ri!intIndex],
+         
+         firstColumnContents:{
+           #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
+          label:&quot;Date Time to activate task escalation&quot;,
+          instructions: &quot;Please specify both date and time for Escalation&quot;,
+          validations: if(
+          and(not(isnull(ri!arrcdtForminstances[ri!intIndex].EscalationDatetime)),ri!arrcdtForminstances[ri!intIndex].EscalationDatetime &lt;= now()),
+            &quot;Escalation timer must have a future date&quot;,
+            &quot;&quot;
+          ),
+          value: ri!arrcdtForminstances[ri!intIndex].EscalationDatetime,
+          saveInto: ri!arrcdtForminstances[ri!intIndex].EscalationDatetime
+        )
+         },
+         secondColumnContents:{
+           #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
+          label: &quot;Form Deadline&quot;,
+          instructions: &quot;Please specify both date and time for Task Deadline&quot;,
+          validations: if(
+            and(not(isnull(ri!arrcdtForminstances[ri!intIndex].DeadLine)),ri!arrcdtForminstances[ri!intIndex].DeadLine &lt;= now()),
+            &quot;Deadline must be a future date&quot;,
+            &quot;&quot;
+          ),
+          value: ri!arrcdtForminstances[ri!intIndex].DeadLine,
+          saveInto: ri!arrcdtForminstances[ri!intIndex].DeadLine
+        )
+         }
+   ),
+   if(isnull(ri!arrcdtForminstances[ri!intIndex].EscalationDatetime),
+   {},
+     #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+  
+  firstColumnContents:{
+        
+        #&quot;SYSTEM_SYSRULES_radioButtonField&quot;(
+          label:&quot;Escalation Action&quot;,
+          required:if(isnull(ri!arrcdtForminstances[ri!intIndex].EscalationDatetime),false(),true()),
+          choiceLabels:{&quot;Send Alert&quot;,&quot;Reassign Task&quot;},
+          choiceValues:{true(),false()},
+          value:ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign,
+          saveInto:ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign
+        ),
+        #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
+          label:if(ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign,&quot;Send Alert&quot;,&quot;Reassign Task&quot;)&amp;&quot; to&quot;,
+          required:if(isnull(ri!arrcdtForminstances[ri!intIndex].EscalationDatetime),false(),true()),
+          value:ri!UserAndGroupData,
+          saveInto:{
+        ri!UserAndGroupData,
+        a!save(
+          ri!arrcdtForminstances[ri!intIndex].EscalateToUserOrGroup,
+          save!value
+        )
+      }
+        ),
+        if(ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign,
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+          label:&quot;Alert Message&quot;,
+          required:ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign,
+          value:ri!arrcdtForminstances[ri!intindex].AlertMessage,
+          saveInto:ri!arrcdtForminstances[ri!intindex].AlertMessage
+        ),
+        {}
+        )
+        
+  }
+)
+),
+#&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+        primaryButtons:{
+          #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+            label:&quot;Save Changes&quot;,
+            style:&quot;NORMAL&quot;,
+            saveInto:{
+              
+              if(
+                isnull(ri!arrcdtForminstances[ri!intIndex].EscalationDatetime),
+                {
+                 a!save(ri!arrcdtForminstances[ri!intIndex].EscalateToUserOrGroup,null()),
+                 a!save(ri!arrcdtForminstances[ri!intindex].SendAlertOrReassign,null()),
+                 a!save(ri!arrcdtForminstances[ri!intindex].AlertMessage,null())
+                },
+                {}
+              ),
+              a!save(ri!intIndex,tointeger(null))
+            },
+            validate:true()
+          )
+        }
+      )
+}
+/*)*/</definition>
+        <namedTypedValue>
+            <name>intIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrcdtForminstances</name>
+            <type>
+                <name>AB_FrmInstances?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>UserAndGroupData</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>arrtxtFormName</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intIndex</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>arrcdtForminstances</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>UserAndGroupData</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>arrtxtFormName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

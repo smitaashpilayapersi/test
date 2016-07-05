@@ -32,10 +32,12 @@
  responseType: ri!cdtFrmCmpnts.responseType,&#xD;
  defaultValue: ri!cdtFrmCmpnts.defaultValue,&#xD;
  labelPositon: ri!cdtFrmCmpnts.labelPositon,&#xD;
- buttonValue: ri!cdtFrmCmpnts.buttonValue,&#xD;
+ /*buttonValue: ri!cdtFrmCmpnts.buttonValue,*/&#xD;
+ placeholderLabel:ri!cdtFrmCmpnts.placeholderLabel,&#xD;
  isRequired: ri!cdtFrmCmpnts.isRequired,&#xD;
  isReadOnly: ri!cdtFrmCmpnts.isReadOnly,&#xD;
- isInActive: ri!cdtFrmCmpnts.isInActive,&#xD;
+ /*isInActive: ri!cdtFrmCmpnts.isInActive,*/&#xD;
+ isDisabled:ri!cdtFrmCmpnts.isDisabled,&#xD;
  isValueResetFlag: ri!cdtFrmCmpnts.isValueResetFlag	,&#xD;
  columnIndex: ri!cdtFrmCmpnts.columnIndex,&#xD;
  seqIndex: ri!cdtFrmCmpnts.seqIndex	,&#xD;

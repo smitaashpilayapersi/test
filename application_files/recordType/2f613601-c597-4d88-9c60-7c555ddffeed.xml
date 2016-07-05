@@ -52,6 +52,7 @@
         <a:dataSrcExpr></a:dataSrcExpr>
         <a:facetsListExpr></a:facetsListExpr>
         <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:layoutType>FEED</a:layoutType>
         <a:security>16383</a:security>
     </recordType>
     <roleMap>

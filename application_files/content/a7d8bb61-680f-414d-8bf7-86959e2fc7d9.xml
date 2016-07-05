@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_CreateMaxMilestoneRoutingCDT</name>
+        <uuid>a7d8bb61-680f-414d-8bf7-86959e2fc7d9</uuid>
+        <description>This rule will identify milestone routing having max version number from list of available routing milestone versions. And create a new milestone routing cdt</description>
+        <parentUuid>_a-0000dc7c-e2e3-8000-927a-010000010000_199939</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!MaxVersionIndex: wherecontains(tointeger(max(ri!MilestoneData.Routing.Version)), ri!MilestoneData.Routing.Version),
+
+cast('type!{urn:com:psi:types:AB}AB_MilestoneRouting',
+
+{
+Id: index(ri!MilestoneData.Routing.Id, local!MaxVersionIndex ,&quot;&quot;),
+MilestoneId: index(ri!MilestoneData.Routing.MilestoneId, local!MaxVersionIndex ,&quot;&quot;),
+Name: index(ri!MilestoneData.Routing.Name, local!MaxVersionIndex ,&quot;&quot;),
+FormId: index(ri!MilestoneData.Routing.FormId, local!MaxVersionIndex ,&quot;&quot;),
+ApproveFormId: index(ri!MilestoneData.Routing.ApproveFormId, local!MaxVersionIndex ,&quot;&quot;),
+RejectFormId: index(ri!MilestoneData.Routing.RejectFormId, local!MaxVersionIndex ,&quot;&quot;),
+RejectActionMoveBack: index(ri!MilestoneData.Routing.RejectActionMoveBack, local!MaxVersionIndex ,&quot;&quot;),
+Version: index(ri!MilestoneData.Routing.Version, local!MaxVersionIndex ,&quot;&quot;)
+}
+)
+)</definition>
+        <namedTypedValue>
+            <name>MilestoneData</name>
+            <type>
+                <name>AB_MilestoneAndRoutingDesign</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

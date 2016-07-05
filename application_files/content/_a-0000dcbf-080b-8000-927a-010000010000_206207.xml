@@ -27,7 +27,9 @@
                 <a:isSystem>false</a:isSystem>
                 <a:dataSrcExpr/>
                 <a:facetsListExpr/>
+                <a:titleExpr/>
                 <a:defaultFiltersExpr/>
+                <a:layoutType/>
                 <a:security>16383</a:security>
                 <a:opaqueId/>
             </value>

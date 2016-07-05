@@ -15,7 +15,7 @@
             <unlogged>false</unlogged>
         </visibility>
         <definition>#&quot;SYSTEM_SYSRULES_sectionLayoutColumns&quot;(
-  label: &quot;Setup the look and feel of the component&quot;,
+  /*label: &quot;Setup the look and feel of the component&quot;,*/
   columns: {
     #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
       contents: {
@@ -28,11 +28,10 @@
           componentIndex: ri!componentIndex
         ),
         if(
-          or(
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
-            ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000dad3-098b-8000-927a-010000010000_71855&quot;
+          fn!contains(
+            #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+            ri!formData_cdt.componentList[ri!componentIndex].responseType
           ),
-          /* a section can not have another section or grid */{},
           {
             #&quot;fd0fa093-1c5d-4a7d-9255-9238b0184cb0&quot;(
               formData_cdt: ri!formData_cdt,
@@ -42,7 +41,8 @@
               formData_cdt: ri!formData_cdt,
               componentIndex: ri!componentIndex
             )
-          }
+          },
+          {}
         ),
         if(
           #&quot;_a-0000dad3-098b-8000-927a-010000010000_71865&quot;(
@@ -55,11 +55,44 @@
             )
           },
           {}
+        ),
+        if(
+          fn!contains(
+            {
+              #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+              #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;
+            },
+            ri!formData_cdt.componentList[ri!componentIndex].responseType
+          ),
+          #&quot;SYSTEM_SYSRULES_textField&quot;(
+            label: &quot;Placeholder Label&quot;,
+            value: ri!formData_cdt.componentList[ri!componentIndex].placeholderLabel,
+            saveInto: ri!formData_cdt.componentList[ri!componentIndex].placeholderLabel,
+            required: false()
+          ),
+          {}
         )
       }
     ),
     #&quot;SYSTEM_SYSRULES_columnLayout&quot;(
       contents: {
+        if(
+          fn!contains(
+            #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+            ri!formData_cdt.componentList[ri!componentIndex].responseType
+          ),
+          {},
+          {
+            #&quot;fd0fa093-1c5d-4a7d-9255-9238b0184cb0&quot;(
+              formData_cdt: ri!formData_cdt,
+              componentIndex: ri!componentIndex
+            ),
+            #&quot;ec6c792d-ef0c-4073-90aa-47b613bda4f9&quot;(
+              formData_cdt: ri!formData_cdt,
+              componentIndex: ri!componentIndex
+            )
+          }
+        ),
         #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1051&quot;(
           formData_cdt: ri!formData_cdt,
           componentIndex: ri!componentIndex,
@@ -141,6 +174,7 @@
                     <a:nameRef>fileUploadDocList</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

@@ -31,8 +31,8 @@
             <a:visibilityExpr>=true()</a:visibilityExpr>
             <a:urlStub>summary</a:urlStub>
             <a:headerExpr></a:headerExpr>
-            <a:relatedActionCfg>c1e22047-fb45-4e51-b6b8-3339a6acc72b</a:relatedActionCfg>
-            <a:relatedActionCfg>65d1f1e1-210b-4956-8049-500858439b01</a:relatedActionCfg>
+            <a:relatedActionCfg>5e18cbc0-6515-47c6-af91-1b481ee567a5</a:relatedActionCfg>
+            <a:relatedActionCfg>0e65274d-87ec-4f09-8476-015d9f73d3b6</a:relatedActionCfg>
         </a:detailViewCfg>
         <a:defaultFilter>
             <a:field>ViewerGroup</a:field>
@@ -45,7 +45,9 @@
         </a:defaultSortInfo>
         <a:relatedActionCfg>
             <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0002dc7e-b18b-8000-927a-010000010000"/>
-            <a:contextExpr>{intAppId:rp!id}</a:contextExpr>
+            <a:contextExpr>{intAppId:rp!id,
+txtApplicationName: rf!Name
+}</a:contextExpr>
             <a:visibilityExpr>=if(
   or(
     isusermemberofgroup(loggedInUser(), togroup(rf!ViewerGroup)), 
@@ -54,7 +56,7 @@
   true(), 
   false()
 )</a:visibilityExpr>
-            <a:refId>c1e22047-fb45-4e51-b6b8-3339a6acc72b</a:refId>
+            <a:refId>5e18cbc0-6515-47c6-af91-1b481ee567a5</a:refId>
         </a:relatedActionCfg>
         <a:relatedActionCfg>
             <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="000bdc81-0288-8000-927a-010000010000"/>
@@ -67,7 +69,7 @@
   true(), 
   false()
 )</a:visibilityExpr>
-            <a:refId>65d1f1e1-210b-4956-8049-500858439b01</a:refId>
+            <a:refId>0e65274d-87ec-4f09-8476-015d9f73d3b6</a:refId>
         </a:relatedActionCfg>
         <a:relatedActionCfg>
             <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0004dcb7-4435-8000-927a-010000010000"/>
@@ -83,12 +85,29 @@
   true(), 
   false()
 )</a:visibilityExpr>
-            <a:refId>8e3314f8-0c1d-4665-b93f-436fc7de1478</a:refId>
+            <a:refId>81dd2da4-b121-4c06-933f-efffc45c0d71</a:refId>
+        </a:relatedActionCfg>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0007dd0a-0ece-8000-927a-010000010000"/>
+            <a:contextExpr>{&#xD;
+  intAppId: rp!id&#xD;
+}</a:contextExpr>
+            <a:visibilityExpr>=if(
+  or(
+    rf!CreaterUserId = tostring(loggedInUser()),
+    isusermemberofgroup(loggedInUser(), #&quot;_a-0000dc7c-e2e3-8000-927a-010000010000_199955&quot;)
+  ), 
+  true(), 
+  false()
+)</a:visibilityExpr>
+            <a:refId>cfd9fc6c-7e76-4e50-a99c-29f17701a2ab</a:refId>
         </a:relatedActionCfg>
         <a:isSystem>false</a:isSystem>
         <a:dataSrcExpr></a:dataSrcExpr>
         <a:facetsListExpr></a:facetsListExpr>
+        <a:titleExpr></a:titleExpr>
         <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:layoutType>FEED</a:layoutType>
         <a:security>16383</a:security>
     </recordType>
     <roleMap>

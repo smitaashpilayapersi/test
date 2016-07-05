@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_MilestoneRoutingGridRow</name>
+        <uuid>a3a6d666-f34d-4b84-8bca-4acb641ba977</uuid>
+        <description>Grid row layout for milestone routing grid</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!labels:append(ri!cdtFrmVersionCmpntDesign.Name,&quot;End Flow&quot;),
+  local!values:append(ri!cdtFrmVersionCmpntDesign.Id,0),
+  #&quot;SYSTEM_SYSRULES_gridRowLayout&quot;(
+  contents:{
+    #&quot;SYSTEM_SYSRULES_textField&quot;(
+      value:ri!cdtMilestoneRouting[ri!index].Name,
+      /*saveInto:ri!cdtMilestoneRouting[ri!index].Name,*/
+      readOnly:true()
+    ),
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+      required:true(),
+      choiceLabels:local!labels,
+      choiceValues:local!values,
+      placeholderLabel:&quot;-Select-&quot;,
+      value:if(count(ri!cdtMilestoneRouting)=ri!index,0,if(contains(local!values,ri!cdtMilestoneRouting[ri!index].ApproveFormId),ri!cdtMilestoneRouting[ri!index].ApproveFormId,null())),
+      saveInto:ri!cdtMilestoneRouting[ri!index].ApproveFormId,
+      disabled:count(ri!cdtMilestoneRouting)=ri!index
+    ),
+    #&quot;SYSTEM_SYSRULES_radioButtonField&quot;(
+      disabled:if(ri!index=1,true(),false()),
+      required:true(),
+      choiceLabels: {&quot;Go Back&quot;,&quot;Move Forward&quot;},
+      choiceValues: {true(),false()},
+      value:if(or(ri!index=1),false(),ri!cdtMilestoneRouting[ri!index].RejectActionMoveBack),
+      saveInto:ri!cdtMilestoneRouting[ri!index].RejectActionMoveBack,
+      align : &quot;CENTER&quot;
+      
+    ),
+    #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+      required:if(ri!cdtMilestoneRouting[ri!index].RejectActionMoveBack,false(),true()),
+      choiceLabels:local!labels,
+      choiceValues:local!values,
+      placeholderLabel:&quot;-Select-&quot;,
+      value:if(count(ri!cdtMilestoneRouting)=ri!index,0,if(ri!cdtMilestoneRouting[ri!index].RejectActionMoveBack,null(),if(contains(local!values,ri!cdtMilestoneRouting[ri!index].RejectFormId),ri!cdtMilestoneRouting[ri!index].RejectFormId,null()))),
+      saveInto:ri!cdtMilestoneRouting[ri!index].RejectFormId,
+      disabled:or(ri!cdtMilestoneRouting[ri!index].RejectActionMoveBack,count(ri!cdtMilestoneRouting)=ri!index)
+    )
+    
+  }
+)
+)</definition>
+        <namedTypedValue>
+            <name>cdtMilestoneRouting</name>
+            <type>
+                <name>AB_MilestoneRouting?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cdtFrmVersionCmpntDesign</name>
+            <type>
+                <name>AB_FrmVersionAndCmpntDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtMilestoneRouting</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtFrmVersionCmpntDesign</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

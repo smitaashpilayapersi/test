@@ -14,75 +14,55 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>with(
-  
-  #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+        <definition>  #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
   label: &quot;Application Forms&quot;,
-  instructions: &quot;On checking 'Previous Task' option, Previous Task's data is shown on that Task in ReadOnly form&quot;,
   labelPosition: &quot;ABOVE&quot;,
-  /*instructions: &quot;Forms in the current application&quot;,*/
   helptooltip: #&quot;_a-0000dc7e-6e54-8000-927a-010000010000_199992&quot;,
-  emptyGridMessage: &quot;No search items found&quot;,
-  columnConfigs:{
+  emptyGridMessage: &quot;No task forms created&quot;,
+  columnConfigs: {
     #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;DISTRIBUTE&quot;,
-      weight: 3
+      width: &quot;DISTRIBUTE&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;DISTRIBUTE&quot;,
-      weight: 4
+      width: &quot;DISTRIBUTE&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;DISTRIBUTE&quot;,
-      weight: 2
+      width: &quot;DISTRIBUTE&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;DISTRIBUTE&quot;,
-      weight: 1
-    ),
-    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;ICON&quot;
-    ),
-    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;ICON&quot;
-    ),
-    #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
-      width:&quot;ICON&quot;
+      width: &quot;DISTRIBUTE&quot;
     )
   },
-  headerCells:{
+  headerCells: {
     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      label:&quot;Task Name&quot;,
-      align:&quot;CENTER&quot;
-    ),
-     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      label:&quot;Task Description&quot;,
-      align:&quot;CENTER&quot;
+      label: &quot;Task Name&quot;,
+      align: &quot;CENTER&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      label:&quot;Last Modified Date&quot;,
-      align:&quot;CENTER&quot;
+      label: &quot;Task Description&quot;,
+      align: &quot;CENTER&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      label:&quot;Previous Task&quot;,
-      align:&quot;CENTER&quot;
+      label: &quot;Last Modified Date&quot;,
+      align: &quot;CENTER&quot;
     ),
     #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      /*label:&quot;Move up&quot;,*/
-      align:&quot;CENTER&quot;
-    ),
-    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      /*label:&quot;Move down&quot;,*/
-      align:&quot;CENTER&quot;
-    ),
-    #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
-      /*label:&quot;Delete Form&quot;,*/
-      align:&quot;CENTER&quot;
+      label: &quot;Default Assignee&quot;,
+      align: &quot;CENTER&quot;
     )
   },
-  rows:apply(#&quot;a7484958-ec56-4278-9fe6-a8a78ba03e7a&quot;(txtButton:ri!txtButton,FormIndex:ri!FormIndex,cdtForms:ri!cdtForms,cdtFormVersionComponent:ri!cdtFormVersionComponent,intFormCount:ri!intFormCount,intIndex:_),enumerate(count(ri!cdtFormVersionComponent))+1)
-)
-
+  rows: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+    #&quot;a7484958-ec56-4278-9fe6-a8a78ba03e7a&quot;(
+      cdtForms: ri!cdtForms,
+      cdtFormVersionComponent: ri!cdtFormVersionComponent,
+      intIndex: _
+    ),
+    enumerate(
+      count(
+        ri!cdtFormVersionComponent
+      )
+    ) + 1
+  )
 )</definition>
         <namedTypedValue>
             <name>cdtFormVersionComponent</name>
@@ -182,6 +162,7 @@
                     <a:nameRef>intFormCount</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

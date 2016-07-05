@@ -16,7 +16,18 @@
         </visibility>
         <definition>load(
   local!cdtFormVersionCmpnt:'type!{urn:com:psi:types:AB}AB_FrmVersionAndCmpntDesign'(),
+  /*local!intMilestoneActiveState,*/
+  /*local!intMilestoneActiveState:wherecontains(ri!intSelectedFormInstanceId,local!arrintFormInstanceIds),*/
+  with(
+  local!cdtFromInstanceAndComponentData:#&quot;7dcd66a9-d157-4a0e-89d6-d840e025d780&quot;(ri!selectedAppInstanceId),
+  /*local!arrFormVersionIds:index(local!cdtFromInstanceAndComponentData,&quot;FrmVersionId&quot;,null),*/
+  /*local!cdtFormVersions:apply(rule!AB_getFormVersionDesignUsingVersionId(_),local!arrFormVersionIds),*/
+  /*local!txtFormNames:local!cdtFormVersions.Label,*/
+  local!txtFormNames:if(ri!intSelectedFormInstanceId=0,{},#&quot;4214f4f3-5a90-4c12-9878-f9234b93a0fa&quot;(ri!selectedAppInstanceId).Name),
+  local!arrintFormInstanceIds:index(local!cdtFromInstanceAndComponentData,&quot;Id&quot;,{}),
+  
   if(or(ri!intSelectedFormInstanceId=0,ri!actionButton_txt=&quot;Back&quot;),
+  
 #&quot;552188ef-5ab6-42d0-bd3e-d250add47d9b&quot;(
   intAppId:ri!intAppId,
   txtAppDescription:ri!txtAppDescription,
@@ -31,14 +42,22 @@
 ),
 /*with(*/
 /*  local!cdtFormVersionCmpnt:,*/
+/*a!textField(*/
+/*  value:if(isnull(ri!intSelectedFormInstanceId),{},*/
+/*      index(local!cdtFormVersions,&quot;Label&quot;,{}))*/
+/*)*/
 #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200157&quot;(
     formData_cdt: local!cdtFormVersionCmpnt,
     readOnly: null,
     isDashboardView: true(),
     isTaskView: false(),
-    actionButton_txt: ri!actionButton_txt
+    actionButton_txt: ri!actionButton_txt,
+    arrintFormInstanceIds:local!arrintFormInstanceIds,
+    arrtxtFormName:local!txtFormNames,
+    intFormInstanceId:ri!intSelectedFormInstanceId,
+    intMilestoneActiveState:wherecontains(ri!intSelectedFormInstanceId,local!arrintFormInstanceIds)
   )
-  /*)*/
+  )
 ))</definition>
         <namedTypedValue>
             <name>intAppId</name>
@@ -189,6 +208,7 @@
                     <a:nameRef>txtCreatedBy</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

@@ -65,9 +65,10 @@
           ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1138&quot;,
           #&quot;SYSTEM_SYSRULES_dateField&quot;(
             label: &quot;Default Value&quot;,
-            required: if(and(
+            required: if(
+              and(
               ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
-              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
                 true(),
                 false()
               ),
@@ -90,9 +91,10 @@
             ri!formData_cdt.componentList[ri!componentIndex].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1139&quot;,
             #&quot;SYSTEM_SYSRULES_dateTimeField&quot;(
               label: &quot;Default Value&quot;,
-               required: if(and(
+               required: if(
+                and(
               ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
-              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
                 true(),
                 false()
               ),
@@ -151,14 +153,16 @@
                     {}
                   )
                 ),
-                validations: if(
-                  len(ri!formData_cdt.componentList[ri!componentIndex].defaultValue)&gt;255,
-                  &quot;Maximum Character limit is 255&quot;,
-                  &quot;&quot;
-                ),
-                 required: if(and(
+                /*validations: if(*/
+                /*  len(ri!formData_cdt.componentList[ri!componentIndex].defaultValue)&gt;255,*/
+                /*  &quot;Maximum Character limit is 255&quot;,*/
+                /*  &quot;&quot;*/
+                /*),*/
+                 required: if(
+              and(
               ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
-              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
+  
                 true(),
                 false()
               ),
@@ -186,9 +190,10 @@
           ),
           #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
             label: &quot;Default Value&quot;,
-             required: if(and(
+             required: if(
+              and(
               ri!formData_cdt.componentList[ri!componentIndex].isRequired = true(), 
-              ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true()),
+              or(ri!formData_cdt.componentList[ri!componentIndex].isReadOnly = true(),ri!formData_cdt.componentList[ri!componentIndex].isDisabled = true())),
                 true(),
                 false()
               ),

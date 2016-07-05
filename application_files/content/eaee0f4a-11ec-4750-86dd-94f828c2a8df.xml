@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_SAILUI_FormComponentGridLayout</name>
+        <uuid>eaee0f4a-11ec-4750-86dd-94f828c2a8df</uuid>
+        <description></description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199998</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!nonSectionComponentIndex: if(or(isnull(ri!cdtComponents),length(ri!cdtComponents)=0),{},wherecontains(
+    ri!txtSectionId,
+    ri!cdtComponents.sectionComponentId
+  )),
+  local!validations:if(
+    ri!boolIsComponentSelected,
+    #&quot;0c6b969b-59f8-44ef-af76-a47841d3a92a&quot;(
+      index(ri!cdtComponents, wherecontains(ri!txtSelectedComponentId,ri!cdtComponents.Id),{})
+      ),{}),
+  #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+    label: &quot;Configure components for &quot; &amp; ri!txtSectionName,
+    firstColumnContents: {
+      #&quot;SYSTEM_SYSRULES_gridLayout&quot;(
+        /*instructions:&quot;A section cannot be deleted if it has components defined in it.&quot;,*/
+        emptyGridMessage: &quot;No components have been added yet&quot;,
+        totalCount: length(
+          local!nonSectionComponentIndex
+        ),
+        headerCells: {
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;Name&quot;,
+            align: &quot;CENTER&quot;,
+            helpTooltip: &quot;For internal use - will not be displayed to end user. This name will be displayed in component list&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;Description&quot;,
+            align: &quot;CENTER&quot;,
+            helpTooltip: &quot;For internal use - will not be displayed to end user&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;Label&quot;,
+            align: &quot;CENTER&quot;,
+            helpTooltip: &quot;This label is visible to end user. Leave it blank if you dont want the component name to be displayed&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;Instructions&quot;,
+            align: &quot;CENTER&quot;,
+            helpTooltip: &quot;Provide some verbiage for end user to understand how this component is used&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;Column Index&quot;,
+            align: &quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;&quot;,
+            align: &quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;&quot;,
+            align: &quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;&quot;,
+            align: &quot;CENTER&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutHeaderCell&quot;(
+            label: &quot;&quot;,
+            align: &quot;CENTER&quot;
+          )
+        },
+        columnConfigs: {
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;DISTRIBUTE&quot;,
+            weight:2
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;DISTRIBUTE&quot;,
+            weight:3
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;DISTRIBUTE&quot;,
+            weight:2
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;DISTRIBUTE&quot;,
+            weight:3
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;DISTRIBUTE&quot;,
+            weight:1
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;ICON&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;ICON&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;ICON&quot;
+          ),
+          #&quot;SYSTEM_SYSRULES_gridLayoutColumnConfig&quot;(
+            width: &quot;ICON&quot;
+          )
+        },
+        rows: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+          function: #&quot;65d87ed8-82ee-428c-ab12-e3f01426a450&quot;(
+            cdtComponents: ri!cdtComponents,
+            intCmpntIndex: _,
+            txtSelectedComponentId: ri!txtSelectedComponentId,
+            txtSelectedComponentName: ri!txtSelectedComponentName,
+            boolIsComponentSelected:ri!boolIsComponentSelected,
+            intValidationCount:length(local!validations),
+            firstIndex:local!nonSectionComponentIndex[1],
+            lastIndex:local!nonSectionComponentIndex[count(local!nonSectionComponentIndex)]
+          ),
+          array:local!nonSectionComponentIndex
+        ),
+        addRowLink: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          label: &quot;Add Component&quot;,
+          value: #&quot;ccf9f838-1646-4b21-a6e3-e197b579f9ba&quot;(
+            txtName: &quot;Component_&quot; &amp; ri!intSequenceNumber,
+            seqIndex: ri!intSequenceNumber,
+            txtSectionComponentId: ri!txtSectionId,
+            txtResponseType:#&quot;_a-0000da63-c75c-8000-6ee0-010000010000_930&quot;
+          ),
+          saveInto: {
+            a!save(
+              ri!cdtComponents,
+              append(
+                ri!cdtComponents,
+                save!value
+              )
+            ),
+            a!save(
+              ri!intSequenceNumber,
+              ri!intSequenceNumber + 1
+            )
+          }
+        ),
+        validations :if(length(local!validations)&lt;&gt;0,
+            local!validations,
+            {}
+            )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>cdtComponents</name>
+            <type>
+                <name>AB_FrmCmpntsDesign?list</name>
+                <namespace>urn:com:psi:types:AB</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>intSequenceNumber</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtSelectedComponentName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtSelectedComponentId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtSectionId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>txtSectionName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>boolIsComponentSelected</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users>
+                <userUuid>Smita.Ashpilaya</userUuid>
+            </users>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>cdtComponents</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>intSequenceNumber</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtSelectedComponentName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtSelectedComponentId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtSectionId</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>txtSectionName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>boolIsComponentSelected</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>AB_getMaxMilestoneRoutingVersionUsingAppId</name>
+        <uuid>35a568a2-5051-40e2-a583-7e45e82f5664</uuid>
+        <description>This rule will return max version of milestone routing cdt using app id</description>
+        <parentUuid>_a-0000dc7e-760f-8000-927a-010000010000_199997</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with
+(
+  local!MilestoneData:
+cast(
+  typeof({'type!{urn:com:psi:types:AB}AB_MilestoneAndRoutingDesign'()}),
+  #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+    entity: #&quot;_a-0000dd12-a9fb-8000-927a-010000010000_224834&quot;,
+    query: #&quot;SYSTEM_SYSRULES_query&quot;(
+      logicalExpression:#&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(
+      operator:&quot;AND&quot;,
+      filters:{
+          #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+          field:&quot;AppId&quot;,
+          operator:&quot;=&quot;,
+          value:ri!intappId
+         ),
+         #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+          field:&quot;SequenceNumber&quot;,
+          operator:&quot;&lt;&gt;&quot;,
+          value:0
+         )
+      }
+    ),
+      pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+        startIndex: 1,
+        batchSize: -1,
+        sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+            field: &quot;SequenceNumber&quot;,
+            ascending: true
+          )
+      )
+    )
+  ).data
+  ),
+  
+  apply(#&quot;a7d8bb61-680f-414d-8bf7-86959e2fc7d9&quot;(_), local!MilestoneData)
+)</definition>
+        <namedTypedValue>
+            <name>intAppId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

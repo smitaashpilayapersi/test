@@ -90,6 +90,10 @@
                 ri!componentData_cdt.optionList,
                 ri!optionIndex
               )
+            ),
+            if(or(isnull(ri!componentData_cdt.optionList),length(ri!componentData_cdt.optionList)=0),
+            a!save(ri!componentData_cdt.isRequired,null),
+            {}
             )
           }
         )

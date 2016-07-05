@@ -194,9 +194,7 @@
                 <groups/>
             </role>
             <role allowForAll="false" inherit="false" name="administrators">
-                <users>
-                    <userUuid>tp</userUuid>
-                </users>
+                <users/>
                 <groups>
                     <groupUuid>_e-0000dc7c-dac5-8000-9277-010000010000_832</groupUuid>
                 </groups>

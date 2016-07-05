@@ -19,6 +19,9 @@
   local!intSelectedFormInstanceId:0,&#xD;
   local!actionButton_txt:&quot;&quot;,&#xD;
   with(&#xD;
+    local!cdtFromInstanceAndComponentData:#&quot;7dcd66a9-d157-4a0e-89d6-d840e025d780&quot;(ri!intAppInsId),&#xD;
+  local!txtFormNames:if(local!intSelectedFormInstanceId=0,{},#&quot;4214f4f3-5a90-4c12-9878-f9234b93a0fa&quot;(ri!intAppInsId).Name),&#xD;
+  local!arrintFormInstanceIds:index(local!cdtFromInstanceAndComponentData,&quot;Id&quot;,{}),&#xD;
     if(or(local!intSelectedFormInstanceId=0,local!actionButton_txt=&quot;Back&quot;),&#xD;
     {&#xD;
       &#xD;
@@ -38,13 +41,25 @@
     )}&#xD;
   )&#xD;
   },&#xD;
+  /*rule!AB_SAILUI_simulateForm(*/&#xD;
+  /*  formData_cdt: local!cdtFormVersionCmpnt,*/&#xD;
+  /*  readOnly: null,*/&#xD;
+  /*  isDashboardView: true(),*/&#xD;
+  /*  isTaskView: false(),*/&#xD;
+  /*  actionButton_txt: local!actionButton_txt*/&#xD;
+  /*)*/&#xD;
   #&quot;_a-0000dc7e-d5cf-8000-927a-010000010000_200157&quot;(&#xD;
     formData_cdt: local!cdtFormVersionCmpnt,&#xD;
     readOnly: null,&#xD;
     isDashboardView: true(),&#xD;
     isTaskView: false(),&#xD;
-    actionButton_txt: local!actionButton_txt&#xD;
-  ))&#xD;
+    actionButton_txt: local!actionButton_txt,&#xD;
+    arrintFormInstanceIds:local!arrintFormInstanceIds,&#xD;
+    arrtxtFormName:local!txtFormNames,&#xD;
+    intFormInstanceId:local!intSelectedFormInstanceId,&#xD;
+    intMilestoneActiveState:wherecontains(local!intSelectedFormInstanceId,local!arrintFormInstanceIds)&#xD;
+  )&#xD;
+  )&#xD;
   )&#xD;
   )</definition>
         <namedTypedValue>
@@ -120,6 +135,7 @@
                     <a:nameRef>dtCreationDate</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

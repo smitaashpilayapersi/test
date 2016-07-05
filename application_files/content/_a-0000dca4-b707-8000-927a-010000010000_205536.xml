@@ -14,125 +14,174 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>load(&#xD;
-  local!ShowPreviousForm: false(),&#xD;
-  with(&#xD;
-    local!preserveformData_cdt: ri!formData_cdt,&#xD;
-   &#xD;
-&#xD;
-    local!FormLevelComponentList: #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(&#xD;
-&#xD;
-      index(&#xD;
-        ri!formData_cdt.componentList,&#xD;
-        wherecontains(&#xD;
-          {&#xD;
-            &quot;&quot;,&#xD;
-            null&#xD;
-          },&#xD;
-          ri!formData_cdt.componentList.sectionComponentId&#xD;
-        ),&#xD;
-        null&#xD;
-      )&#xD;
-    ),&#xD;
-    local!FormLevelComponentIndexList: if(&#xD;
-      or(&#xD;
-        fn!isnull(&#xD;
-          local!FormLevelComponentList&#xD;
-        ),&#xD;
-        length(&#xD;
-          local!FormLevelComponentList&#xD;
-        ) = 0,&#xD;
-        fn!isnull(&#xD;
-          ri!formData_cdt.componentList&#xD;
-        ),&#xD;
-        length(&#xD;
-          ri!formData_cdt.componentList&#xD;
-        ) = 0&#xD;
-      ),&#xD;
-      {},&#xD;
-      tointeger(&#xD;
-        apply(&#xD;
-          fn!wherecontains(&#xD;
-            _,&#xD;
-            ri!formData_cdt.componentList.id&#xD;
-          ),&#xD;
-          local!FormLevelComponentList.id&#xD;
-        )&#xD;
-      )&#xD;
-    ),&#xD;
-    local!sectionComponentList: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(&#xD;
-      function: #&quot;_a-0000dca4-b707-8000-927a-010000010000_205542&quot;(&#xD;
-        componentIndex: _,&#xD;
-        formData_cdt: ri!formData_cdt,&#xD;
-        readOnly: ri!readOnly&#xD;
-      ),&#xD;
-      array: if(&#xD;
-        or(&#xD;
-          fn!isnull(&#xD;
-            local!FormLevelComponentIndexList&#xD;
-          ),&#xD;
-          length(&#xD;
-            local!FormLevelComponentIndexList&#xD;
-          ) = 0&#xD;
-        ),&#xD;
-        {},&#xD;
-        local!FormLevelComponentIndexList&#xD;
-      )&#xD;
-    ),&#xD;
-    local!generateForm: &quot;load(&#xD;
-    &quot; &#xD;
-    &amp;&#xD;
-    joinarray(apply(#&quot;59ce59b5-8263-421a-b827-c46d6ae85a83&quot;(ri!formData_cdt.componentList,_), enumerate(count(ri!formData_cdt.componentList)) + 1), &quot;,&quot; &amp; char(&#xD;
-    10&#xD;
-     ))&#xD;
-   &amp;&#xD;
-   &quot;, &#xD;
-   a!formLayout(&#xD;
-      label:&quot; &amp; &#xD;
-      #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(&#xD;
-      ri!formData_cdt.label&#xD;
-    ) &amp; &quot;,&#xD;
-    instructions:&quot; &amp; &#xD;
-    #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(&#xD;
-	ri!formData_cdt.instruction&#xD;
-    ) &amp; &quot;,&#xD;
-    firstColumnContents: {&#xD;
-    &quot; &amp; &#xD;
-    if(&#xD;
-      or(&#xD;
-        fn!isnull(&#xD;
-          local!sectionComponentList&#xD;
-        ),&#xD;
-        length(&#xD;
-          local!sectionComponentList&#xD;
-        ) = 0&#xD;
-      ),&#xD;
-      {},&#xD;
-      joinarray(local!sectionComponentList, &quot;,&quot; &amp; char(10))&#xD;
-    ) &amp; &quot;&#xD;
-    }&#xD;
-    )&#xD;
-  )&quot;,&#xD;
-  &quot;/******************  &quot; &amp; ri!formData_cdt.Label &amp; &quot;  ******************/&quot; &amp; char(10) &amp; local!generateForm &amp; char(10) &amp; &quot;/*******************************************/&quot;&#xD;
-    /*a!formLayout(&#xD;
-    &#xD;
-      firstColumnContents: {&#xD;
-         a!sectionLayout(&#xD;
-          label: &quot;Sail code for the form&quot;,&#xD;
-          firstColumnContents: {&#xD;
-            a!paragraphField(&#xD;
-              label: &quot;&quot;,&#xD;
-              readonly:true(),&#xD;
-              value: local!generateForm&#xD;
-            )&#xD;
-          },&#xD;
-          secondColumnContents: {}&#xD;
-        )&#xD;
-      }&#xD;
-    )*/&#xD;
-  )&#xD;
-)&#xD;
-</definition>
+        <definition>load(
+  local!ShowPreviousForm: false(),
+  with(
+    local!preserveformData_cdt: ri!formData_cdt,
+    local!FormLevelComponentList: #&quot;_a-0000daa9-76cf-8000-927a-010000010000_58492&quot;(
+      index(
+        ri!formData_cdt.componentList,
+        wherecontains(
+          {
+            &quot;&quot;,
+            null
+          },
+          ri!formData_cdt.componentList.sectionComponentId
+        ),
+        null
+      )
+    ),
+    local!FormLevelComponentIndexList: if(
+      or(
+        fn!isnull(
+          local!FormLevelComponentList
+        ),
+        length(
+          local!FormLevelComponentList
+        ) = 0,
+        fn!isnull(
+          ri!formData_cdt.componentList
+        ),
+        length(
+          ri!formData_cdt.componentList
+        ) = 0
+      ),
+      {},
+      tointeger(
+        apply(
+          fn!wherecontains(
+            _,
+            ri!formData_cdt.componentList.id
+          ),
+          local!FormLevelComponentList.id
+        )
+      )
+    ),
+    local!sectionComponentList: #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+      function: #&quot;_a-0000dca4-b707-8000-927a-010000010000_205542&quot;(
+        componentIndex: _,
+        formData_cdt: ri!formData_cdt,
+        readOnly: ri!readOnly
+      ),
+      array: if(
+        or(
+          fn!isnull(
+            local!FormLevelComponentIndexList
+          ),
+          length(
+            local!FormLevelComponentIndexList
+          ) = 0
+        ),
+        {},
+        local!FormLevelComponentIndexList
+      )
+    ),
+    local!generateForm: &quot;load(
+    &quot; &amp; joinarray(
+      apply(
+        #&quot;59ce59b5-8263-421a-b827-c46d6ae85a83&quot;(
+          ri!formData_cdt.componentList,
+          _
+        ),
+        enumerate(
+          count(
+            ri!formData_cdt.componentList
+          )
+        ) + 1
+      ),
+      &quot;,&quot; &amp; char(
+        10
+      )
+    ) &amp; &quot;, 
+   a!formLayout(
+      label:&quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      ri!formData_cdt.label
+    ) &amp; &quot;,
+    instructions:&quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      ri!formData_cdt.instruction
+    ) &amp; &quot;,
+    firstColumnContents: {
+    &quot; &amp; if(
+      or(
+        fn!isnull(
+          local!sectionComponentList
+        ),
+        length(
+          local!sectionComponentList
+        ) = 0
+      ),
+      {},
+      joinarray(
+        local!sectionComponentList,
+        &quot;,&quot; &amp; char(
+          10
+        )
+      )
+    ) &amp; &quot;
+    },
+     buttons: a!buttonLayout(
+    primaryButtons: {
+      a!buttonWidgetSubmit(
+        label:&quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      ri!formData_cdt.approveLabel
+    ) &amp; &quot;,
+        style: &quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      &quot;PRIMARY&quot;
+    ) &amp; &quot;,
+        saveInto: {}
+      )
+    },
+    secondaryButtons: {
+      a!buttonWidgetSubmit(
+        label: &quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      &quot;Cancel&quot;
+    ) &amp; &quot;,
+        style: &quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+      &quot;NORMAL&quot;
+    ) &amp; &quot;,
+        
+        skipValidation: true
+      ),&quot; &amp; if(
+      ri!formData_cdt.HideRejectButton = true(),
+      &quot;a!buttonWidgetSubmit(
+        label: &quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+        ri!formData_cdt.rejectLabel
+      ) &amp; &quot;,
+        style: &quot; &amp; #&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(
+        &quot;NORMAL&quot;
+      ) &amp; &quot;,
+        
+        skipValidation: false
+      )&quot;,
+      &quot;&quot;
+    ) &amp; &quot;
+    }
+  )
+    )
+  )&quot;,
+    &quot;/******************  &quot; &amp; ri!formData_cdt.Label &amp; &quot;  ******************/&quot; &amp; char(
+      10
+    ) &amp; local!generateForm &amp; char(
+      10
+    ) &amp; &quot;/*******************************************/&quot;/*a!formLayout(
+    
+      firstColumnContents: {
+         a!sectionLayout(
+          label: &quot;Sail code for the form&quot;,
+          firstColumnContents: {
+            a!paragraphField(
+              label: &quot;&quot;,
+              readonly:true(),
+              value: local!generateForm
+            )
+          },
+          secondColumnContents: {}
+        )
+      }
+    )*/
+    
+  )
+)</definition>
         <namedTypedValue>
             <name>formData_cdt</name>
             <type>
@@ -221,7 +270,7 @@
             <el>
                 <a:name/>
                 <a:ruleInputTestConfigs>
-                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:psi:types:AB}AB_FrmVersionAndCmpntDesign'(Id:1, Name:&quot;task&quot;, Label:&quot;form&quot;, Version:1, componentList:{'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(Id:&quot;160407043240&quot;, name:&quot;tbd_1&quot;, parentCondition:&quot;OR&quot;, responseType:&quot;Section&quot;, columnIndex:1, seqIndex:1, parentList:{'type!{urn:com:psi:types:AB}AB_CmpntParent'(parentComponentId:&quot;160407044144&quot;, matchAnyValueFlag:true)}), 'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(Id:&quot;160407043250&quot;, name:&quot;tbd_2&quot;, label:&quot;Text 1&quot;, parentCondition:&quot;OR&quot;, responseType:&quot;Text&quot;, columnIndex:1, seqIndex:2, sectionComponentId:&quot;160407043240&quot;), 'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(Id:&quot;160407044029&quot;, name:&quot;tbd_3&quot;, label:&quot;text 2&quot;, parentCondition:&quot;OR&quot;, responseType:&quot;Paragraph&quot;, columnIndex:1, seqIndex:3, sectionComponentId:&quot;160407043240&quot;), 'type!{urn:com:psi:types:AB}AB_FrmCmpntsDesign'(Id:&quot;160407044144&quot;, name:&quot;tbd_4&quot;, label:&quot;text 4&quot;, parentCondition:&quot;OR&quot;, responseType:&quot;Text&quot;, columnIndex:1, seqIndex:4)})</a:value>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
                     <a:nameRef>formData_cdt</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
@@ -255,6 +304,7 @@
                     <a:nameRef>isTaskView</a:nameRef>
                     <a:id/>
                 </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             </el>
         </value>
     </typedValue>

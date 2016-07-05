@@ -18,11 +18,37 @@
   ri!cdtComponentList[ri!index].responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
   {},
   with(
-    local!CompntName: substitute(ri!cdtComponentList[ri!index].name, &quot; &quot;, &quot;_&quot;),
-    local!defaultValue: ri!cdtComponentList[ri!index].defaultValue,
+    local!CompntName: substitute(
+      ri!cdtComponentList[ri!index].name,
+      &quot; &quot;,
+      &quot;_&quot;
+    ),
+    local!defaultValue: if(
+      contains(
+        {
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+          #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;,
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;
+        },
+        ri!cdtComponentList[ri!index].responseType
+      ),
+      index(
+        ri!cdtComponentList[ri!index].valueList,
+        &quot;valueTxt&quot;,
+        &quot;&quot;
+      ),
+      ri!cdtComponentList[ri!index].defaultValue
+    ),
     local!Val: if(
       contains(
-        #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1148&quot;(),
+        {
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1145&quot;,
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;,
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1147&quot;,
+          #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,
+          #&quot;_a-0000dac9-d9df-8000-927a-010000010000_71763&quot;
+        },
         ri!cdtComponentList[ri!index].responseType
       ),
       if(
@@ -36,15 +62,31 @@
           local!defaultValue
         ),
         local!defaultValue,
-        &quot;&quot;
+        {}
       ),
       local!defaultValue
     ),
-    &quot;local!&quot; &amp; local!CompntName &amp; &quot; : &quot; &amp; char(
+    &quot;local!&quot; &amp; local!CompntName &amp; &quot; : &quot; &amp; 
+    if(
+      ri!cdtComponentList[ri!index].responseType=#&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,
+      &quot;todocument({&quot; &amp; if(local!Val={}, &quot;&quot;, apply(#&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(_), local!Val)) &amp; &quot;})&quot;,
+    if(
+       contains(
+        {
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;,
+          #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;
+        },
+        ri!cdtComponentList[ri!index].responseType
+      ),
+       &quot;touniformstring({&quot; &amp; if(local!Val={}, &quot;&quot;, apply(#&quot;02c08bd6-0170-4be3-9118-a1102ebabc3a&quot;(_), local!Val)) &amp; &quot;})&quot;,
+       char(
       34
     ) &amp; local!Val &amp; char(
       34
-    ) 
+    )
+    )
+    )
+    
   )
 )</definition>
         <namedTypedValue>

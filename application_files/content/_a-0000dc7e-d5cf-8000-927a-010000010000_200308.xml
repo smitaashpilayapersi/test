@@ -17,10 +17,16 @@ Description: Form button values</description>
         </visibility>
         <typedValue>
             <type>
-                <name>string</name>
-                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
             </type>
-            <value>submit;cancel;edit</value>
+            <value>
+                <el>submit</el>
+                <el>cancel</el>
+                <el>edit</el>
+                <el>next</el>
+                <el>reject</el>
+            </value>
         </typedValue>
     </constant>
     <roleMap public="true">

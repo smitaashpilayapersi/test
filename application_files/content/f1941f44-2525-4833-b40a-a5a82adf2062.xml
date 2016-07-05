@@ -25,16 +25,16 @@
  parentCondition: ri!cdtFrmCmpnts.parentCondition,&#xD;
  responseType: ri!cdtFrmCmpnts.responseType,&#xD;
  defaultValue: if(&#xD;
-    contains({#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;, #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;},ri!cdtFrmCmpnts.responseType), &#xD;
+    contains(#&quot;eff69213-a672-4fa9-9d27-d6e7981bc8f0&quot;(),ri!cdtFrmCmpnts.responseType), &#xD;
     &quot;&quot;, &#xD;
     index(ri!cdtInstanceCmpntVal, &quot;value&quot;, &quot;&quot;)&#xD;
  &#xD;
  ),&#xD;
  labelPositon: ri!cdtFrmCmpnts.labelPositon,&#xD;
- buttonValue: ri!cdtFrmCmpnts.buttonValue,&#xD;
+ placeholderLabel: ri!cdtFrmCmpnts.placeholderLabel,&#xD;
  isRequired: ri!cdtFrmCmpnts.isRequired,&#xD;
  isReadOnly: ri!cdtFrmCmpnts.isReadOnly,&#xD;
- isInActive: ri!cdtFrmCmpnts.isInActive,&#xD;
+ isDisabled: ri!cdtFrmCmpnts.isDisabled,&#xD;
  isValueResetFlag: ri!cdtFrmCmpnts.isValueResetFlag	,&#xD;
  columnIndex: ri!cdtFrmCmpnts.columnIndex,&#xD;
  seqIndex: ri!cdtFrmCmpnts.seqIndex	,&#xD;
@@ -43,7 +43,7 @@
  parentList: ri!cdtFrmCmpnts.parentList,&#xD;
  optionList: ri!cdtFrmCmpnts.optionList,&#xD;
  valueList: if(&#xD;
-    contains({#&quot;_a-0000da69-8640-8000-6ee0-010000010000_1144&quot;, #&quot;_a-0000dab5-7e00-8000-927a-010000010000_64888&quot;},ri!cdtFrmCmpnts.responseType), &#xD;
+    contains(#&quot;eff69213-a672-4fa9-9d27-d6e7981bc8f0&quot;(),ri!cdtFrmCmpnts.responseType), &#xD;
      apply( #&quot;805fcf08-4e38-4eb0-ac6d-5d5b2e21f1fe&quot;(_),   touniformstring(split(index(ri!cdtInstanceCmpntVal, &quot;value&quot;, &quot;&quot;), &quot;;&quot;))),&#xD;
     {}&#xD;
  &#xD;

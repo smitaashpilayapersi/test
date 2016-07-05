@@ -15,11 +15,16 @@
             <unlogged>false</unlogged>
         </visibility>
         <definition>with(
+  /*Component that needs to be shown or hidden*/
   local!cfgComponent: ri!formData_cdt.componentList[ri!componentIndex],
+  
+  /*Parent condition*/
   local!cfgComponentParent: local!cfgComponent.parentList[ri!parentIndex],
   local!cfgComponentParentId: local!cfgComponentParent.parentComponentId,
   /* if any one of the values to the parent component trigger the current component */
   /* take a look at the values of the parent component */
+  
+  /*Parent components def*/
   local!parentComponent: if(
     #&quot;_a-0000da67-9c1b-8000-6ee0-010000010000_1083&quot;(
       local!cfgComponentParentId
@@ -32,6 +37,7 @@
       {}
     )
   ),
+  
   /* If response type is section then we will not chk its value. */
   if(local!parentComponent.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1157&quot;,
    true(),
@@ -44,22 +50,26 @@
     true(),
     false()
   ),
+  
+  /*Value stored in parent def, with which we need to compare*/
   local!cfgComponentParentValueList: if(
     local!ParentCmpntMultiVal,
-    split(
+    touniformstring( split(
       index(
         local!cfgComponentParent,
         &quot;valueTxt&quot;,
         {}
       ),
       &quot;;&quot;
-    ),
+    )),
     index(
       local!cfgComponentParent,
       &quot;valueTxt&quot;,
       {}
     )
   ),
+  
+  /*Actual value entered by user in parent cmpnt*/
   local!parentComponentValues: if(
     contains(
       #&quot;eff69213-a672-4fa9-9d27-d6e7981bc8f0&quot;(),
@@ -72,12 +82,26 @@
       &quot;valueTxt&quot;,
       {}
     ),
-    fn!index(
-      local!parentComponent,
-      
-      &quot;defaultValue&quot;,
-      &quot;&quot;
+    if(
+        or(
+          local!parentComponent.responseType = #&quot;_a-0000dac9-d9df-8000-927a-010000010000_68836&quot;,
+          local!parentComponent.responseType = #&quot;_a-0000da69-8640-8000-6ee0-010000010000_1146&quot;),
+           touniformstring(  split(
+              fn!index(
+                local!parentComponent,
+                &quot;defaultValue&quot;,
+                {}
+              ),
+              &quot;; &quot;
+            )),
+        fn!index(
+          local!parentComponent,
+          
+          &quot;defaultValue&quot;,
+          &quot;&quot;
+        )
     )
+    
   ),
   local!isParentValueMatched: if(
     fn!not(
@@ -124,6 +148,12 @@
     local!isParentValueMatched
   ),
   local!shouldDisplayComponent
+          
+             
+          
+            
+          
+          
     )
   )
   

@@ -18,7 +18,9 @@
   local!MaxVersionIndex: wherecontains(tointeger(max(ri!cdtFormData.FrmVersions.Version)), ri!cdtFormData.FrmVersions.Version),
 {
 Id: index(ri!cdtFormData.FrmVersions.Id, local!MaxVersionIndex ,&quot;&quot;),
+FrmId: ri!cdtFormData.Id,
 Name: index(ri!cdtFormData.FrmVersions.Name, local!MaxVersionIndex ,&quot;&quot;),
+Label: index(ri!cdtFormData.FrmVersions.Label, local!MaxVersionIndex ,&quot;&quot;),
 Description: index(ri!cdtFormData.FrmVersions.Description, local!MaxVersionIndex ,&quot;&quot;),
 Version: tointeger( index(ri!cdtFormData,&quot;DefaultAssigneeGrp&quot;,&quot;&quot;))
 }
