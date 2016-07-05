@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema targetNamespace="urn:com:psi:types:AB"
   xmlns:tns="urn:com:psi:types:AB" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <xsd:include schemaLocation="%7Burn%3Acom%3Apsi%3Atypes%3AAB%7DAB_FormsDesign.xsd"/>
-  <xsd:include schemaLocation="%7Burn%3Acom%3Apsi%3Atypes%3AAB%7DAB_MilestoneDesign.xsd"/>
-  <xsd:complexType name="AB_AppAndFormsDesign">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Apsi%3Atypes%3AAB%7DAB_AppGroupIds.xsd"/>
+  <xsd:complexType name="AB_AppAndGroupsDesign">
     <xsd:annotation>
       <xsd:appinfo source="appian.jpa">
 		@Table(name="AB_AppDesign")
@@ -40,12 +39,7 @@
           <xsd:appinfo source="appian.jpa">@Column(name="Creation_Date", nullable=true, columnDefinition="datetime")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Forms" type="tns:AB_FormsDesign">
-        <xsd:annotation>
-          <xsd:appinfo source="appian.jpa">@OneToMany(indexed=false) @JoinColumn(name="App_Id")</xsd:appinfo>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Milestones" type="tns:AB_MilestoneDesign">
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Groups" type="tns:AB_AppGroupIds">
         <xsd:annotation>
           <xsd:appinfo source="appian.jpa">@OneToMany(indexed=false) @JoinColumn(name="App_Id")</xsd:appinfo>
         </xsd:annotation>

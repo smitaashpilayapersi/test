@@ -53,6 +53,26 @@
           <xsd:appinfo source="appian.jpa">@Column(name="DeadLine", nullable=true, columnDefinition="datetime")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
+      <xsd:element name="EscalationDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="EscalationDatetime", nullable=true, columnDefinition="datetime")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SendAlertOrReassign" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="SendAlertOrReassign", nullable=true, columnDefinition="boolean")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="EscalateToUserOrGroup" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="EscalateToUserOrGroup", nullable=true, columnDefinition="varchar(255)")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="AlertMessage" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="AlertMessage", nullable=true, columnDefinition="varchar(3000)")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
 </xsd:schema>

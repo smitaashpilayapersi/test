@@ -36,6 +36,13 @@
                         <uuid>{urn:com:psi:types:AB}AB_FormsAndVersionDesign</uuid>
                         <uuid>{urn:com:psi:types:AB}AB_AppAndFormsDesign</uuid>
                         <uuid>{urn:com:psi:types:AB}AB_CmpntParent</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_AppGroupIds</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_AppAndGroupsDesign</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_ApplicationGroups</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_MilestoneDesign</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_MilestoneInstances</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_MilestoneRouting</uuid>
+                        <uuid>{urn:com:psi:types:AB}AB_MilestoneAndRoutingDesign</uuid>
                     </uuids>
                 </item>
                 <item>
@@ -207,9 +214,7 @@
                 <groups/>
             </role>
             <role allowForAll="false" inherit="false" name="administrators">
-                <users>
-                    <userUuid>tp</userUuid>
-                </users>
+                <users/>
                 <groups/>
             </role>
             <role allowForAll="false" inherit="false" name="denyReaders">

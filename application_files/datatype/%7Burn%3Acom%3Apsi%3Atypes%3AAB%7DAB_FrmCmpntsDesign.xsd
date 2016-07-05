@@ -58,7 +58,7 @@
       </xsd:element>
       <xsd:element name="defaultValue" nillable="true" type="xsd:string">
         <xsd:annotation>
-          <xsd:appinfo source="appian.jpa">@Column(name="DEFAULT_VALUE", nullable=true, columnDefinition="varchar(255)")</xsd:appinfo>
+          <xsd:appinfo source="appian.jpa">@Column(name="DEFAULT_VALUE", nullable=true, columnDefinition="varchar(3000)")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
       <xsd:element name="labelPositon" nillable="true" type="xsd:string">
@@ -66,9 +66,9 @@
           <xsd:appinfo source="appian.jpa">@Column(name="LABEL_POSITON", nullable=true, columnDefinition="varchar(255)")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="buttonValue" nillable="true" type="xsd:string">
+      <xsd:element name="placeholderLabel" nillable="true" type="xsd:string">
         <xsd:annotation>
-          <xsd:appinfo source="appian.jpa">@Column(name="BUTTON_VALUE", nullable=true, columnDefinition="varchar(255)")</xsd:appinfo>
+          <xsd:appinfo source="appian.jpa">@Column(name="PLACEHOLDER_LABEL", nullable=true, columnDefinition="varchar(255)")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
       <xsd:element name="isRequired" nillable="true" type="xsd:boolean">
@@ -81,9 +81,9 @@
           <xsd:appinfo source="appian.jpa">@Column(name="READONLY_FLAG", nullable=true, columnDefinition="boolean")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isInActive" nillable="true" type="xsd:boolean">
+      <xsd:element name="isDisabled" nillable="true" type="xsd:boolean">
         <xsd:annotation>
-          <xsd:appinfo source="appian.jpa">@Column(name="INACTIVE_FLAG", nullable=true, columnDefinition="boolean")</xsd:appinfo>
+          <xsd:appinfo source="appian.jpa">@Column(name="DISABLED_FLAG", nullable=true, columnDefinition="boolean")</xsd:appinfo>
         </xsd:annotation>
       </xsd:element>
       <xsd:element name="isValueResetFlag" nillable="true" type="xsd:boolean">

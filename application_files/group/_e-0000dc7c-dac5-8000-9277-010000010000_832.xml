@@ -2,7 +2,7 @@
 <groupHaul xmlns:a="http://www.appian.com/ae/types/2009">
     <group>
         <name>AB_ApplicationAdminGroup</name>
-        <securityMap>SECURITYMAP_PUBLIC</securityMap>
+        <securityMap>SECURITYMAP_TEAM</securityMap>
         <uuid>_e-0000dc7c-dac5-8000-9277-010000010000_832</uuid>
         <groupTypeUuid>_f-0000dc7c-dac5-8000-9277-010000010000_35</groupTypeUuid>
         <description>Member belonging to this group will have rights to view all records. And admin access for process models</description>
@@ -12,11 +12,7 @@
         <attributes/>
     </group>
     <members>
-        <users>
-            <userUuid>TP1</userUuid>
-            <userUuid>DeepaD</userUuid>
-            <userUuid>tp</userUuid>
-        </users>
+        <users/>
         <groups/>
     </members>
     <admins>
